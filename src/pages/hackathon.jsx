@@ -28,12 +28,12 @@ const EventLandingPage = () => {
       tagline: "No Code? No Problem. Just Vibes & Ideas.",
       description: "You don't need to know how to code. You just need to be a professional yapper with a big brain idea. Create a pitch deck, convince the judges your idea is fire, and secure the bag.",
       rules: [
-        "Squad Size: 2-4 Besties", 
-        "Deliverable: 7-Slide Deck (Keep it aesthetic)", 
+        "Squad Size: 3 Besties", 
+        "Deliverable: realistic idea that solves a problem!!", 
         "Time: 5 min yap session (Pitch) + 2 min roast (Q&A)", 
         "Requirement: Must be in 11th, 12th, or High School."
       ],
-      prizes: "₹15k Pool + Clout",
+      prizes: "₹5k Pool!!",
     },
     hackathon: {
       title: "The Hackathon",
@@ -46,12 +46,12 @@ const EventLandingPage = () => {
       tagline: "We Cooking for 24 Hours Straight.",
       description: "This is for the college dev squads. You have 24 hours to turn caffeine into code. Spaghetti code is allowed as long as it works during the demo. Don't be an NPC, build something wild.",
       rules: [
-        "Squad Size: 2-4 Devs", 
+        "Squad Size: 3 Devs(Max)", 
         "Fresh Code: Github repo must be brand new (No pre-cooking)", 
         "Stack: Whatever you want (Web, App, AI, Blockchain)", 
         "Requirement: Must have a valid College ID (UG Only)."
       ],
-      prizes: "₹50k Pool + Internships",
+      prizes: "₹8k Pool + Networking Opportunity!",
     }
   };
 
