@@ -74,7 +74,7 @@ const EventLandingPage = () => {
         </div>
         <div className="flex items-center gap-4">
             <span className="hidden md:block text-xs font-mono text-emerald-400 border border-emerald-500/30 bg-emerald-500/10 px-2 py-1 rounded">ENTRY FEE: ₹0 (NO CAP)</span>
-            <a href="#register" className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-indigo-50 transition-all hover:scale-105 active:scale-95">
+            <a href="https://forms.gle/345gUuDevKdvCDvi6" className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-indigo-50 transition-all hover:scale-105 active:scale-95">
             Lock In 🔒
             </a>
         </div>
@@ -201,7 +201,7 @@ const EventLandingPage = () => {
                         </div>
                         
                         <h3 className="text-2xl font-black text-white mb-2 flex items-center gap-2">
-                            SYNTAXIA <span className="text-xs bg-emerald-500 text-black px-2 py-0.5 rounded uppercase font-bold">Admins</span>
+                            CYBERNETICS <span className="text-xs bg-emerald-500 text-black px-2 py-0.5 rounded uppercase font-bold">Admins</span>
                         </h3>
                         <div className="text-xs font-mono text-emerald-400 mb-4">THE GUILD MASTERS</div>
                         
@@ -294,11 +294,11 @@ const EventLandingPage = () => {
           
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             {/* Direct Links */}
-            <a href="#" 
+            <a href="https://forms.gle/345gUuDevKdvCDvi6" 
                className="group px-8 py-4 bg-transparent border-2 border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2">
                <span>I'm High School (Ideathon)</span> <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform"/>
             </a>
-            <a href="#" 
+            <a href="https://forms.gle/345gUuDevKdvCDvi6" 
                className="group px-8 py-4 bg-transparent border-2 border-indigo-500 text-indigo-500 hover:bg-indigo-500 hover:text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2">
                <span>I'm College (Hackathon)</span> <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform"/>
             </a>
