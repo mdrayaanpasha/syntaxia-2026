@@ -43,8 +43,8 @@ const EventLandingPage = () => {
       border: "border-indigo-500/50",
       shadow: "shadow-indigo-500/20",
       audienceBadge: "UG COLLEGE STUDENTS ONLY",
-      tagline: "We Cooking for 24 Hours Straight.",
-      description: "This is for the college dev squads. You have 24 hours to turn caffeine into code. Spaghetti code is allowed as long as it works during the demo. Don't be an NPC, build something wild.",
+      tagline: "We Cooking for 6 hours Straight.",
+      description: "This is for the college dev squads. You have 6 hours to turn caffeine into code. Spaghetti code is allowed as long as it works during the demo. Don't be an NPC, build something wild.",
       rules: [
         "Squad Size: 3 Devs(Max)", 
         "Fresh Code: Github repo must be brand new (No pre-cooking)", 
@@ -294,7 +294,7 @@ const EventLandingPage = () => {
           
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             {/* Direct Links */}
-            <a href="https://forms.gle/345gUuDevKdvCDvi6" 
+            <a href="https://forms.gle/DzfDp7mAQPYrDiwD8" 
                className="group px-8 py-4 bg-transparent border-2 border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2">
                <span>I'm High School (Ideathon)</span> <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform"/>
             </a>
