@@ -2,20 +2,22 @@ import React, { useState } from 'react';
 import { 
   Zap, Code, Terminal, Cpu, Globe, 
   Trophy, ShieldCheck, ArrowRight, 
-  School, Crown, AlertTriangle, CheckCircle2 
+  School, Crown, AlertTriangle, CheckCircle2,
+  Clock, Target, Brain, MapPin, Calendar
 } from 'lucide-react';
 
 const EventLandingPage = () => {
   const [activeTab, setActiveTab] = useState('hackathon'); 
   
   // --- IMAGE ASSETS ---
+  // Using placeholders that match the vibe, replace with actual URLs if available
   const images = {
     sju: "https://ik.imagekit.io/yylpuqff5/Minecraft/SJU.webp",
-    dept: "https://ik.imagekit.io/yylpuqff5/Minecraft/dept-of-cs.webp",
+    dept: "https://ik.imagekit.io/yylpuqff5/Minecraft/dept-of-cs.webp", 
     team: "https://ik.imagekit.io/yylpuqff5/Minecraft/core-team.jpg"
   };
 
-  // Data for the tracks
+  // --- DATA TRACKS ---
   const tracks = {
     ideathon: {
       title: "The Ideathon",
@@ -26,14 +28,22 @@ const EventLandingPage = () => {
       shadow: "shadow-pink-500/20",
       audienceBadge: "HIGH SCHOOL / PU STUDENTS ONLY",
       tagline: "No Code? No Problem. Just Vibes & Ideas.",
-      description: "You don't need to know how to code. You just need to be a professional yapper with a big brain idea. Create a pitch deck, convince the judges your idea is fire, and secure the bag.",
+      description: "You don't need to code to change the world. You need a vision. In this track, you will be given a problem statement on the spot. Your goal? Research, conceptualize, and pitch a solution that blows the judges away.",
       rules: [
-        "Squad Size: 3 Besties", 
-        "Deliverable: realistic idea that solves a problem!!", 
-        "Time: 5 min yap session (Pitch) + 2 min roast (Q&A)", 
+        "Squad Size: 3 Members (Max)", 
+        "Themes: Revealed on screen at venue ", 
+        "Deliverable: PPT Pitch + Prototype (Optional) ", 
+        "Tech: AI tools allowed for research/design ",
         "Requirement: Must be in 11th, 12th, or High School."
       ],
-      prizes: "₹5k Pool!!",
+      timeline: [
+        { time: "09:00 - 09:20", event: "Intro & Setup " },
+        { time: "09:20 - 10:00", event: "Select Ideas & Market Research " },
+        { time: "10:00 - 01:00", event: "PPT Creation & Prototype" },
+        { time: "01:00 - 01:30", event: "Lunch Break 🍱 " },
+        { time: "01:30 - 03:30", event: "Final Pitch & Judgement " }
+      ],
+      prizes: "₹5k Prize Pool 🏆",
     },
     hackathon: {
       title: "The Hackathon",
@@ -43,15 +53,29 @@ const EventLandingPage = () => {
       border: "border-indigo-500/50",
       shadow: "shadow-indigo-500/20",
       audienceBadge: "UG COLLEGE STUDENTS ONLY",
-      tagline: "We Cooking for 6 hours Straight.",
-      description: "This is for the college dev squads. You have 6 hours to turn caffeine into code. Spaghetti code is allowed as long as it works during the demo. Don't be an NPC, build something wild.",
-      rules: [
-        "Squad Size: 3 Devs(Max)", 
-        "Fresh Code: Github repo must be brand new (No pre-cooking)", 
-        "Stack: Whatever you want (Web, App, AI, Blockchain)", 
-        "Requirement: Must have a valid College ID (UG Only)."
+      tagline: "We Cooking for 6 Hours Straight.",
+      description: "This is the proving ground for developers. You have 6 hours to build a working prototype based on a surprise theme. It's not just about code; it's about solving the problem, execution quality, and scalability.",
+      judging: [
+        { label: "Problem & Value", val: "50% " },
+        { label: "Execution Quality", val: "25% " },
+        { label: "Scalability", val: "25% " }
       ],
-      prizes: "₹8k Pool + Networking Opportunity!",
+      rules: [
+        "Squad Size: 3 Devs (Max)", 
+        "Themes: TOP SECRET (Revealed at Venue) 🤫",
+        "Code: No pre-cooking (Fresh Repos only) ", 
+        "AI Policy: AI allowed, but you MUST understand your code ", 
+        "Requirement: Valid College ID (UG Only)."
+      ],
+      timeline: [
+        { time: "09:00 - 09:20", event: "Intro & Setup " },
+        { time: "09:20 - 12:20", event: "Build Session 1 (3 Hrs) " },
+        { time: "12:20 - 01:00", event: "Lunch Break 🍱 " },
+        { time: "01:00 - 04:00", event: "Build Session 2 (3 Hrs) " },
+        { time: "04:00 - 05:00", event: "Judging & Presentations " },
+        { time: "05:00 - 05:30", event: "Valedictory 🎉 [cite: 21]" }
+      ],
+      prizes: "₹8k Prize Pool 🏆",
     }
   };
 
@@ -73,9 +97,9 @@ const EventLandingPage = () => {
           <span>SJU<span className="text-slate-500">_CS</span></span>
         </div>
         <div className="flex items-center gap-4">
-            <span className="hidden md:block text-xs font-mono text-emerald-400 border border-emerald-500/30 bg-emerald-500/10 px-2 py-1 rounded">ENTRY FEE: ₹0 (NO CAP)</span>
-            <a href="https://forms.gle/345gUuDevKdvCDvi6" className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-indigo-50 transition-all hover:scale-105 active:scale-95">
-            Lock In 🔒
+            <span className="hidden md:block text-xs font-mono text-emerald-400 border border-emerald-500/30 bg-emerald-500/10 px-2 py-1 rounded">ENTRY FEE: ₹0</span>
+            <a href="#register" className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-indigo-50 transition-all hover:scale-105 active:scale-95">
+            Register Now
             </a>
         </div>
       </nav>
@@ -85,7 +109,7 @@ const EventLandingPage = () => {
         
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-xs font-bold uppercase tracking-wide mb-8">
           <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
-          Free Entry • Limited Slots
+          2 Tracks • 1 Day • Infinite Glory
         </div>
 
         <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-6 text-white">
@@ -96,9 +120,18 @@ const EventLandingPage = () => {
         </h1>
         
         <p className="text-lg md:text-xl text-slate-400 max-w-2xl mb-10 leading-relaxed">
-          The ultimate server event at <span className="text-white font-bold">St. Joseph's University</span>. <br className="hidden md:block"/>
-          Two tracks. One location. Pure chaos (the good kind).
+          The flagship technical showdown at <span className="text-white font-bold">St. Joseph's University</span>. <br className="hidden md:block"/>
+          Whether you code or just ideate, we have a battlefield for you.
         </p>
+
+        <div className="flex gap-4 text-sm font-mono text-slate-500 mb-10">
+            <div className="flex items-center gap-2">
+                <Calendar size={16} /> Date: To Be Announced
+            </div>
+            <div className="flex items-center gap-2">
+                <MapPin size={16} /> Langford Road, Bengaluru
+            </div>
+        </div>
 
         <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
           <button 
@@ -106,8 +139,8 @@ const EventLandingPage = () => {
             className="px-8 py-4 bg-slate-900 border border-slate-700 hover:border-pink-500 text-white rounded-xl transition-all w-full sm:w-auto font-bold flex items-center justify-center gap-2 group">
             <Zap size={18} className="text-pink-500 group-hover:animate-pulse" /> 
             <div className="text-left leading-tight">
-              <div className="text-xs text-slate-400 font-normal">I'm in High School/PU</div>
-              <div>Join Ideathon</div>
+              <div className="text-xs text-slate-400 font-normal">For High School/PU</div>
+              <div>View Ideathon</div>
             </div>
           </button>
           
@@ -116,105 +149,78 @@ const EventLandingPage = () => {
             className="px-8 py-4 bg-white text-black hover:bg-indigo-50 font-bold rounded-xl transition-all w-full sm:w-auto shadow-[0_0_20px_rgba(255,255,255,0.2)] flex items-center justify-center gap-2">
             <Code size={18} /> 
              <div className="text-left leading-tight">
-              <div className="text-xs text-slate-500 font-normal">I'm in College (UG)</div>
-              <div>Join Hackathon</div>
+              <div className="text-xs text-slate-500 font-normal">For Undergraduates</div>
+              <div>View Hackathon</div>
             </div>
           </button>
         </div>
       </section>
 
-      {/* --- SERVER LORE (SJU + DEPT + SYNTAXIA) --- */}
+      {/* --- INSTITUTION INFO SECTION --- */}
       <section className="py-20 px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-2 mb-8 opacity-70">
                 <Globe size={18} className="text-indigo-400"/>
-                <span className="text-sm font-mono tracking-widest uppercase">Map Info // The Base</span>
+                <span className="text-sm font-mono tracking-widest uppercase">The Venue // Institution Info</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-auto md:h-[500px]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
                 {/* SJU CARD */}
-                <div className="group relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl">
-                    {/* Background Image */}
+                <div className="group relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl h-[450px]">
                     <div className="absolute inset-0">
-                        <img src={images.sju} alt="SJU Campus" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60" />
+                        <img src={images.sju} alt="SJU Campus" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-50" />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/80 to-transparent"></div>
                     </div>
-                    
-                    {/* Content */}
                     <div className="relative z-10 h-full flex flex-col justify-end p-8">
                         <div className="absolute top-8 right-8 p-3 bg-white/10 backdrop-blur-md rounded-full border border-white/10">
                             <School size={24} className="text-white" />
                         </div>
-                        <h3 className="text-2xl font-black text-white mb-2">The OG Server</h3>
-                        <div className="text-xs font-mono text-indigo-400 mb-4">EST. 1882 (LEGACY MODE)</div>
+                        <h3 className="text-2xl font-black text-white mb-2">St. Joseph's University</h3>
+                        <div className="text-xs font-mono text-indigo-400 mb-4">EST. 1882 • BENGALURU</div>
                         <p className="text-slate-300 text-sm leading-relaxed mb-4">
-                            St. Joseph's University is the main spawn point. We levelled up to full 'University' status in 2022. It's a massive open-world map for crafting your future.
+                           A premier Jesuit university with over 140 years of legacy. Located in the heart of Bangalore, SJU is dedicated to academic excellence, character formation, and social concern. We foster an environment where tradition meets innovation.
                         </p>
-                        <div className="flex gap-2">
-                            <span className="px-2 py-1 bg-white/10 backdrop-blur text-xs rounded text-white border border-white/10">Bengaluru</span>
-                            <span className="px-2 py-1 bg-white/10 backdrop-blur text-xs rounded text-white border border-white/10">XP Boost</span>
-                        </div>
                     </div>
                 </div>
 
-                {/* DEPT OF CS CARD */}
-                <div className="group relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl">
-                    {/* Background Image */}
+                {/* SCHOOL OF IT CARD */}
+                <div className="group relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl h-[450px]">
                     <div className="absolute inset-0">
-                        <img src={images.dept} alt="Dept of CS" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60" />
+                        <img src={images.dept} alt="School of IT" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-50" />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/80 to-transparent"></div>
                     </div>
-
-                    {/* Content */}
                     <div className="relative z-10 h-full flex flex-col justify-end p-8">
                         <div className="absolute top-8 right-8 p-3 bg-red-500/20 backdrop-blur-md rounded-full border border-red-500/20">
                             <Cpu size={24} className="text-red-400" />
                         </div>
-                        <h3 className="text-2xl font-black text-white mb-2">Dept. of CS</h3>
-                        <div className="text-xs font-mono text-red-400 mb-4">THE REDSTONE ENGINEERS</div>
+                        <h3 className="text-2xl font-black text-white mb-2">School of Information Technology</h3>
+                        <div className="text-xs font-mono text-red-400 mb-4">DEPT. OF COMPUTER SCIENCE</div>
                         <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                            The crafting table for logic and code. We teach you the meta so you don't get nerfed in the industry. 
+                            The technological hub of SJU. Offering courses like BCA, MCA, and M.Sc. Computer Science, the school focuses on cutting-edge curriculum, practical labs, and industry-ready skills. We don't just teach code; we teach problem-solving.
                         </p>
-                        <div className="bg-black/40 backdrop-blur-md p-3 rounded-xl border border-white/10">
-                            <div className="text-xs text-slate-400 uppercase font-bold mb-2">Unlockable Skill Trees</div>
-                            <div className="flex gap-2">
-                                <span className="px-3 py-1 bg-red-500/20 text-red-300 border border-red-500/20 text-xs font-bold rounded">BCA</span>
-                                <span className="px-3 py-1 bg-red-500/20 text-red-300 border border-red-500/20 text-xs font-bold rounded">M.Sc. CS</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
-                 {/* SYNTAXIA CARD (Student Club) */}
-                 <div className="group relative rounded-3xl overflow-hidden border border-emerald-500/30 shadow-2xl md:col-span-2 lg:col-span-1">
-                    {/* Background Image */}
+                 {/* CYBERNETICS CARD */}
+                 <div className="group relative rounded-3xl overflow-hidden border border-emerald-500/30 shadow-2xl h-[450px] md:col-span-2 lg:col-span-1">
                     <div className="absolute inset-0">
-                        <img src={images.team} alt="Syntaxia Core Team" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 grayscale group-hover:grayscale-0" />
+                        <img src={images.team} alt="Cybernetics Team" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 grayscale group-hover:grayscale-0" />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/80 to-transparent"></div>
                     </div>
-
-                    {/* Content */}
                     <div className="relative z-10 h-full flex flex-col justify-end p-8">
                         <div className="absolute top-8 right-8 p-3 bg-emerald-500/20 backdrop-blur-md rounded-full border border-emerald-500/20 animate-pulse">
                             <Crown size={24} className="text-emerald-400" />
                         </div>
-                        
                         <h3 className="text-2xl font-black text-white mb-2 flex items-center gap-2">
-                            CYBERNETICS <span className="text-xs bg-emerald-500 text-black px-2 py-0.5 rounded uppercase font-bold">Admins</span>
+                            CYBERNETICS 
                         </h3>
-                        <div className="text-xs font-mono text-emerald-400 mb-4">THE GUILD MASTERS</div>
-                        
+                        <div className="text-xs font-mono text-emerald-400 mb-4">THE IT ASSOCIATION</div>
                         <p className="text-slate-300 text-sm leading-relaxed mb-4">
-                            The student club running this server. We organize the raids (events) and keep the vibes immaculate.
+                            The pulsating heart of the IT department. Cybernetics is the student-led association responsible for organizing tech fests (like Syntaxia and Technura), workshops, and hackathons. We are the bridge between classroom theory and real-world tech chaos.
                         </p>
-                        <div className="flex items-center gap-2 text-xs text-emerald-300 font-mono">
-                            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></div>
-                            Online & Hosting
-                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
       </section>
@@ -258,6 +264,23 @@ const EventLandingPage = () => {
             <p className="text-2xl font-medium text-white mb-4">"{currentTrack.tagline}"</p>
             <p className="text-slate-400 leading-relaxed mb-8 text-lg">{currentTrack.description}</p>
             
+             {/* JUDGEMENT SECTION (Hackathon Only) */}
+             {currentTrack.judging && (
+               <div className="mb-8 p-4 rounded-xl bg-slate-950/50 border border-white/5">
+                 <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2">
+                   <ShieldCheck size={14} className={currentTrack.accent}/> Judgement Criteria
+                 </h4>
+                 <div className="flex gap-4 flex-wrap">
+                   {currentTrack.judging.map((j, i) => (
+                     <div key={i} className="flex flex-col">
+                        <span className={`text-xl font-black ${currentTrack.accent}`}>{j.val}</span>
+                        <span className="text-xs text-slate-400 uppercase">{j.label}</span>
+                     </div>
+                   ))}
+                 </div>
+               </div>
+            )}
+
             {/* Rules List */}
             <div className="space-y-4">
                 <h4 className="text-white font-bold uppercase tracking-widest text-sm">The Protocol</h4>
@@ -270,13 +293,37 @@ const EventLandingPage = () => {
             </div>
           </div>
 
-          {/* Prize Pool */}
-          <div className="md:col-span-4 p-8 rounded-3xl border border-slate-800 bg-slate-900/30 flex flex-col justify-center items-center text-center relative overflow-hidden">
-            <div className={`absolute top-0 w-full h-1 bg-gradient-to-r ${currentTrack.color}`}></div>
-            <Trophy className="text-yellow-400 mb-4" size={56} />
-            <h3 className="text-xl font-bold mb-2 text-white">The Loot</h3>
-            <div className={`text-4xl font-black mb-2 ${currentTrack.accent}`}>{currentTrack.prizes}</div>
-            <p className="text-slate-500 text-sm">Plus insane clout & networking.</p>
+          {/* Right Column: Schedule & Prizes */}
+          <div className="md:col-span-4 flex flex-col gap-6">
+            
+            {/* Timeline */}
+            <div className="p-6 rounded-3xl border border-slate-800 bg-slate-900/30 flex-1">
+               <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                  <Clock size={18} className="text-slate-400"/> Schedule
+               </h3>
+               <div className="space-y-4 relative">
+                  {/* Vertical Line */}
+                  <div className={`absolute left-[7px] top-2 bottom-2 w-[2px] bg-slate-800`}></div>
+                  
+                  {currentTrack.timeline.map((slot, i) => (
+                    <div key={i} className="relative pl-6">
+                       <div className={`absolute left-0 top-1.5 w-4 h-4 rounded-full border-2 border-[#020617] ${activeTab === 'ideathon' ? 'bg-pink-500' : 'bg-indigo-500'}`}></div>
+                       <div className="text-xs font-mono text-slate-500 mb-0.5">{slot.time}</div>
+                       <div className="text-sm font-medium text-slate-200">{slot.event}</div>
+                    </div>
+                  ))}
+               </div>
+            </div>
+
+            {/* Prize Pool */}
+            <div className="p-8 rounded-3xl border border-slate-800 bg-slate-900/30 flex flex-col justify-center items-center text-center relative overflow-hidden">
+              <div className={`absolute top-0 w-full h-1 bg-gradient-to-r ${currentTrack.color}`}></div>
+              <Trophy className="text-yellow-400 mb-4" size={56} />
+              <h3 className="text-xl font-bold mb-2 text-white">The Loot</h3>
+              <div className={`text-4xl font-black mb-2 ${currentTrack.accent}`}>{currentTrack.prizes}</div>
+              <p className="text-slate-500 text-sm">Certificates for all participants.</p>
+            </div>
+
           </div>
         </div>
       </section>
@@ -303,9 +350,6 @@ const EventLandingPage = () => {
                <span>I'm College (Hackathon)</span> <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform"/>
             </a>
           </div>
-          <p className="mt-6 text-xs text-slate-500">
-            *By registering, you agree to bring good vibes only.
-          </p>
         </div>
       </section>
 
@@ -313,12 +357,12 @@ const EventLandingPage = () => {
       <footer className="border-t border-white/5 py-12 px-4 bg-[#010409]">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-center md:text-left">
-                <h4 className="font-bold text-white text-lg">Department of Computer Science</h4>
+                <h4 className="font-bold text-white text-lg">School of Information Technology</h4>
                 <p className="text-slate-500 text-sm">St. Joseph's University, Bengaluru</p>
             </div>
             <div className="text-slate-600 text-sm flex flex-col items-center md:items-end">
-                <p>Event hosted by <span className="text-emerald-500 font-bold">Syntaxia</span></p>
-                <p>© 2025. Built with ☕ and 0 sleep.</p>
+                <p>Event organized by <span className="text-emerald-500 font-bold">Cybernetics</span></p>
+                <p>© 2025. Built for Builders.</p>
             </div>
         </div>
       </footer>
