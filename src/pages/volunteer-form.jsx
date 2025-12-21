@@ -22,7 +22,7 @@ const VolForm = () => {
         setTimeout(() => {
           const encodedName = encodeURIComponent(name);
           const encodedOrg = encodeURIComponent(organization);
-          navigate(`/certificate/${encodedName}/college/${encodedOrg}`);
+          navigate(`/vol-certificate/${encodedName}/college/${encodedOrg}`);
         }, 800);
       } else {
         setStatus('error');
