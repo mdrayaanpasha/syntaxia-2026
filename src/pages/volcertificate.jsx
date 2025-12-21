@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 
-const Certificate = () => {
+const VolCertificate = () => {
   const { name, college } = useParams();
   const soit = "https://ik.imagekit.io/yylpuqff5/Minecraft/so_it.jpg"
   const dean ="https://ik.imagekit.io/yylpuqff5/Minecraft/dean.png";
@@ -60,12 +60,6 @@ const Certificate = () => {
 </style>
 
 
-
-      {/* Responsive Wrapper: 
-         - On screen: Scales down for small devices.
-         - On print: Resets to full size via 'print-wrapper' class.
-      */}
-
             {/* Action Button */}
       <button 
         onClick={() => window.print()} 
@@ -73,6 +67,11 @@ const Certificate = () => {
       >
         <span>📥</span> DOWNLOAD CERTIFICATE
       </button>
+
+      {/* Responsive Wrapper: 
+         - On screen: Scales down for small devices.
+         - On print: Resets to full size via 'print-wrapper' class.
+      */}
 <div className="cert-container relative w-[95%] max-w-[1100px] aspect-[1.414/1] bg-white shadow-2xl overflow-hidden border-8 border-white rounded-sm flex flex-col items-center justify-center p-12 text-slate-800">        
         {/* Main Certificate Container */}
         <div className="relative w-[850px] h-[600px] bg-white shadow-2xl overflow-hidden border-8 border-white rounded-sm flex flex-col p-6 text-slate-800">
@@ -97,29 +96,30 @@ const Certificate = () => {
                 <p>Department of Computer Science & Cybernetics Association</p>
               </div>
             </div>
+<div className="text-center mb-4">
+  <h2 className="text-7xl font-black italic tracking-tighter text-slate-700">HACKATHON</h2>
+  <div className="flex justify-center -mt-2">
+     <p className="text-xl font-bold border-2 border-slate-700 px-2 rotate-2 bg-white">2025</p>
+  </div>
+</div>
 
-            <div className="text-center mb-4">
-              <h2 className="text-7xl font-black italic tracking-tighter text-slate-700">HACKATHON</h2>
-              <div className="flex justify-center -mt-2">
-                 <p className="text-xl font-bold border-2 border-slate-700 px-2 rotate-2 bg-white">2025</p>
-              </div>
-            </div>
+<h3 className="text-lg font-bold tracking-[0.3em] mb-6 border-b-2 border-slate-800 pb-1">CERTIFICATE OF APPRECIATION</h3>
 
-            <h3 className="text-lg font-bold tracking-[0.3em] mb-6 border-b-2 border-slate-800 pb-1">CERTIFICATE OF PARTICIPATION</h3>
-
-            <div className="text-center w-full px-12 leading-relaxed uppercase text-[11px] font-bold mb-8">
+<div className="text-center w-full px-12 leading-relaxed uppercase text-[11px] font-bold mb-8">
   <p>
     This is to certify that{" "}
     <span className="inline-block border-b border-dotted border-slate-800 min-w-[200px] mx-1 leading-relaxed">
       {name ? decodeURIComponent(name) : "________________"}
     </span>{" "}
-    of{" "}
+    from{" "}
     <span className="inline-block border-b border-dotted border-slate-800 min-w-[200px] mx-1 leading-relaxed">
       {college ? decodeURIComponent(college) : "________________"}
     </span>{" "}
-    has participated in Hackathon'25 held by the Cybernetics Association on 20th December 2025.
+    has actively volunteered for events organized by the Cybernetics Association in 2025, 
+    contributing their time and effort to support the community and activities.
   </p>
 </div>
+
 
 
             {/* Signatures */}
@@ -137,6 +137,13 @@ const Certificate = () => {
         </div>
       </div>
 
+            {/* Action Button */}
+      <button 
+        onClick={() => window.print()} 
+        className="no-print mb-8 flex items-center gap-3 px-10 py-4 bg-slate-900 text-white rounded-full font-bold hover:bg-sky-600 transition-all shadow-xl active:scale-95"
+      >
+        <span>📥</span> DOWNLOAD CERTIFICATE
+      </button>
     </div>
 
     
@@ -159,4 +166,4 @@ const Signature = ({ name, role, image }) => (
   </div>
 );
 
-export default Certificate;
+export default VolCertificate;
