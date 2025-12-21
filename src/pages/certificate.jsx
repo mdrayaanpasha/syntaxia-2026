@@ -17,26 +17,47 @@ const Certificate = () => {
           1. Forces landscape.
           2. Forces a fixed desktop-width viewport (1120px) so mobile doesn't shrink fonts.
       */}
+   
       <style>
-        {`
-          @media print {
-            @page { size: landscape; margin: 0; }
-            body { 
-              margin: 0; 
-              width: 1120px !important; 
-              min-width: 1120px !important;
-              background: white;
-            }
-            .no-print { display: none !important; }
-            .print-wrapper { 
-              transform: scale(1.1) !important; /* Adjust to fill A4 paper width */
-              transform-origin: top left;
-              margin: 0 !important;
-              padding: 40px !important;
-            }
-          }
-        `}
-      </style>
+  {`
+    @media print {
+      @page { 
+        size: landscape; 
+        margin: 0; 
+      }
+      body { 
+        margin: 0; 
+        -webkit-print-color-adjust: exact; 
+      }
+      .no-print { display: none !important; }
+      
+      /* Force the wrapper to be the full page */
+      .print-wrapper { 
+        transform: none !important; 
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Make the certificate fill the paper */
+      .cert-container {
+        width: 100% !important;
+        height: 100% !important;
+        border: none !important;
+        shadow: none !important;
+        border-radius: 0 !important;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        flex-wrap:column;
+      }
+    }
+  `}
+</style>
 
       {/* Action Button */}
       <button 
@@ -50,8 +71,7 @@ const Certificate = () => {
          - On screen: Scales down for small devices.
          - On print: Resets to full size via 'print-wrapper' class.
       */}
-      <div className="print-wrapper transform scale-[0.35] xs:scale-[0.45] sm:scale-[0.7] md:scale-[0.85] lg:scale-100 transition-transform duration-300">
-        
+<div className="cert-container relative w-[95%] max-w-[1100px] aspect-[1.414/1] bg-white shadow-2xl overflow-hidden border-8 border-white rounded-sm flex flex-col items-center justify-center p-12 text-slate-800">        
         {/* Main Certificate Container */}
         <div className="relative w-[850px] h-[600px] bg-white shadow-2xl overflow-hidden border-8 border-white rounded-sm flex flex-col p-6 text-slate-800">
           
