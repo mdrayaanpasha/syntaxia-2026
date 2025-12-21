@@ -1,11 +1,15 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import bg from "../../public/bg(1).png";
-import dean from "../../public/dean(1).png";
-import soit from "../../public/so_it.jpg";
+
 
 const Certificate = () => {
   const { name, college } = useParams();
+  const soit = "https://ik.imagekit.io/yylpuqff5/Minecraft/so_it.jpg"
+  const dean ="https://ik.imagekit.io/yylpuqff5/Minecraft/dean.png";
+  const bg = "https://ik.imagekit.io/yylpuqff5/Minecraft/bg.png";
+  const coord = "https://ik.imagekit.io/yylpuqff5/Minecraft/co-ord.png";
+  const sju = "https://ik.imagekit.io/yylpuqff5/Minecraft/SJU.png";
+  const Cybernetics = "https://ik.imagekit.io/yylpuqff5/Minecraft/cybernetics.png"
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
@@ -58,8 +62,8 @@ const Certificate = () => {
           {/* Header Logos */}
           <div className="relative z-20 w-full flex justify-between items-start -mt-2">
             <LogoCircle src={soit}/>
-            <LogoCircle src="https://media.canva.com/v2/image-resize/format:PNG/height:200/quality:100/uri:ifs%3A%2F%2FM%2F302ead2d-65d9-423d-9187-7e4d106f0e83/watermark:F/width:200?csig=AAAAAAAAAAAAAAAAAAAAAAxPSb7mUCRxxtRydMp2JfBWiR_Q0XoXSY6WmWURIz10&exp=1766180443&osig=AAAAAAAAAAAAAAAAAAAAAOHgTQwVcnDB94zaBECC5u_uhb5rnpfBTsSOBHoaTbXu&signer=media-rpc&x-canva-quality=thumbnail" />
-            <LogoCircle src="https://media.canva.com/v2/image-resize/format:PNG/height:200/quality:100/uri:ifs%3A%2F%2FM%2Fe93c0c4b-bb77-456a-ab9b-e7e6426c0ae4/watermark:F/width:141?csig=AAAAAAAAAAAAAAAAAAAAAI106_nnuIIJL-tv9av5h64XzMMWMIs6_NG7Uwl_MV3Q&exp=1766182479&osig=AAAAAAAAAAAAAAAAAAAAAMTqlhz6-8mzrpAB51g29kGVz9WwsefIjCI5W-mW3mKU&signer=media-rpc&x-canva-quality=thumbnail" />
+            <LogoCircle src={sju} />
+            <LogoCircle src={Cybernetics} />
           </div>
 
           <div className="relative z-10 flex flex-col items-center flex-grow mt-2">
@@ -82,22 +86,23 @@ const Certificate = () => {
             <h3 className="text-lg font-bold tracking-[0.3em] mb-6 border-b-2 border-slate-800 pb-1">CERTIFICATE OF PARTICIPATION</h3>
 
             <div className="text-center w-full px-12 leading-relaxed uppercase text-[11px] font-bold mb-8">
-              <p>
-                This is to certify that{" "}
-                <span className="inline-block border-b border-dotted border-slate-800 min-w-[200px] mx-1 text-base normal-case text-sky-600">
-                  {name ? decodeURIComponent(name) : "________________"}
-                </span>{" "}
-                of{" "}
-                <span className="inline-block border-b border-dotted border-slate-800 min-w-[200px] mx-1 text-base normal-case text-sky-600">
-                  {college ? decodeURIComponent(college) : "________________"}
-                </span>{" "}
-                has participated in Hackathon'25 held by the Cybernetics Association on 20th December 2025.
-              </p>
-            </div>
+  <p>
+    This is to certify that{" "}
+    <span className="inline-block border-b border-dotted border-slate-800 min-w-[200px] mx-1 leading-relaxed">
+      {name ? decodeURIComponent(name) : "________________"}
+    </span>{" "}
+    of{" "}
+    <span className="inline-block border-b border-dotted border-slate-800 min-w-[200px] mx-1 leading-relaxed">
+      {college ? decodeURIComponent(college) : "________________"}
+    </span>{" "}
+    has participated in Hackathon'25 held by the Cybernetics Association on 20th December 2025.
+  </p>
+</div>
+
 
             {/* Signatures */}
             <div className="w-full flex justify-around mt-auto text-center px-4 mb-10">
-              <Signature name="Dr. Annie Syrien" role="Coordinator" image="https://media.canva.com/v2/image-resize/format:PNG/height:167/quality:100/uri:ifs%3A%2F%2FM%2F3078378c-8d97-43a2-8bee-ae773a70881c/watermark:F/width:200?csig=AAAAAAAAAAAAAAAAAAAAANSfY37qOqV-a19sKZ_cVFA7PVudb7XnhYfowDDm5EmX&exp=1766182375&osig=AAAAAAAAAAAAAAAAAAAAABtes-4TGXOeqKeUeRdeVUGPMBvbLkT2AI9iyvlYYwbp&signer=media-rpc&x-canva-quality=thumbnail" />
+              <Signature name="Dr. Annie Syrien" role="Coordinator" image={coord} />
               <Signature name="Dr. B G Prashanthi" role="HOD" image={bg} />
               <Signature name="Dr. A. M. Bojamma" role="Dean" image={dean}/>
             </div>
@@ -115,9 +120,8 @@ const Certificate = () => {
 
 // Sub-components
 const LogoCircle = ({ src }) => (
-  <div className="w-14 h-14 rounded-full flex items-center justify-center overflow-hidden bg-white shadow-sm border border-gray-100">
     <img src={src} alt="logo" className="w-10 h-10 object-contain" />
-  </div>
+
 );
 
 const Signature = ({ name, role, image }) => (
