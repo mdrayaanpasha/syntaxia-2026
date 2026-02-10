@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { 
-  Sword, Code, Gamepad2, Trophy, MapPin, Clock, Sparkles, 
-  Video, Target, Shield, Terminal, Cpu, DoorOpen, TrendingUp, Search
+  MapPin, Clock, CheckCircle, Phone, ArrowLeft, 
+  ShieldAlert, Gamepad2, Target, Shield, Code, 
+  Terminal, Cpu, Trophy, Sparkles, DoorOpen, 
+  TrendingUp, Video, Zap, ChevronRight
 } from 'lucide-react';
+import PremiumNavbar from '../home/components/nav';
 
-const EventsSection = () => {
-  const [filter, setFilter] = useState('All');
+const EventDetailsPage = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const eventId = searchParams.get('id');
 
-  const quests = [
+  // Using useMemo to prevent re-calculating the quest on every render
+  const quest = useMemo(() => {
+const quests = [
   {
     id: 1,
     dbId: "cmlgm1wy10001wpij8etyb11w", // BGMI
@@ -290,103 +298,163 @@ const EventsSection = () => {
 ];
 
 
-  const categories = ["All", "Technical", "Non-Technical", "Gaming"];
-  const filteredQuests = filter === "All" ? quests : quests.filter(q => q.cat === filter);
+
+    return quests.find(q => q.dbId === eventId);
+  }, [eventId]);
+
+  const handleRegister = () => {
+    const targetName = quest.internalName || quest.title;
+    navigate(`/register-event?event-name=${encodeURIComponent(targetName)}`);
+  };
+
+  if (!quest) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center text-gray-500 font-mono">
+        <ShieldAlert size={48} className="mb-4 text-red-500 animate-pulse" />
+        <p className="tracking-[0.2em]">ERROR: MISSION_ID_NOT_FOUND</p>
+        <button onClick={() => navigate('/events')} className="mt-6 text-[#55aa55] hover:underline">
+          Return to Quest Board
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <section id="events" className="relative py-24 px-6 bg-[#0a0a0a] font-minecraft">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* HEADER */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
-          <div className="relative">
-            <div className="flex items-center gap-2 mb-4 text-[#55aa55] animate-pulse">
-              <Sword size={18} />
-              <span className="tracking-[0.4em] text-[10px] uppercase">/active_quests_loaded</span>
-            </div>
-            <h2 className="text-5xl md:text-7xl text-white tracking-tight [text-shadow:4px_4px_0px_#373737]">
-              QUEST <span className="text-[#ffcc00]">BOARD</span>
-            </h2>
-          </div>
+    <div className="min-h-screen bg-[#050505] text-gray-300 font-sans selection:bg-[#55aa55] selection:text-black">
+      <PremiumNavbar />
+      
+      <main className="max-w-4xl mx-auto px-6 pt-32 pb-20">
+        {/* BACK BUTTON */}
+        <button 
+          onClick={() => navigate(-1)} 
+          className="flex items-center gap-2 text-gray-500 hover:text-[#55aa55] transition-colors mb-10 font-mono text-xs uppercase tracking-widest"
+        >
+          <ArrowLeft size={16} /> /back_to_grid
+        </button>
 
-          {/* FILTER HUD */}
-          <div className="flex flex-wrap gap-3 bg-[#1a1a1a] p-2 border-2 border-[#373737]">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={`px-6 py-2 border-2 text-[11px] tracking-[0.2em] transition-all duration-75 active:translate-y-1 active:border-b-0 ${
-                  filter === cat 
-                  ? 'bg-[#55aa55] border-[#2d5a2d] border-b-4 text-white mc-text-shadow' 
-                  : 'bg-[#222] border-[#444] border-b-4 text-gray-500 hover:text-gray-300'
-                }`}
-              >
-                {cat.toUpperCase()}
-              </button>
-            ))}
+        {/* HERO SECTION */}
+        <div className="flex flex-col md:flex-row gap-8 items-start mb-16">
+          <div className={`p-6 rounded-3xl bg-[#0a0a0a] border-2 ${quest.rarity} ${quest.text} ${quest.glow} shrink-0`}>
+            {quest.icon}
+          </div>
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-white/5 border border-white/10 ${quest.text}`}>
+                {quest.cat}
+              </span>
+              {quest.day && (
+                <span className="text-[10px] font-mono text-[#ffcc00] uppercase tracking-widest">
+                  {quest.day}
+                </span>
+              )}
+            </div>
+            <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter uppercase italic leading-none mb-4">
+              {quest.title}
+            </h1>
+            <p className="text-gray-400 text-lg leading-relaxed max-w-2xl font-medium">
+              {quest.description}
+            </p>
           </div>
         </div>
 
-        {/* QUEST GRID */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredQuests.map((quest) => (
-            <div 
-              key={quest.id} 
-              className={`group relative bg-[#1a1a1a] border-x-4 border-b-[8px] border-black transition-all hover:-translate-y-2 hover:bg-[#222] ${quest.glow}`}
-            >
-              {/* Top Highlight Bevel */}
-              <div className={`h-[5px] w-full ${quest.rarity.replace('border-', 'bg-')}`}></div>
-              
-              <div className="p-8">
-                <div className="flex justify-between items-start mb-8">
-                  {/* ICON CONTAINER - Force color to white/glow */}
-                  <div className={`p-4 bg-black/60 border-2 ${quest.rarity} ${quest.text} shadow-inner`}>
-                    {quest.icon}
-                  </div>
-                  {quest.day && (
-                    <div className="flex flex-col items-end">
-                      <span className="text-[10px] font-minecraft-ten text-[#ffcc00] mc-text-shadow">
-                        {quest.day}
-                      </span>
-                      <div className="w-12 h-[2px] bg-[#373737] mt-1"></div>
+        {/* INTEL GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          <div className="p-6 bg-[#0a0a0a] border border-[#222] rounded-3xl group hover:border-[#55aa55]/50 transition-all">
+            <div className="flex items-center gap-3 text-[#55aa55] mb-4">
+              <MapPin size={20} />
+              <span className="text-[10px] uppercase font-black tracking-widest">Target_Location</span>
+            </div>
+            <p className="text-xl font-bold text-white uppercase">{quest.venue}</p>
+          </div>
+
+          <div className="p-6 bg-[#0a0a0a] border border-[#222] rounded-3xl group hover:border-[#ffcc00]/50 transition-all">
+            <div className="flex items-center gap-3 text-[#ffcc00] mb-4">
+              <Clock size={20} />
+              <span className="text-[10px] uppercase font-black tracking-widest">Temporal_Window</span>
+            </div>
+            <p className="text-xl font-bold text-white uppercase">{quest.slot}</p>
+          </div>
+        </div>
+
+        {/* DETAILED SPECS */}
+        <div className="space-y-12">
+          {/* PARAMETERS */}
+          {quest.eventDetails && (
+            <div className="relative">
+               <div className="flex items-center gap-4 mb-6">
+                <Zap size={18} className="text-[#55aa55]" />
+                <h2 className="text-xs font-black text-gray-500 uppercase tracking-[0.4em]">Mission_Parameters</h2>
+                <div className="h-px flex-1 bg-[#111]"></div>
+               </div>
+               <ul className="grid grid-cols-1 gap-4">
+                {quest.eventDetails.map((detail, i) => (
+                  <li key={i} className="flex gap-4 p-4 bg-[#0a0a0a] border border-[#1a1a1a] rounded-xl text-gray-300">
+                    <CheckCircle size={18} className="text-[#55aa55] shrink-0 mt-0.5" />
+                    <span className="text-sm font-medium">{detail}</span>
+                  </li>
+                ))}
+               </ul>
+            </div>
+          )}
+
+          {/* RULES */}
+          {quest.rulesAndRegulations && (
+            <div>
+               <div className="flex items-center gap-4 mb-6">
+                <ShieldAlert size={18} className="text-red-500" />
+                <h2 className="text-xs font-black text-gray-500 uppercase tracking-[0.4em]">Directives_&_Rules</h2>
+                <div className="h-px flex-1 bg-[#111]"></div>
+               </div>
+               <div className="bg-red-500/5 border border-red-500/10 p-6 rounded-3xl space-y-4">
+                 {quest.rulesAndRegulations.map((rule, i) => (
+                   <div key={i} className="flex gap-3 text-sm text-gray-400">
+                      <span className="text-red-500 font-mono">[{i+1}]</span>
+                      <p>{rule}</p>
+                   </div>
+                 ))}
+               </div>
+            </div>
+          )}
+
+          {/* FIELD COMMANDERS */}
+          {quest.eventHeads && (
+            <div>
+               <div className="flex items-center gap-4 mb-6">
+                <Terminal size={18} className="text-gray-600" />
+                <h2 className="text-xs font-black text-gray-500 uppercase tracking-[0.4em]">Field_Commanders</h2>
+                <div className="h-px flex-1 bg-[#111]"></div>
+               </div>
+               <div className="flex flex-wrap gap-4">
+                {quest.eventHeads.map((head, i) => (
+                  <div key={i} className="flex items-center gap-4 bg-[#0a0a0a] border border-[#222] px-6 py-4 rounded-2xl group hover:border-[#55aa55] transition-all">
+                    <div className="w-10 h-10 rounded-full bg-[#111] flex items-center justify-center text-[#55aa55] font-black italic">
+                      {head.name[0]}
                     </div>
-                  )}
-                </div>
-
-                <h3 className="text-2xl text-white mb-6 [text-shadow:2px_2px_0px_#000] tracking-tight group-hover:text-[#ffcc00] transition-colors leading-none uppercase">
-                  {quest.title}
-                </h3>
-
-                {/* HUD DATA */}
-                <div className="space-y-4 mb-10">
-                  <div className="flex items-start gap-3">
-                    <MapPin size={16} className="text-[#55aa55] mt-0.5" />
-                    <span className="text-[12px] text-gray-400 tracking-wider leading-tight uppercase font-minecraft">
-                      {quest.venue}
-                    </span>
+                    <div>
+                      <p className="text-xs font-black text-white uppercase tracking-tighter">{head.name}</p>
+                      <a href={`tel:${head.phone}`} className="text-[10px] text-gray-500 font-mono hover:text-[#55aa55] flex items-center gap-1 mt-0.5">
+                        <Phone size={10} /> {head.phone}
+                      </a>
+                    </div>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Clock size={16} className="text-[#ffcc00] mt-0.5" />
-                    <span className="text-[12px] text-gray-400 tracking-wider uppercase font-minecraft">
-                      {quest.slot}
-                    </span>
-                  </div>
-                </div>
-
-                {/* INTERACTIVE BUTTON */}
-                <button className="w-full relative py-4 group/btn overflow-hidden">
-                  <div className="absolute inset-0 bg-[#3c3c3c] border-b-4 border-black group-hover/btn:bg-[#55aa55] transition-colors"></div>
-                  <span className="relative font-minecraft-ten text-[11px] text-white tracking-[0.3em] mc-text-shadow flex items-center justify-center gap-2">
-                    <Search size={14} /> VIEW_INTEL
-                  </span>
-                </button>
-              </div>
+                ))}
+               </div>
             </div>
-          ))}
+          )}
         </div>
-      </div>
-    </section>
+
+        {/* STICKY BOTTOM CTA */}
+        <div className="fixed bottom-8 left-0 w-full px-6 z-50 pointer-events-none">
+          <button 
+            onClick={handleRegister}
+            className="pointer-events-auto max-w-4xl mx-auto w-full py-5 bg-[#55aa55] text-black font-black uppercase tracking-[0.3em] rounded-2xl hover:bg-white transition-all shadow-[0_20px_40px_rgba(0,0,0,0.4)] flex items-center justify-center gap-4 group active:scale-[0.98]"
+          >
+            Initiate_Uplink_Protocol <ChevronRight className="group-hover:translate-x-2 transition-transform" />
+          </button>
+        </div>
+      </main>
+    </div>
   );
 };
 
-export default EventsSection;
+export default EventDetailsPage;

@@ -60,7 +60,7 @@ const HeroSection = () => {
 
         {/* ACTION BUTTONS */}
         <div className="flex flex-col sm:flex-row gap-6">
-          <button className="relative px-10 py-4 group overflow-hidden">
+          <button className="relative px-10 py-4 group overflow-hidden" onClick={e=>window.location.href="/events"}>
             <div className="absolute inset-0 bg-[#55aa55] border-b-4 border-r-4 border-[#2d5a2d] group-hover:bg-[#66cc66] active:border-0 active:translate-y-1 transition-all"></div>
             {/* Shimmer effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer"></div>
@@ -69,11 +69,7 @@ const HeroSection = () => {
             </span>
           </button>
 
-          <button className="px-10 py-4 bg-black/40 backdrop-blur-md border-2 border-white/20 hover:border-white/40 hover:bg-white/10 transition-all">
-            <span className="text-white text-lg tracking-widest [text-shadow:2px_2px_0px_#000]">
-              VIEW_QUESTS
-            </span>
-          </button>
+          
         </div>
       </div>
 

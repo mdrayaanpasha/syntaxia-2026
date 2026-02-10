@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronDown, Globe, Zap, Sword, Map, Mail } from 'lucide-react';
+import Dashboard from '../../dashboard/page';
 
 // --- Font Loader (Ensures the UI actually uses the pixel fonts) ---
 const MinecraftFontLoader = () => (
@@ -21,6 +22,10 @@ const MinecraftFontLoader = () => (
 );
 
 const PremiumNavbar = () => {
+
+  const tokenFound = localStorage.getItem("token");
+
+
   return (
     <>
       <MinecraftFontLoader />
@@ -39,7 +44,7 @@ const PremiumNavbar = () => {
             <div className="flex justify-between items-center h-20 px-8">
               
               {/* Logo Section */}
-              <div className="flex items-center space-x-3 cursor-pointer group/logo">
+              <div className="flex items-center space-x-3 cursor-pointer group/logo" onClick={e=>window.location.href="/"}>
                 <div className="flex flex-col leading-tight">
                   <span className="text-white text-2xl tracking-tight [text-shadow:2px_2px_0px_#373737]">
                     SYNTAXIA
@@ -52,13 +57,17 @@ const PremiumNavbar = () => {
 
               {/* Navigation Links */}
               <div className="hidden lg:flex items-center space-x-1">
-                <NavItem icon={<Globe size={14}/>} label="HOME" />
-                <NavItem icon={<Sword size={14}/>} label="EVENTS" hasDropdown />
+
+                <NavItem icon={<Sword size={14}/>} label="EVENTS"/>
                 <NavItem icon={<Map size={14}/>} label="SCHEDULE" />
                 <NavItem icon={<Mail size={14}/>} label="CONTACT" />
                 
                 {/* Premium Animated Register Button */}
-                <button className="ml-6 relative px-8 py-3 group/btn overflow-hidden">
+                <button className="ml-6 relative px-8 py-3 group/btn overflow-hidden" 
+                  onClick={() =>
+                    (window.location.href = tokenFound ? "/dashboard" : "/auth")
+                  }
+                >
                   {/* Button Body */}
                   <div className="absolute inset-0 bg-[#55aa55] border-b-4 border-r-4 border-[#2d5a2d] active:border-0 active:translate-y-1 transition-all"></div>
                   
@@ -66,7 +75,7 @@ const PremiumNavbar = () => {
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/btn:animate-shimmer"></div>
                   
                   <span className="relative text-white text-xs tracking-[0.2em] flex items-center gap-2 [text-shadow:1px_1px_0px_#224422]">
-                    <Zap size={14} fill="white" className="animate-pulse" /> REGISTER
+                    <Zap size={14} fill="white" className="animate-pulse" /> {tokenFound ? "Dashboard" : "Register"}
                   </span>
                 </button>
               </div>

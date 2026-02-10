@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { 
   Sword, Code, Gamepad2, Trophy, MapPin, Clock, Sparkles, 
-  Video, Target, Shield, Terminal, Cpu, DoorOpen, TrendingUp, Search
+  Video, Target, Shield, Terminal, Cpu, DoorOpen, TrendingUp, Search, X, CheckCircle, Phone
 } from 'lucide-react';
+import PremiumNavbar from '../home/components/nav';
 
 const EventsSection = () => {
+  const [searchParams] = useSearchParams();
   const [filter, setFilter] = useState('All');
+  const [selectedQuest, setSelectedQuest] = useState(null);
+  const navigate = useNavigate();
 
-  const quests = [
+  useEffect(() => {
+    const sector = searchParams.get('sector');
+    if (sector) {
+      const formatted = sector.charAt(0).toUpperCase() + sector.slice(1).toLowerCase();
+      if (formatted === "Technical" || formatted === "Gaming") setFilter(formatted);
+      if (formatted === "Creative" || formatted === "Non-technical") setFilter("Non-Technical");
+    }
+  }, [searchParams]);
+
+const quests = [
   {
     id: 1,
     dbId: "cmlgm1wy10001wpij8etyb11w", // BGMI
@@ -294,31 +308,29 @@ const EventsSection = () => {
   const filteredQuests = filter === "All" ? quests : quests.filter(q => q.cat === filter);
 
   return (
-    <section id="events" className="relative py-24 px-6 bg-[#0a0a0a] font-minecraft">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-[#050505] font-sans selection:bg-[#55aa55] selection:text-black">
+      <PremiumNavbar />
+      
+      <section className="relative py-32 px-6 lg:px-12 max-w-7xl mx-auto">
         
         {/* HEADER */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
-          <div className="relative">
-            <div className="flex items-center gap-2 mb-4 text-[#55aa55] animate-pulse">
-              <Sword size={18} />
-              <span className="tracking-[0.4em] text-[10px] uppercase">/active_quests_loaded</span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+          <div>
+            <div className="flex items-center gap-2 mb-4 text-[#55aa55] font-mono tracking-[0.3em] text-[10px] uppercase">
+              <Sword size={14} /> /intel_sectors_decrypted
             </div>
-            <h2 className="text-5xl md:text-7xl text-white tracking-tight [text-shadow:4px_4px_0px_#373737]">
+            <h2 className="text-6xl font-black text-white tracking-tighter uppercase italic">
               QUEST <span className="text-[#ffcc00]">BOARD</span>
             </h2>
           </div>
 
-          {/* FILTER HUD */}
-          <div className="flex flex-wrap gap-3 bg-[#1a1a1a] p-2 border-2 border-[#373737]">
+          <div className="flex flex-wrap gap-2 bg-[#111] p-1.5 rounded-xl border border-[#222]">
             {categories.map(cat => (
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`px-6 py-2 border-2 text-[11px] tracking-[0.2em] transition-all duration-75 active:translate-y-1 active:border-b-0 ${
-                  filter === cat 
-                  ? 'bg-[#55aa55] border-[#2d5a2d] border-b-4 text-white mc-text-shadow' 
-                  : 'bg-[#222] border-[#444] border-b-4 text-gray-500 hover:text-gray-300'
+                className={`px-6 py-2 rounded-lg text-[11px] font-bold tracking-widest transition-all ${
+                  filter === cat ? 'bg-[#55aa55] text-black shadow-[0_0_15px_rgba(85,170,85,0.4)]' : 'text-gray-500 hover:text-white hover:bg-[#222]'
                 }`}
               >
                 {cat.toUpperCase()}
@@ -327,65 +339,115 @@ const EventsSection = () => {
           </div>
         </div>
 
-        {/* QUEST GRID */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* GRID */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredQuests.map((quest) => (
             <div 
               key={quest.id} 
-              className={`group relative bg-[#1a1a1a] border-x-4 border-b-[8px] border-black transition-all hover:-translate-y-2 hover:bg-[#222] ${quest.glow}`}
+              onClick={() => setSelectedQuest(quest)}
+              className={`group bg-[#0a0a0a] border border-[#222] rounded-3xl p-8 cursor-pointer transition-all hover:border-[#55aa55]/50 hover:-translate-y-2 ${quest.glow}`}
             >
-              {/* Top Highlight Bevel */}
-              <div className={`h-[5px] w-full ${quest.rarity.replace('border-', 'bg-')}`}></div>
-              
-              <div className="p-8">
-                <div className="flex justify-between items-start mb-8">
-                  {/* ICON CONTAINER - Force color to white/glow */}
-                  <div className={`p-4 bg-black/60 border-2 ${quest.rarity} ${quest.text} shadow-inner`}>
-                    {quest.icon}
-                  </div>
-                  {quest.day && (
-                    <div className="flex flex-col items-end">
-                      <span className="text-[10px] font-minecraft-ten text-[#ffcc00] mc-text-shadow">
-                        {quest.day}
-                      </span>
-                      <div className="w-12 h-[2px] bg-[#373737] mt-1"></div>
-                    </div>
-                  )}
+              <div className="flex justify-between items-start mb-8">
+                <div className={`p-4 rounded-2xl bg-[#111] border ${quest.rarity} ${quest.text}`}>
+                  {quest.icon}
                 </div>
-
-                <h3 className="text-2xl text-white mb-6 [text-shadow:2px_2px_0px_#000] tracking-tight group-hover:text-[#ffcc00] transition-colors leading-none uppercase">
-                  {quest.title}
-                </h3>
-
-                {/* HUD DATA */}
-                <div className="space-y-4 mb-10">
-                  <div className="flex items-start gap-3">
-                    <MapPin size={16} className="text-[#55aa55] mt-0.5" />
-                    <span className="text-[12px] text-gray-400 tracking-wider leading-tight uppercase font-minecraft">
-                      {quest.venue}
-                    </span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Clock size={16} className="text-[#ffcc00] mt-0.5" />
-                    <span className="text-[12px] text-gray-400 tracking-wider uppercase font-minecraft">
-                      {quest.slot}
-                    </span>
-                  </div>
+                {quest.day && <span className="text-[10px] font-mono text-[#ffcc00] tracking-widest uppercase">{quest.day}</span>}
+              </div>
+              <h3 className="text-2xl font-black text-white mb-4 uppercase italic tracking-tighter">{quest.title}</h3>
+              <div className="space-y-3 mb-8">
+                <div className="flex items-center gap-2 text-xs text-gray-500 font-mono">
+                  <MapPin size={14} className="text-[#55aa55]" /> {quest.venue}
                 </div>
-
-                {/* INTERACTIVE BUTTON */}
-                <button className="w-full relative py-4 group/btn overflow-hidden">
-                  <div className="absolute inset-0 bg-[#3c3c3c] border-b-4 border-black group-hover/btn:bg-[#55aa55] transition-colors"></div>
-                  <span className="relative font-minecraft-ten text-[11px] text-white tracking-[0.3em] mc-text-shadow flex items-center justify-center gap-2">
-                    <Search size={14} /> VIEW_INTEL
-                  </span>
-                </button>
+                <div className="flex items-center gap-2 text-xs text-gray-500 font-mono">
+                  <Clock size={14} className="text-[#ffcc00]" /> {quest.slot}
+                </div>
+              </div>
+              <div className="w-full py-3 bg-[#111] border border-[#222] text-[10px] font-black text-center uppercase tracking-[0.2em] group-hover:bg-[#55aa55] group-hover:text-black transition-all rounded-xl">
+                Open_Intel_Briefing
               </div>
             </div>
           ))}
         </div>
-      </div>
-    </section>
+
+        {/* --- MODAL --- */}
+        {selectedQuest && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl">
+            <div className="bg-[#0a0a0a] border border-[#222] w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl relative">
+              <button onClick={() => setSelectedQuest(null)} className="sticky top-6 float-right mr-6 text-gray-500 hover:text-white"><X size={24} /></button>
+              
+              <div className="p-8 md:p-12">
+                <div className={`inline-block p-4 rounded-2xl bg-[#111] border ${selectedQuest.rarity} ${selectedQuest.text} mb-8`}>
+                  {selectedQuest.icon}
+                </div>
+                <h3 className="text-5xl font-black text-white uppercase italic mb-4">{selectedQuest.title}</h3>
+                <p className="text-gray-400 leading-relaxed mb-8 font-medium">{selectedQuest.description}</p>
+
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="p-4 bg-[#111] rounded-2xl border border-[#222]">
+                    <p className="text-[10px] text-gray-600 uppercase mb-1 font-bold">Venue</p>
+                    <p className="text-sm text-white font-bold">{selectedQuest.venue}</p>
+                  </div>
+                  <div className="p-4 bg-[#111] rounded-2xl border border-[#222]">
+                    <p className="text-[10px] text-gray-600 uppercase mb-1 font-bold">Slot</p>
+                    <p className="text-sm text-white font-bold">{selectedQuest.slot}</p>
+                  </div>
+                </div>
+
+                {selectedQuest.eventDetails && (
+                  <div className="mb-8">
+                    <p className="text-[10px] text-[#55aa55] uppercase font-black tracking-widest mb-4">Mission_Parameters</p>
+                    <ul className="space-y-3">
+                      {selectedQuest.eventDetails.map((detail, i) => (
+                        <li key={i} className="flex gap-3 text-sm text-gray-300">
+                          <div className="w-1.5 h-1.5 bg-[#55aa55] rounded-full mt-1.5 shrink-0" /> {detail}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {selectedQuest.rulesAndRegulations && (
+                  <div className="mb-8">
+                    <p className="text-[10px] text-red-500 uppercase font-black tracking-widest mb-4">Rules_&_Directives</p>
+                    <ul className="space-y-3">
+                      {selectedQuest.rulesAndRegulations.map((rule, i) => (
+                        <li key={i} className="flex gap-3 text-sm text-gray-400">
+                          <CheckCircle size={14} className="text-red-500 shrink-0 mt-0.5" /> {rule}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {selectedQuest.eventHeads && (
+                  <div className="mb-10">
+                    <p className="text-[10px] text-gray-600 uppercase font-black tracking-widest mb-4">Field_Commanders</p>
+                    <div className="flex flex-wrap gap-4">
+                      {selectedQuest.eventHeads.map((head, i) => (
+                        <div key={i} className="flex items-center gap-3 bg-[#111] px-4 py-2 rounded-xl border border-[#222]">
+                          <Phone size={12} className="text-[#55aa55]" />
+                          <span className="text-xs text-white font-bold uppercase">{head.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <button 
+                  onClick={() => {
+                    const targetName = selectedQuest.dbId;
+                    navigate(`/register?event-name=${targetName}`);
+                  }}
+                  className="w-full py-5 bg-[#55aa55] text-black font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-white transition-all shadow-[0_10px_30px_rgba(85,170,85,0.2)]"
+                >
+                  Initiate_Uplink
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+    </div>
   );
 };
 
