@@ -1,10 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SyntaxiaFest from "./pages/home";
-import EventLandingPage from "./pages/hackathon";
-import Certificate from "./pages/certificate";
-import CertForm from "./pages/certificate-form";
-import VolForm from "./pages/volunteer-form";
-import VolCertificate from "./pages/volcertificate";
+
 import HomePage from "./pages/home/page";
 import AuthPage from "./pages/auth/page";
 import TokenHandler from "./pages/auth/tokenhandler";
@@ -14,29 +9,43 @@ import EventsSection from "./pages/events/page";
 import EventDetailsPage from "./pages/events/details";
 import AdminPage from "./pages/admin/page";
 
-export default function App(){
-  return(
-    <>
-    <Router>
-      <Routes>
-        <Route path="/" element={<SyntaxiaFest/>} />
-        <Route path="/home" element={<HomePage/>}/>
-        <Route path="/auth" element={<AuthPage/>}/>
-        <Route path="/token" element={<TokenHandler/>}/>
-        <Route path="/register" element={<EventRegistration/>}/>
-        <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/events" element={<EventsSection/>} />
-        <Route path="/event-details" element={<EventDetailsPage/>} />
-        <Route path="/ross-geller" element={<AdminPage/>} />
-        {/* <Route path="/hackathon" element={<EventLandingPage/>}/>
-        <Route path="/CertForm" element={<CertForm/>}/>
-<Route path="/certificate/:name/college/:college" element={<Certificate />} />    
-        <Route path="/volform" element={<VolForm/>}/>
-        <Route path="/vol-certificate/:name/college/:college" element={<VolCertificate />} />    
- */}
+// Global font + animation loader
+const MinecraftFontLoader = () => (
+  <style>{`
+    @import url('https://fonts.cdnfonts.com/css/minecraft-4');
+    @import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
 
-  </Routes>
-    </Router>
+    .font-minecraft { 
+      font-family: 'Minecraft', 'Silkscreen', sans-serif; 
+    }
+
+    @keyframes shimmer {
+      100% { transform: translateX(100%); }
+    }
+
+    .animate-shimmer {
+      animation: shimmer 2s infinite;
+    }
+  `}</style>
+);
+
+export default function App() {
+  return (
+    <>
+      <MinecraftFontLoader />
+
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/token" element={<TokenHandler />} />
+          <Route path="/register" element={<EventRegistration />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/events" element={<EventsSection />} />
+          <Route path="/event-details" element={<EventDetailsPage />} />
+          <Route path="/ross-geller" element={<AdminPage />} />
+        </Routes>
+      </Router>
     </>
-  )
+  );
 }

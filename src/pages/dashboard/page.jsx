@@ -45,7 +45,7 @@ const Dashboard = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     toast.success("SESSION_TERMINATED");
-    navigate('/login');
+    navigate('/');
   };
 
   if (loading) return (
