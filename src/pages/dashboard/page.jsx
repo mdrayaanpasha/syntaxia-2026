@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  Terminal, LogOut, Mail, ShieldCheck, Clock, 
-  ExternalLink, LayoutDashboard, Cpu, PenTool, 
-  Gamepad2, Compass, ChevronRight, Zap
+import {
+  LogOut, ShieldCheck, Clock, ExternalLink, Cpu, 
+  PenTool, Gamepad2, Compass, Zap, Loader2
 } from 'lucide-react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
@@ -15,6 +14,55 @@ const AVATAR_MAP = {
   3: "https://ik.imagekit.io/yylpuqff5/syntaxia-registrations/pfp-3.jpg",
   4: "https://ik.imagekit.io/yylpuqff5/syntaxia-registrations/pfp-4.jpg"
 };
+
+
+const EVENT_NAME_MAP = {
+  "cmlgm1wy10001wpij8etyb11w": "BGMI",
+  "cmlgm1wy10002wpij5m9w4zjl": "LOCK // LOAD",
+  "cmlgm1wy10003wpijxnoslqtr": "CTF",
+  "cmlgm1wy10005wpijzyma7iiu": "Redstone Run",
+  "cmlgm1wy10006wpijo6lm39g3": "DATA DETECTIVE",
+  "cmlgm1wy10004wpij622cseeu": "IT QUIZ",
+  "cmlgm1wy10007wpijl52gfwxj": "IPL AUCTION",
+  "cmlgm1wy10008wpij9wkl7ggo": "ANIME QUIZ",
+  "cmlgm1wy10009wpij3ufrl65m": "MINE YOUR WAY OUT",
+  "cmlgm1wy1000awpijjbkedi4h": "BUSINESS REVIVAL",
+  "cmlgm1wy1000bwpij0508s1t8": "REEL MAKING"
+};
+
+
+const IMAGE_MAP = {
+  "cmlgm1wy10001wpij8etyb11w": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/bgmi_bg.png",
+  "cmlgm1wy10002wpij5m9w4zjl": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/val_bg.png",
+  "cmlgm1wy10003wpijxnoslqtr": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/CTF.png",
+  "cmlgm1wy10005wpijzyma7iiu": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/code_bg.png",
+  "cmlgm1wy10006wpijo6lm39g3": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/sql_bg.png",
+  "cmlgm1wy10004wpij622cseeu": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/quiz_bg.png",
+  "cmlgm1wy10007wpijl52gfwxj": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/ipl_bg.png",
+  "cmlgm1wy10008wpij9wkl7ggo": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/anime_bg.png",
+  "cmlgm1wy10009wpij3ufrl65m": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/escape_bg.png",
+  "cmlgm1wy1000awpijjbkedi4h": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/biz_bg.png",
+  "cmlgm1wy1000bwpij0508s1t8": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/reel_bg.png"
+}
+
+// --- Better Skeleton Component ---
+const DashboardSkeleton = () => (
+  <div className="max-w-6xl mx-auto pt-32 px-6 animate-pulse font-minecraft">
+    <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
+      <div className="flex items-center gap-4">
+        <div className="w-20 h-20 bg-[#111] rounded-full border-2 border-[#222]" />
+        <div className="space-y-2">
+          <div className="h-8 w-48 bg-[#111] rounded" />
+          <div className="h-3 w-32 bg-[#111] rounded" />
+        </div>
+      </div>
+      <div className="h-16 w-32 bg-[#111] rounded-xl" />
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {[1, 2, 3, 4].map(i => <div key={i} className="h-32 bg-[#111] rounded-2xl border border-[#222]" />)}
+    </div>
+  </div>
+);
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
@@ -29,7 +77,6 @@ const Dashboard = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) { navigate('/login'); return; }
-      
       const response = await axios.get('https://note-taking-server-kappa.vercel.app/api/user/', {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -44,206 +91,157 @@ const Dashboard = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    toast.success("SESSION_TERMINATED");
     navigate('/');
   };
 
   if (loading) return (
-    <div className="min-h-screen bg-[#050505] flex items-center justify-center text-[#55aa55] font-mono tracking-widest text-xs">
-      <div className="flex flex-col items-center gap-4">
-        <Terminal className="animate-bounce" />
-        <span className="animate-pulse">SYNCHRONIZING_NEURAL_LINK...</span>
-      </div>
+    <div className="min-h-screen bg-[#050505]">
+      <PremiumNavbar />
+      <DashboardSkeleton />
     </div>
   );
 
-  // --- CASE A: DISCOVERY MODE (For users with userDetails: null) ---
+  // --- CASE A: SECTOR SELECTION ---
   if (!data?.userDetails) {
     return (
-      <div className="min-h-screen bg-[#050505] text-gray-300 flex flex-col font-sans selection:bg-[#55aa55] selection:text-black">
+      <div className="min-h-screen bg-[#050505] text-gray-300 font-minecraft">
         <PremiumNavbar />
-        <Toaster position="top-center" />
-        
-        <div className="flex-1 flex flex-col items-center justify-center p-6 mt-16">
-          {/* RECRUITMENT INTERFACE */}
-          <div className="max-w-5xl w-full flex flex-col items-center text-center">
-            <div className="mb-6 flex items-center gap-2 text-[#55aa55] font-mono text-[10px] tracking-[0.4em] uppercase">
-              <Zap size={14} className="animate-pulse" /> Access_Granted
-            </div>
-
-            <h1 className="text-6xl md:text-8xl font-black text-white tracking-tighter italic uppercase leading-none mb-4">
-              CHOOSE YOUR <br /> <span className="text-[#55aa55]">DESTINATION</span>
-            </h1>
-            
-            <p className="text-gray-500 font-mono text-sm max-w-xl mx-auto mb-6 leading-relaxed">
-              Operative <span className="text-gray-300">{data.userEmail}</span>, the Syntaxia grid is live. 
-              Explore the available sectors below to begin your journey.
-            </p>
-
-            {/* SECTOR CARDS */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full border-t border-[#111] pt-16">
-              <div className="group cursor-pointer" onClick={() => navigate('/events?sector=technical')}>
-                 <div className="bg-[#0a0a0a] border border-[#222] p-8 rounded-3xl group-hover:border-[#55aa55] group-hover:-translate-y-2 transition-all">
-                    <Cpu className="text-[#55aa55] mb-6 group-hover:scale-110 transition-transform" size={40} />
-                    <h3 className="text-white font-black text-xl mb-2 uppercase tracking-tight">Technical</h3>
-                    <p className="text-xs text-gray-500 leading-relaxed font-mono">Code, Crack, and Conquer challenges.</p>
-                 </div>
-              </div>
-
-              <div className="group cursor-pointer" onClick={() => navigate('/events?sector=creative')}>
-                 <div className="bg-[#0a0a0a] border border-[#222] p-8 rounded-3xl group-hover:border-blue-500 group-hover:-translate-y-2 transition-all">
-                    <PenTool className="text-blue-500 mb-6 group-hover:scale-110 transition-transform" size={40} />
-                    <h3 className="text-white font-black text-xl mb-2 uppercase tracking-tight">Non-Tech</h3>
-                    <p className="text-xs text-gray-500 leading-relaxed font-mono">Design, Pitch, and Strategize intel.</p>
-                 </div>
-              </div>
-
-              <div className="group cursor-pointer" onClick={() => navigate('/events?sector=gaming')}>
-                 <div className="bg-[#0a0a0a] border border-[#222] p-8 rounded-3xl group-hover:border-purple-500 group-hover:-translate-y-2 transition-all">
-                    <Gamepad2 className="text-purple-500 mb-6 group-hover:scale-110 transition-transform" size={40} />
-                    <h3 className="text-white font-black text-xl mb-2 uppercase tracking-tight">Gaming</h3>
-                    <p className="text-xs text-gray-500 leading-relaxed font-mono">eSports and Tactical Simulator combat.</p>
-                 </div>
-              </div>
-            </div>
-            
-            <button onClick={handleLogout} className="mt-16 text-gray-700 hover:text-red-500 transition-colors font-mono text-[10px] tracking-widest uppercase flex items-center gap-2">
-              <LogOut size={12} /> Abort_Connection
-            </button>
+        <div className="max-w-6xl mx-auto pt-24 md:pt-32 px-6 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 border border-[#55aa55]/30 bg-[#55aa55]/5 text-[#55aa55] text-[10px] rounded mb-6 uppercase">
+            <Zap size={12} fill="currentColor" /> System_Ready
           </div>
+          <h1 className="text-4xl md:text-7xl font-bold text-white mb-6 leading-none tracking-tighter">
+            SELECT <span className="text-[#55aa55]">SECTOR</span>
+          </h1>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mt-12">
+            {[
+              { id: 'technical', icon: Cpu, label: 'Technical', color: '#55aa55' },
+              { id: 'non-tech', icon: PenTool, label: 'Creative', color: '#3b82f6' },
+              { id: 'gaming', icon: Gamepad2, label: 'Gaming', color: '#a855f7' }
+            ].map(sector => (
+              <button 
+                key={sector.id} 
+                onClick={() => navigate(`/events?sector=${sector.id}`)} 
+                className="group bg-[#0c0c0c] border border-[#1a1a1a] p-8 md:p-10 rounded-2xl hover:border-white transition-all flex flex-col items-center"
+              >
+                <sector.icon className="mb-4 group-hover:scale-110 transition-transform" size={32} style={{ color: sector.color }} />
+                <h3 className="text-white text-lg uppercase font-bold">{sector.label}</h3>
+              </button>
+            ))}
+          </div>
+
+          <button onClick={handleLogout} className="mt-16 text-gray-600 hover:text-red-500 text-[10px] flex items-center gap-2 mx-auto uppercase transition-colors">
+            <LogOut size={12} /> Log_Out_Session
+          </button>
         </div>
       </div>
     );
   }
 
-  // --- CASE B: COMMAND CENTER (Initialized Users) ---
+  // --- CASE B: MAIN DASHBOARD ---
   return (
-    <div className="min-h-screen bg-[#050505] text-gray-300 font-sans selection:bg-[#55aa55] selection:text-black">
+    <div className="min-h-screen bg-[#080808] text-gray-300  selection:bg-[#55aa55] selection:text-black">
       <PremiumNavbar />
-      <Toaster position="top-center" />
-      
-      {/* SIDEBAR NAVIGATION (Adjusted top to account for Navbar) */}
-      <nav className="fixed left-0 top-20 h-[calc(100vh-5rem)] w-20 border-r border-[#222] bg-[#0a0a0a] flex flex-col items-center py-8 gap-8 z-20">
-        <div className="text-[#55aa55] p-3 border border-[#55aa55]/30 rounded-lg bg-[#55aa55]/5">
-          <LayoutDashboard size={24} />
-        </div>
-        <button onClick={() => window.location.href = 'mailto:support@syntaxia.io'} className="hover:text-[#55aa55] transition-colors p-3" title="Contact Command">
-          <Mail size={24} />
-        </button>
-        <button onClick={handleLogout} className="mt-auto hover:text-red-500 transition-colors p-3" title="Terminate Session">
-          <LogOut size={24} />
-        </button>
-      </nav>
+      <Toaster position="top-right" />
 
-      {/* MAIN CONTENT (Adjusted margin for Navbar) */}
-      <main className="ml-20 pt-28 p-8 lg:p-12">
-        
-        {/* HEADER SECTION */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-16">
-          <div className="flex items-center gap-6">
+      <main className="max-w-6xl mx-auto pt-24 md:pt-32 px-6 pb-20">
+        {/* PROFILE HEADER */}
+        <section className="flex flex-col md:flex-row items-center justify-between gap-8 border-b border-[#1a1a1a] pb-12 mb-12 text-center md:text-left">
+          <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="relative">
-              <img 
-                src={AVATAR_MAP[data.userDetails.avatar] || AVATAR_MAP[1]} 
-                alt="Operative" 
-                className="w-28 h-28 rounded-2xl border-2 border-[#55aa55] object-cover shadow-[0_0_25px_rgba(85,170,85,0.15)]"
+              <img
+                src={AVATAR_MAP[data.userDetails.avatar] || AVATAR_MAP[1]}
+                alt="PFP"
+                className="w-24 h-24 rounded-full border-2 border-[#55aa55] p-1 bg-[#111] object-cover"
               />
-              <div className="absolute -bottom-2 -right-2 bg-[#55aa55] text-black px-2 py-0.5 text-[10px] font-black rounded uppercase tracking-tighter">
-                ACTIVE
-              </div>
+              <div className="absolute bottom-0 right-0 w-6 h-6 bg-[#55aa55] rounded-full border-4 border-[#080808] animate-pulse" />
             </div>
             <div>
-              <div className="text-[10px] text-[#55aa55] font-mono tracking-[0.4em] uppercase mb-1">Operative_Logged_In</div>
-              <h1 className="text-5xl font-black text-white tracking-tighter uppercase italic leading-none">
-                {data.userDetails.name}
-              </h1>
-              <div className="flex items-center gap-3 text-sm text-gray-500 mt-2 font-mono">
-                <span>{data.userDetails.regno}</span>
-                <span className="text-[#222]">|</span>
-                <span className="uppercase">{data.userDetails.college}</span>
-              </div>
+              <h1 className="text-3xl md:text-4xl font-bold text-white uppercase leading-none font-minecraft">{data.userDetails.name}</h1>
+              <p className="text-[#55aa55] text-[10px] md:text-xs mt-3 tracking-widest uppercase opacity-80 font-bold">
+                {data.userDetails.regno} <span className="text-gray-700 mx-2">//</span> {data.userDetails.college}
+              </p>
             </div>
           </div>
-          
-          <div className="bg-[#0a0a0a] border border-[#222] p-6 rounded-2xl flex gap-12">
-            <div>
-              <p className="text-[10px] uppercase text-gray-600 tracking-widest mb-1">Missions</p>
-              <p className="text-3xl font-bold text-white leading-none">{data.participations.length}</p>
+
+          <div className="flex gap-4 w-full md:w-auto">
+            <div className="flex-1 md:flex-none bg-[#0c0c0c] px-8 py-4 border border-[#1a1a1a] rounded-2xl text-center">
+              <p className="text-[9px] text-gray-600 uppercase mb-1 font-bold">Quests_Active</p>
+              <p className="text-2xl font-bold text-white leading-none">{data.participations.length}</p>
             </div>
-            <div className="border-l border-[#222] pl-12">
-              <p className="text-[10px] uppercase text-gray-600 tracking-widest mb-1">Class</p>
-              <p className="text-3xl font-bold text-[#55aa55] leading-none uppercase">{data.userDetails.course}</p>
-            </div>
+            <button 
+              onClick={handleLogout} 
+              className="bg-red-500/5 border border-red-500/20 text-red-500 px-5 rounded-2xl hover:bg-red-500 hover:text-white transition-all flex items-center justify-center"
+            >
+              <LogOut size={20} />
+            </button>
           </div>
-        </header>
+        </section>
 
         {/* ACTIVE PROTOCOLS */}
-        <section>
-          <div className="flex items-center gap-4 mb-8">
-            <ShieldCheck className="text-[#55aa55]" size={20} />
-            <h2 className="text-xl font-black text-white tracking-[0.2em] uppercase">Active_Protocols</h2>
-            <div className="h-px flex-1 bg-[#111]"></div>
+        <section className="space-y-6">
+          <div className="flex items-center gap-4">
+            <h2 className="text-[10px] font-bold text-[#55aa55] uppercase tracking-[0.4em] flex items-center gap-2 whitespace-nowrap">
+              <ShieldCheck size={14} /> Events Participation
+            </h2>
+            <div className="h-[1px] w-full bg-[#1a1a1a]" />
           </div>
 
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {data.participations.map((event) => (
-              <div key={event.participationId} className="group bg-[#0a0a0a] border border-[#222] rounded-2xl overflow-hidden hover:border-[#55aa55]/40 transition-all duration-300">
-                <div className="flex flex-col md:flex-row">
-                  <div className="w-full md:w-52 h-52 relative overflow-hidden">
-                    <img src={event.imageUrl} alt="Mission Intel" className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />
-                    <div className={`absolute top-4 left-4 px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-widest ${
-                      event.status === 'pending' ? 'bg-orange-500 text-black animate-pulse' : 'bg-[#55aa55] text-black'
-                    }`}>
-                      {event.status}
+              <div key={event.participationId} className="bg-[#0c0c0c] border border-[#1a1a1a] p-5 rounded-2xl flex gap-5 group hover:border-[#55aa55]/50 transition-all cursor-default">
+                <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden shrink-0 border border-[#1a1a1a] bg-[#111]">
+                  <img 
+                    src={IMAGE_MAP[event.eventId]}
+                    alt="event"
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                  />
+                </div>
+                <div className="flex-1 flex flex-col justify-between py-1 min-w-0">
+                  <div>
+                    <h3 className="text-white font-bold uppercase text-base md:text-lg leading-tight truncate font-minecraft">
+                      {EVENT_NAME_MAP[event.eventId] || "Unknown_Event"}
+                    </h3>
+                    <div className="inline-block mt-2">
+                      <span className={`text-[8px] px-2 py-0.5 rounded uppercase font-bold border ${
+                        event.status === 'approved' 
+                          ? 'border-[#55aa55]/30 bg-[#55aa55]/10 text-[#55aa55]' 
+                          : 'border-yellow-500/30 bg-yellow-500/10 text-yellow-500'
+                      }`}>
+                        {event.status}
+                      </span>
                     </div>
                   </div>
-                  
-                  <div className="p-8 flex-1 flex flex-col justify-between">
-                    <div>
-                      <div className="text-[10px] text-gray-600 font-mono mb-1 uppercase tracking-tighter italic">Auth_ID: {event.participationId.slice(-8)}</div>
-                      <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-tight italic">Mission_Participated</h3>
-                      <div className="space-y-3">
-                         <p className="text-[10px] text-[#55aa55] uppercase font-bold tracking-widest">Squad_Members</p>
-                         <div className="flex flex-wrap gap-2">
-                            {event.otherParticipants.map((email, i) => (
-                              <span key={i} className="text-[10px] bg-white/5 border border-white/10 px-3 py-1 rounded-sm text-gray-400 font-mono">
-                                {email}
-                              </span>
-                            ))}
-                         </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-8 flex items-center justify-between border-t border-[#111] pt-6">
-                      <div className="flex items-center gap-2 text-gray-500 text-[10px] font-mono tracking-widest">
-                        <Clock size={12} />
-                        {new Date(event.createdAt).toLocaleDateString()}
-                      </div>
-                      <button className="text-[#55aa55] hover:text-white transition-colors flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em]">
-                        View_Intel <ExternalLink size={14} />
-                      </button>
-                    </div>
+                  <div className="flex items-center justify-between mt-4">
+                    <span className="text-[10px] text-gray-600 flex items-center gap-1 font-bold">
+                      <Clock size={10} /> {new Date(event.createdAt).toLocaleDateString()}
+                    </span>
+                    <button className="text-gray-500 hover:text-[#55aa55] transition-colors">
+                      <ExternalLink size={14} />
+                    </button>
                   </div>
                 </div>
               </div>
             ))}
 
             {data.participations.length === 0 && (
-              <div className="col-span-full py-24 border border-dashed border-[#222] rounded-3xl flex flex-col items-center justify-center text-gray-700 bg-[#070707] hover:bg-[#0a0a0a] transition-colors cursor-pointer" onClick={() => navigate('/events')}>
-                <Compass size={48} className="mb-4 opacity-10 animate-spin-slow" />
-                <p className="font-mono tracking-[0.3em] uppercase text-sm">Deployment_Pending</p>
-                <p className="text-[10px] text-gray-800 mt-2">NO_ACTIVE_PROTOCOLS_FOUND_IN_SYSTEM</p>
+              <div 
+                onClick={() => navigate('/events')} 
+                className="col-span-full py-20 border-2 border-dashed border-[#1a1a1a] rounded-3xl flex flex-col items-center justify-center text-gray-600 hover:text-gray-400 hover:border-[#333] cursor-pointer transition-all group"
+              >
+                <Compass size={32} className="mb-4 opacity-20 group-hover:rotate-45 transition-transform" />
+                <p className="text-[10px] uppercase tracking-widest font-bold">No Active Protocols Found</p>
+                <p className="text-[9px] mt-2 text-[#55aa55] uppercase italic underline underline-offset-4">Initialize_Discovery_Mode</p>
               </div>
             )}
           </div>
         </section>
 
-        {/* SYSTEM STATUS FOOTER */}
-        <footer className="mt-24 border-t border-[#111] pt-10 flex flex-col md:flex-row justify-between text-[10px] text-gray-600 font-mono tracking-[0.2em] uppercase">
-          <p>© 2026 SYNTAXIA_CORE // ENCRYPTED_UPLINK</p>
-          <div className="flex gap-8 mt-6 md:mt-0">
-            <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-[#55aa55] rounded-full animate-ping" /> Connection_Active</span>
-            <span>Latency: 24ms</span>
-          </div>
+        <footer className="mt-32 text-center border-t border-[#1a1a1a] pt-8">
+          <p className="text-[9px] text-gray-700 uppercase tracking-[0.5em] font-bold italic">
+            Syntaxia_Core_v2.0 <span className="text-gray-800 mx-2">//</span> Protected_Uplink_Established
+          </p>
         </footer>
       </main>
     </div>
