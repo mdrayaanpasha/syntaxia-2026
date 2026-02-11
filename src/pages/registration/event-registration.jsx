@@ -38,7 +38,7 @@ const EventRegistration = () => {
       const token = localStorage.getItem('token');
       
       if (!token) {
-        localStorage.setItem("redir",`${location.pathname} ${location.search}`)
+        localStorage.setItem("redir",`${location.pathname}${location.search}`)
         return navigate("/auth");
       }
 
