@@ -22,7 +22,12 @@ const TokenHandler = () => {
       setTimeout(() => {
         setStatus('ACCESS_GRANTED_REDIRECTING...');
         setTimeout(() => {
+          let l = localStorage.getItem("redir")
+          if(!l){
             navigate('/'); // Redirect to Home/Dashboard
+          }else{
+            navigate(l);
+          }
         }, 800);
       }, 800);
 

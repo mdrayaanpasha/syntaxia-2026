@@ -1,253 +1,217 @@
-import React, { useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import { UploadCloud, Users, Save, X, Plus, Terminal, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
+import { UploadCloud, Users, X, Plus, User, CheckCircle, Loader2 } from 'lucide-react';
 import axios from 'axios';
-import toast, { Toaster } from 'react-hot-toast'; // 1. Import Toast
+import toast, { Toaster } from 'react-hot-toast';
+import PremiumNavbar from '../home/components/nav';
 
-const AVATAR_MAP = [
-  { id: 1, url: "https://ik.imagekit.io/yylpuqff5/syntaxia-registrations/pfp-1.jpg" },
-  { id: 2, url: "https://ik.imagekit.io/yylpuqff5/syntaxia-registrations/pfp-2.jpg" },
-  { id: 3, url: "https://ik.imagekit.io/yylpuqff5/syntaxia-registrations/pfp-3.jpg" },
-  { id: 4, url: "https://ik.imagekit.io/yylpuqff5/syntaxia-registrations/pfp-4.jpg" }
-];
+// --- Skeleton Component ---
+const Skeleton = () => (
+  <div className="max-w-xl mx-auto space-y-8 animate-pulse">
+    <div className="h-10 bg-[#1a1a1a] w-3/4 mx-auto rounded-lg" />
+    <div className="space-y-6">
+      <div className="h-32 bg-[#111] border border-[#222] rounded-xl" />
+      <div className="h-64 bg-[#111] border border-[#222] rounded-xl" />
+      <div className="h-14 bg-[#1a1a1a] rounded-xl" />
+    </div>
+  </div>
+);
 
 const EventRegistration = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const eventName = searchParams.get('event-name') || 'UNKNOWN_PROTOCOL';
-  const API_BASE_URL = "https://note-taking-server-kappa.vercel.app/";
-  const eventId = eventName;
-
-  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const eventName = searchParams.get('event-name') || 'EVENT';
+  const API_BASE_URL = "https://note-taking-server-kappa.vercel.app";
   
-  const [profile, setProfile] = useState({
-    name: '',
-    college: '',
-    regno: '',
-    course: '',
-    avatar: 1 
-  });
-
+  const [loading, setLoading] = useState(false);
+  const [fetchingUser, setFetchingUser] = useState(true);
+  const [hasExistingProfile, setHasExistingProfile] = useState(false);
+  
+  const [profile, setProfile] = useState({ name: '', college: '', regno: '', course: '', avatar: 1 });
   const [file, setFile] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [newParticipant, setNewParticipant] = useState('');
 
-  const handleProfileChange = (e) => {
-    setProfile({ ...profile, [e.target.name]: e.target.value });
-  };
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        localStorage.setItem("redir",encodeURIComponent(location.pathname + location.search))
+        return navigate("/auth");
+      }
 
-  const handleFileChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
-      toast.success('File uploaded successfully');
-    }
-  };
+      try {
+        const { data } = await axios.get(`${API_BASE_URL}/api/user`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (data.user.userDetails) {
+          setProfile(data.user.userDetails);
+          setHasExistingProfile(true);
+        }
+      } catch (err) {
+        console.error("Session fetch failed");
+      } finally {
+        setTimeout(() => setFetchingUser(false), 800); // Slight delay for smoother feel
+      }
+    };
+    fetchUserData();
+  }, [navigate, location]);
 
   const addParticipant = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-    if (!newParticipant.trim()) return;
-
-    if (emailRegex.test(newParticipant)) {
-      if (participants.includes(newParticipant)) {
-        toast.error('Member already added'); // 2. Duplicate Check
-        return;
-      }
-      setParticipants([...participants, newParticipant]);
-      setNewParticipant('');
-      toast.success('Teammate added');
-    } else {
-      toast.error('Invalid email format'); // 3. Validation Toast
-    }
+    if (!newParticipant.includes('@')) return toast.error('Invalid email');
+    if (participants.includes(newParticipant)) return toast.error('Already added');
+    setParticipants([...participants, newParticipant]);
+    setNewParticipant('');
   };
 
-  const removeParticipant = (index) => {
-    setParticipants(participants.filter((_, i) => i !== index));
-    toast('Member removed', { icon: '🗑️' });
-  };
+  const eventData = {
+  "cmlgm1wy10001wpij8etyb11w": "BGMI",
+  "cmlgm1wy10002wpij5m9w4zjl": "LOCK // LOAD",
+  "cmlgm1wy10003wpijxnoslqtr": "CTF (CAPTURE THE FLAG)",
+  "cmlgm1wy10005wpijzyma7iiu": "Redstone Run",
+  "cmlgm1wy10006wpijo6lm39g3": "DATA DETECTIVE (SQL)",
+  "cmlgm1wy10004wpij622cseeu": "IT QUIZ",
+  "cmlgm1wy10007wpijl52gfwxj": "IPL AUCTION",
+  "cmlgm1wy10008wpij9wkl7ggo": "ANIME QUIZ",
+  "cmlgm1wy10009wpij3ufrl65m": "Mine Your Way Out",
+  "cmlgm1wy1000awpijjbkedi4h": "BUSINESS REVIVAL",
+  "cmlgm1wy1000bwpij0508s1t8": "REEL MAKING"
+}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!file) return toast.error("Upload proof of work first");
+    
     setLoading(true);
-    const loadingToast = toast.loading('Initializing uplink...');
-
+    const loadId = toast.loading('Registering...');
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
 
     try {
-      // Step 1
-      toast.loading('Updating player stats...', { id: loadingToast });
-      await axios.post(`${API_BASE_URL}/api/user/details`, profile, { headers });
+      if (!hasExistingProfile) {
+        await axios.post(`${API_BASE_URL}/api/user/details`, profile, { headers });
+      }
 
-      // Step 2
-      toast.loading('Uploading proof of work...', { id: loadingToast });
       const formData = new FormData();
-      formData.append('eventId', eventId);
+      formData.append('eventId', eventName);
       formData.append('file', file);
-      participants.forEach((p) => formData.append('otherParticipants', p));
+      participants.forEach(p => formData.append('otherParticipants', p));
 
       await axios.post(`${API_BASE_URL}/api/user/register-event`, formData, { headers });
-
-      toast.success('Registration Complete!', { id: loadingToast });
+      toast.success('Registration successful!', { id: loadId });
       setTimeout(() => navigate('/dashboard'), 1500);
     } catch (err) {
-      const serverMessage = err.response?.data?.message;
-      toast.error(serverMessage || 'Transmission failed', { id: loadingToast });
+      toast.error(err.response?.data?.message || 'Failed', { id: loadId });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#050505] text-gray-300 font-sans selection:bg-[#55aa55] selection:text-black flex justify-center py-10 px-4">
+    <div className=" min-h-screen bg-[#0a0a0a] text-gray-200 py-12 px-4 font-sans">
+      <Toaster position="top-right" />
       
-      {/* 4. Add the Toaster Container */}
-      <Toaster position="top-center" reverseOrder={false} toastOptions={{
-        style: {
-          background: '#111',
-          color: '#fff',
-          border: '1px solid #333',
-          fontSize: '12px',
-          letterSpacing: '0.1em'
-        }
-      }} />
+      {fetchingUser ? (
+        <Skeleton />
+      ) : (
+        <>
+        <PremiumNavbar/>
+        <div className="max-w-xl mt-10 mx-auto space-y-8 transition-opacity duration-500 opacity-100">
+          
+          <header className="text-center space-y-1 font-minecraft">
+            <h1 className="text-3xl font-black text-white uppercase italic">
+              <span className="text-[#55aa55]">#</span> {eventData[eventName]} - Registration
+            </h1>
+            <p className="text-gray-500 text-[10px] tracking-[0.3em] uppercase">Secure Uplink Established</p>
+          </header>
 
-      <div className="fixed inset-0 pointer-events-none z-0">
-         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#55aa55] to-transparent opacity-50"></div>
-         <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#55aa55] blur-[150px] opacity-10 rounded-full"></div>
-      </div>
-
-      <div className="relative z-10 w-full max-w-2xl flex flex-col gap-6">
-        <div className="border-l-4 border-[#55aa55] pl-6 py-2 bg-white/5 backdrop-blur-sm">
-          <h1 className="text-3xl font-bold text-white tracking-tighter uppercase">
-            Protocol: <span className="text-[#55aa55]">{eventName}</span>
-          </h1>
-          <p className="text-xs tracking-[0.3em] text-gray-500 mt-1">SECURE_REGISTRATION_UPLINK</p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-          {/* PLAYER STATS SECTION */}
-          <div className="p-6 bg-[#111] border border-[#222] rounded-lg relative group">
-            <div className="absolute -top-3 left-4 bg-[#050505] px-2 text-[#55aa55] text-xs font-bold tracking-widest flex items-center gap-2">
-              <Terminal size={12} /> PLAYER_STATS
-            </div>
-
-            <div className="mb-8 mt-2">
-              <label className="text-xs uppercase tracking-wider text-gray-500 block mb-4">Select Identity Avatar</label>
-              <div className="flex flex-wrap gap-4">
-                {AVATAR_MAP.map((avatarObj) => (
-                  <button
-                    key={avatarObj.id}
-                    type="button"
-                    onClick={() => {
-                      setProfile({ ...profile, avatar: avatarObj.id });
-                      toast.success(`Avatar ${avatarObj.id} selected`, { id: 'avatar-selection' });
-                    }}
-                    className={`relative w-20 h-20 rounded-xl overflow-hidden border-2 transition-all duration-300 ${
-                      profile.avatar === avatarObj.id 
-                      ? 'border-[#55aa55] scale-110 shadow-[0_0_20px_rgba(85,170,85,0.4)]' 
-                      : 'border-[#333] hover:border-[#444]'
-                    }`}
-                  >
-                    <img src={avatarObj.url} alt={`Avatar ${avatarObj.id}`} className="w-full h-full object-cover" />
-                    {profile.avatar === avatarObj.id && (
-                      <div className="absolute inset-0 bg-[#55aa55]/20 flex items-center justify-center">
-                        <CheckCircle size={24} className="text-white" />
-                      </div>
-                    )}
-                  </button>
-                ))}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Identity Card */}
+            <div className="bg-[#111]/50 border border-[#222] p-5 rounded-xl">
+              <div className="flex items-center gap-2 text-gray-500 mb-4 font-bold text-[10px] tracking-widest uppercase">
+                <User size={14} className="text-[#55aa55]" /> Profile Context
               </div>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <label className="text-xs uppercase tracking-wider text-gray-500">Codename (Name)</label>
-                <input type="text" name="name" required value={profile.name} onChange={handleProfileChange} className="w-full bg-black/50 border border-[#333] p-3 text-white focus:border-[#55aa55] focus:outline-none transition-colors" />
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs uppercase tracking-wider text-gray-500">Guild (College)</label>
-                <input type="text" name="college" required value={profile.college} onChange={handleProfileChange} className="w-full bg-black/50 border border-[#333] p-3 text-white focus:border-[#55aa55] focus:outline-none transition-colors" />
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs uppercase tracking-wider text-gray-500">Reg. ID</label>
-                <input type="text" name="regno" required value={profile.regno} onChange={handleProfileChange} className="w-full bg-black/50 border border-[#333] p-3 text-white focus:border-[#55aa55] focus:outline-none transition-colors" />
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs uppercase tracking-wider text-gray-500">Class (Course)</label>
-                <input type="text" name="course" required value={profile.course} onChange={handleProfileChange} className="w-full bg-black/50 border border-[#333] p-3 text-white focus:border-[#55aa55] focus:outline-none transition-colors" />
-              </div>
-            </div>
-          </div>
 
-          {/* SQUAD MANIFEST SECTION */}
-          <div className="p-6 bg-[#111] border border-[#222] rounded-lg relative">
-             <div className="absolute -top-3 left-4 bg-[#050505] px-2 text-[#55aa55] text-xs font-bold tracking-widest flex items-center gap-2">
-              <Users size={12} /> SQUAD_MANIFEST
-            </div>
-
-            <div className="flex gap-2 mb-4">
-              <input 
-                type="email" 
-                placeholder="Add Teammate Email"
-                value={newParticipant}
-                onChange={(e) => setNewParticipant(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addParticipant())}
-                className="flex-1 bg-black/50 border border-[#333] p-3 text-white focus:border-[#55aa55] focus:outline-none"
-              />
-              <button type="button" onClick={addParticipant} className="bg-[#222] hover:bg-[#333] text-white p-3 border border-[#333] transition-colors">
-                <Plus size={20} />
-              </button>
-            </div>
-
-            {participants.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-6">
-                {participants.map((p, i) => (
-                  <div key={i} className="flex items-center gap-2 bg-[#55aa55]/10 border border-[#55aa55]/30 px-3 py-1 text-sm text-[#55aa55]">
-                    <span>{p}</span>
-                    <button type="button" onClick={() => removeParticipant(i)} className="hover:text-white"><X size={14} /></button>
+              {hasExistingProfile ? (
+                <div className="flex items-center gap-4 bg-[#55aa55]/5 p-3 rounded-lg border border-[#55aa55]/10">
+                  <div className="w-10 h-10 rounded-full border border-[#55aa55]/50 overflow-hidden bg-[#222]">
+                     <img src={`https://ik.imagekit.io/yylpuqff5/syntaxia-registrations/pfp-${profile.avatar}.jpg`} alt="" />
                   </div>
-                ))}
-              </div>
-            )}
-
-            <div className="h-px w-full bg-[#222] my-6"></div>
-
-             <div className="space-y-2">
-                <div className="text-xs uppercase tracking-wider text-gray-500 flex items-center gap-2">
-                    <UploadCloud size={14} /> PROOF_OF_WORK (Screenshot)
+                  <div className="flex-1">
+                    <p className="text-sm text-white font-semibold">{profile.name}</p>
+                    <p className="text-[10px] text-gray-500 uppercase">{profile.regno} • {profile.college}</p>
+                  </div>
+                  <CheckCircle className="text-[#55aa55]" size={18} />
                 </div>
-                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-[#333] border-dashed rounded-lg cursor-pointer bg-black/30 hover:bg-black/50 hover:border-[#55aa55] transition-all group">
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        {file ? (
-                           <div className="text-[#55aa55] flex flex-col items-center">
-                              <CheckCircle size={32} className="mb-2" />
-                              <p className="text-sm">{file.name}</p>
-                           </div>
-                        ) : (
-                           <>
-                              <UploadCloud className="w-8 h-8 mb-3 text-gray-500 group-hover:text-white transition-colors" />
-                              <p className="text-sm text-gray-500">Click to upload or drag and drop</p>
-                           </>
-                        )}
-                    </div>
-                    <input type="file" className="hidden" onChange={handleFileChange} required />
-                </label>
-             </div>
-          </div>
+              ) : (
+                <div className="grid gap-3">
+                  <input required placeholder="Name" className="bg-white/5 border border-[#222] p-2.5 rounded-lg text-sm focus:border-[#55aa55] outline-none transition-all" onChange={e => setProfile({...profile, name: e.target.value})} />
+                  <input required placeholder="College" className="bg-white/5 border border-[#222] p-2.5 rounded-lg text-sm focus:border-[#55aa55] outline-none transition-all" onChange={e => setProfile({...profile, college: e.target.value})} />
+                  <div className="grid grid-cols-2 gap-3">
+                    <input required placeholder="Reg No" className="bg-white/5 border border-[#222] p-2.5 rounded-lg text-sm focus:border-[#55aa55] outline-none transition-all" onChange={e => setProfile({...profile, regno: e.target.value})} />
+                    <input required placeholder="Course" className="bg-white/5 border border-[#222] p-2.5 rounded-lg text-sm focus:border-[#55aa55] outline-none transition-all" onChange={e => setProfile({...profile, course: e.target.value})} />
+                  </div>
+                </div>
+              )}
+            </div>
 
-          <button 
-            type="submit" 
-            disabled={loading}
-            className="group relative w-full py-4 bg-[#55aa55] hover:bg-[#66cc66] text-black font-bold tracking-[0.2em] transition-all overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-             <span className="relative flex items-center justify-center gap-3">
-                {loading ? 'PROCESSING...' : <> <Save size={18} /> INITIATE_REGISTRATION </>}
-             </span>
-          </button>
-        </form>
-      </div>
+            {/* Logistics Card */}
+            <div className="bg-[#111]/50 border border-[#222] p-5 rounded-xl space-y-5">
+              <div className="flex items-center gap-2 text-gray-500 font-bold text-[10px] tracking-widest uppercase">
+                <Users size={14} className="text-[#55aa55]" /> Squad & Manifest
+              </div>
+
+              <div className="flex gap-2">
+                <input 
+                  type="email" 
+                  placeholder="Teammate Email" 
+                  value={newParticipant} 
+                  onChange={e => setNewParticipant(e.target.value)}
+                  className="flex-1 bg-white/5 border border-[#222] rounded-lg px-4 py-2 text-sm focus:border-[#55aa55] outline-none"
+                />
+                <button type="button" onClick={addParticipant} className="px-3 bg-[#222] hover:bg-[#333] rounded-lg border border-[#333] transition-colors"><Plus size={18}/></button>
+              </div>
+              
+              {participants.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {participants.map((email, i) => (
+                    <span key={i} className="flex items-center gap-2 bg-[#55aa55]/10 px-3 py-1 rounded-md text-[11px] border border-[#55aa55]/20 text-[#55aa55]">
+                      {email} <X size={12} className="cursor-pointer hover:text-white" onClick={() => setParticipants(participants.filter((_, idx) => idx !== i))} />
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <div className="space-y-2">
+                <label className={`flex flex-col items-center justify-center border border-dashed rounded-xl p-6 transition-all cursor-pointer ${file ? 'border-[#55aa55] bg-[#55aa55]/5' : 'border-[#333] hover:border-[#444]'}`}>
+                  {file ? (
+                    <div className="text-center">
+                      <CheckCircle className="mx-auto text-[#55aa55] mb-2" size={24} />
+                      <p className="text-[11px] text-white font-mono">{file.name}</p>
+                    </div>
+                  ) : (
+                    <>
+                      <UploadCloud className="text-gray-600 mb-2" size={24} />
+                      <p className="text-[10px] text-gray-500 uppercase tracking-tighter">Attach Payment Screenshot</p>
+                    </>
+                  )}
+                  <input type="file" className="hidden" onChange={e => setFile(e.target.files[0])} accept="image/*" />
+                </label>
+              </div>
+            </div>
+
+            <button 
+              disabled={loading}
+              className="w-full py-3.5 rounded-xl bg-[#55aa55] hover:bg-[#66cc66] text-[#0a0a0a] font-bold uppercase text-xs tracking-widest shadow-lg shadow-[#55aa55]/5 active:scale-[0.99] transition-all disabled:opacity-50"
+            >
+              {loading ? <Loader2 className="animate-spin mx-auto" size={18} /> : 'Submit Protocol'}
+            </button>
+          </form>
+        </div>
+        </>
+      )}
     </div>
   );
 };
