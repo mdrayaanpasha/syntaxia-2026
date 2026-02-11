@@ -44,7 +44,7 @@ const HeroSection = () => {
             </h2>
             <div className="hidden md:block h-2 w-2 bg-[#ffcc00] rotate-45"></div>
             <p className="max-w-xs md:max-w-sm text-gray-500 font-mono text-[10px] md:text-xs uppercase tracking-widest leading-relaxed">
-              The premier algorithmic conquest. <br className="hidden md:block" /> Initialize your terminal for entry.
+              The premier conquest. <br className="hidden md:block" /> Initialize your terminal for entry.
             </p>
           </div>
         </div>
