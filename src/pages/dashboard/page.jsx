@@ -31,20 +31,19 @@ const EVENT_NAME_MAP = {
 };
 
 
-const IMAGE_MAP = {
-  "cmlgm1wy10001wpij8etyb11w": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/bgmi_bg.png",
-  "cmlgm1wy10002wpij5m9w4zjl": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/val_bg.png",
+const EVENT_IMAGE_MAP = {
+  "cmlgm1wy10001wpij8etyb11w": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/BGMI.png",
+  "cmlgm1wy10002wpij5m9w4zjl": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/fortnite.png",
   "cmlgm1wy10003wpijxnoslqtr": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/CTF.png",
-  "cmlgm1wy10005wpijzyma7iiu": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/code_bg.png",
-  "cmlgm1wy10006wpijo6lm39g3": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/sql_bg.png",
-  "cmlgm1wy10004wpij622cseeu": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/quiz_bg.png",
-  "cmlgm1wy10007wpijl52gfwxj": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/ipl_bg.png",
-  "cmlgm1wy10008wpij9wkl7ggo": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/anime_bg.png",
-  "cmlgm1wy10009wpij3ufrl65m": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/escape_bg.png",
-  "cmlgm1wy1000awpijjbkedi4h": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/biz_bg.png",
-  "cmlgm1wy1000bwpij0508s1t8": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/reel_bg.png"
-}
-
+  "cmlgm1wy10005wpijzyma7iiu": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/coding-debugging.png",
+  "cmlgm1wy10006wpijo6lm39g3": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/Data-Detective.png",
+  "cmlgm1wy10004wpij622cseeu": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/IT_QUIZ.png",
+  "cmlgm1wy10007wpijl52gfwxj": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/Ipl-Auction.png",
+  "cmlgm1wy10008wpij9wkl7ggo": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/Anime-Quiz.png",
+  "cmlgm1wy10009wpij3ufrl65m": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/Escape-Room.png",
+  "cmlgm1wy1000awpijjbkedi4h": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/Bs-Event.png",
+  "cmlgm1wy1000bwpij0508s1t8": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/Reels-IG.png"
+};
 // --- Better Skeleton Component ---
 const DashboardSkeleton = () => (
   <div className="max-w-6xl mx-auto pt-32 px-6 animate-pulse font-minecraft">
