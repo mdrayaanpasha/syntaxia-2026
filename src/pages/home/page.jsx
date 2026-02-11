@@ -13,11 +13,11 @@ export default function HomePage() {
         <>
         <Navbar />
         <HeroSection />
-        {/* <AboutSection/> */}
         <EventsSection/>
         <RegistrationSection/>
         {/* <TeamSection/> */}
         <PrizesSection/>
+        <AboutSection/>
         <ContactSection/>
         </>
     );

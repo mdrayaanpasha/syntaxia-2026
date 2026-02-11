@@ -3,7 +3,7 @@ import { Mail, MapPin, Phone, Instagram, Linkedin, MessageSquare, Globe } from '
 
 const ContactSection = () => {
   return (
-    <section id="contact" className="relative py-20 md:py-32 px-4 md:px-6 bg-[#030303] font-minecraft overflow-hidden">
+    <section id="contact" className="relative py-20 md:py-32 px-4 md:px-6 bg-[#030303]  overflow-hidden">
       
       <div className="max-w-6xl mx-auto relative z-10">
         
@@ -27,54 +27,64 @@ const ContactSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 px-0.5 bg-white/5 border border-white/5">
           
           {/* TRANSMISSION CHANNELS */}
-          <div className="bg-[#050505] p-8 md:p-16 space-y-10 md:space-y-12">
-            <h3 className="text-gray-500 font-mono text-[9px] md:text-[10px] uppercase tracking-[0.4em] mb-8 md:mb-12 flex items-center gap-3">
-              <MessageSquare size={14} /> Communication_Lines
-            </h3>
 
-            <div className="space-y-8 md:space-y-10">
-              {/* Helpline */}
-              <div className="group flex flex-col sm:flex-row sm:items-center gap-4 md:gap-8">
-                <div className="w-12 h-12 md:w-14 md:h-14 border border-white/10 flex items-center justify-center bg-white/5 text-cyan-400 group-hover:border-cyan-400 transition-colors shrink-0">
-                  <Phone size={20} md:size={24} strokeWidth={1.5} />
-                </div>
-                <div>
-                  <p className="text-gray-600 font-mono text-[8px] md:text-[9px] uppercase tracking-widest mb-1">Helpline_Uplink</p>
-                  <p className="text-lg md:text-2xl lg:text-3xl font-black text-white italic tracking-tighter break-words">
-                    +91 94060 26700<br className="sm:hidden" />
-                    <span className="hidden sm:inline">, </span>
-                    +91 91482 66991
-                  </p>
-                </div>
-              </div>
+{/* COMMUNICATION_LINES - Optimized for Mobile & Clarity */}
+<div className="bg-[#050505] p-8 md:p-16 space-y-12">
+  <h3 className="text-[#55aa55] font-minecraft text-[10px] uppercase tracking-[0.4em] mb-12 flex items-center gap-3">
+    <MessageSquare size={14} /> Communication_Lines
+  </h3>
 
-              {/* Email */}
-              <div className="group flex flex-col sm:flex-row sm:items-center gap-4 md:gap-8">
-                <div className="w-12 h-12 md:w-14 md:h-14 border border-white/10 flex items-center justify-center bg-white/5 text-[#55aa55] group-hover:border-[#55aa55] transition-colors shrink-0">
-                  <Mail size={20} md:size={24} strokeWidth={1.5} />
-                </div>
-                <div>
-                  <p className="text-gray-600 font-mono text-[8px] md:text-[9px] uppercase tracking-widest mb-1">Email_Transmission</p>
-                  <p className="text-lg md:text-2xl lg:text-3xl font-black text-white italic tracking-tighter break-all">
-                    cybernetics.sju@gmail.com
-                  </p>
-                </div>
-              </div>
+  <div className="space-y-12">
+    {/* Helpline - Monospace font for perfect number alignment */}
+    <div className="group flex items-start gap-6">
+      <div className="w-12 h-12 border border-white/10 flex items-center justify-center bg-white/5 text-cyan-400 group-hover:border-cyan-400 transition-all shrink-0">
+        <Phone size={20} strokeWidth={1.5} />
+      </div>
+      <div>
+        <p className="text-gray-500 font-minecraft text-[9px] uppercase tracking-widest mb-3">Helpline_Uplink</p>
+        <div className="space-y-1">
+          <a href="tel:+919406026700" className="block text-xl md:text-3xl font-bold text-white hover:text-cyan-400 transition-colors font-sans tracking-tight">
+            +91 94060 26700
+          </a>
+          <a href="tel:+919148266991" className="block text-xl md:text-3xl font-bold text-white hover:text-cyan-400 transition-colors font-sans tracking-tight">
+            +91 91482 66991
+          </a>
+        </div>
+      </div>
+    </div>
 
-              {/* Venue */}
-              <div className="group flex flex-col sm:flex-row sm:items-center gap-4 md:gap-8">
-                <div className="w-12 h-12 md:w-14 md:h-14 border border-white/10 flex items-center justify-center bg-white/5 text-[#ffcc00] group-hover:border-[#ffcc00] transition-colors shrink-0">
-                  <MapPin size={20} md:size={24} strokeWidth={1.5} />
-                </div>
-                <div>
-                  <p className="text-gray-600 font-mono text-[8px] md:text-[9px] uppercase tracking-widest mb-1">Physical_Location</p>
-                  <p className="text-sm md:text-base font-black uppercase tracking-widest opacity-70 leading-relaxed text-white">
-                    St. Joseph's University, <br /> Bengaluru
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+    {/* Email - Clean Sans font to prevent letter bleeding */}
+    <div className="group flex items-start gap-6">
+      <div className="w-12 h-12 border border-white/10 flex items-center justify-center bg-white/5 text-[#55aa55] group-hover:border-[#55aa55] transition-all shrink-0">
+        <Mail size={20} strokeWidth={1.5} />
+      </div>
+      <div>
+        <p className="text-gray-500 font-minecraft text-[9px] uppercase tracking-widest mb-3">Email_Transmission</p>
+        <a href="mailto:cybernetics.sju@gmail.com" className="text-lg md:text-2xl lg:text-3xl font-semibold text-white hover:text-[#55aa55] transition-colors font-sans tracking-tight block break-all">
+          cybernetics.sju@gmail.com
+        </a>
+      </div>
+    </div>
+
+    {/* Venue - Clean Sans font for address details */}
+    <div className="group flex items-start gap-6">
+      <div className="w-12 h-12 border border-white/10 flex items-center justify-center bg-white/5 text-[#ffcc00] group-hover:border-[#ffcc00] transition-all shrink-0">
+        <MapPin size={20} strokeWidth={1.5} />
+      </div>
+      <div>
+        <p className="text-gray-500 font-minecraft text-[9px] uppercase tracking-widest mb-3">Physical_Location</p>
+        <div className="font-sans">
+          <p className="font-minecraft md:text-xl font-bold text-white uppercase tracking-wide">
+            St. Joseph's University
+          </p>
+          <p className="text-gray-400 text-sm md:text-lg leading-relaxed mt-1">
+            Langford Road, Bengaluru, Karnataka 560027
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
           {/* SOCIAL CHANNELS */}
           <div className="bg-[#050505] p-8 md:p-16 flex flex-col">
@@ -83,12 +93,12 @@ const ContactSection = () => {
             </h3>
 
             <div className="grid grid-cols-1 gap-1 bg-white/5 flex-grow">
-              <a href="https://instagram.com/cybernetics_sju" className="bg-[#080808] flex items-center justify-between p-6 md:p-8 group hover:bg-[#E1306C]/10 transition-all">
+              <a href="https://instagram.com/cybernetics.sju" className="bg-[#080808] flex items-center justify-between p-6 md:p-8 group hover:bg-[#E1306C]/10 transition-all">
                 <div className="flex items-center gap-4 md:gap-6">
                   <Instagram className="text-gray-600 group-hover:text-[#E1306C]" size={20} md:size={24} />
                   <span className="text-white font-black italic uppercase text-lg md:text-xl tracking-tighter">Instagram</span>
                 </div>
-                <span className="text-gray-700 font-mono text-[8px] md:text-[10px] group-hover:text-white transition-colors">@cybernetics_sju</span>
+                <span className="text-gray-700 font-mono text-[8px] md:text-[10px] group-hover:text-white transition-colors">@cybernetics.sju</span>
               </a>
 
               <a href="https://linkedin.com/company/cybernetics-sju" className="bg-[#080808] flex items-center justify-between p-6 md:p-8 group hover:bg-[#0077B5]/10 transition-all">
