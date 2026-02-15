@@ -62,7 +62,7 @@ const EventsSelection = () => {
           {categories.map((cat) => (
             <button 
               key={cat.id}
-              onClick={() => navigate(`/events?sector=${cat.id}`)}
+              onClick={() => window.location.href=`/events?sector=${cat.id}`}
               className={`group relative h-[450px] bg-[#0a0a0a] border-x-[4px] border-b-[10px] border-black transition-all duration-300 hover:-translate-y-3 overflow-hidden ${cat.glow}`}
             >
               {/* Background Image with Overlay */}

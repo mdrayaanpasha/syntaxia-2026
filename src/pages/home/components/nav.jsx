@@ -36,8 +36,8 @@ const PremiumNavbar = () => {
         <div className="hidden lg:flex items-center gap-2">
           <div className="flex items-center border-r border-white/5 pr-6 mr-6">
             <NavItem icon={<Sword size={14}/>} label="EVENTS" href="/events" />
-            <NavItem icon={<Map size={14}/>} label="SCHEDULE" href="#prizes" />
-            <NavItem icon={<Mail size={14}/>} label="CONTACT" href="#contact" />
+            <NavItem icon={<Map size={14}/>} label="SCHEDULE" href="/schedule" />
+            <NavItem icon={<Mail size={14}/>} label="CONTACT" href="/#contact" />
           </div>
 
           <button 
@@ -69,8 +69,8 @@ const PremiumNavbar = () => {
           
           <div className="flex flex-col gap-6">
             <MobileLink label="EVENTS" href="/events" onClick={() => setIsOpen(false)} />
-            <MobileLink label="SCHEDULE" href="#prizes" onClick={() => setIsOpen(false)} />
-            <MobileLink label="CONTACT" href="#contact" onClick={() => setIsOpen(false)} />
+            <MobileLink label="SCHEDULE" href="/schedule" onClick={() => setIsOpen(false)} />
+            <MobileLink label="CONTACT" href="/#contact" onClick={() => setIsOpen(false)} />
           </div>
           
           <button 

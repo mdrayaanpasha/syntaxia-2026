@@ -8,8 +8,6 @@ const GOOGLE_AUTH_URL = `${API_BASE_URL}/api/auth/google`;
   const [isHovering, setIsHovering] = useState(false);
 
   const handleGoogleLogin = () => {
-    // The visual "pressed" effect happens via CSS active states
-    // This redirects to your backend
     window.location.href = GOOGLE_AUTH_URL;
   };
 
