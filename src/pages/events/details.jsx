@@ -42,7 +42,7 @@ const EventDetailsPage = () => {
       <div className="text-center border-2 border-dashed border-white/10 p-20">
          <ShieldAlert size={48} className="text-red-500 mx-auto mb-6" />
          <p className="text-white text-xl uppercase tracking-widest">Dossier_Not_Found</p>
-         <button onClick={() => navigate('/events')} className="mt-8 text-[#55aa55] text-xs underline">/return_to_hub</button>
+         <button onClick={() => window.location.href='/events'} className="mt-8 text-[#55aa55] text-xs underline">/return_to_hub</button>
       </div>
     </div>
   );
@@ -156,7 +156,7 @@ const EventDetailsPage = () => {
         <div className="fixed bottom-0 left-0 w-full p-6 md:p-10 z-[60] pointer-events-none">
           <div className="max-w-7xl mx-auto flex justify-end">
             <button 
-              onClick={() => navigate(`/register?event-name=${quest.dbId}`)}
+              onClick={() => window.location.href=`/register?event-name=${quest.dbId}`}
               className="pointer-events-auto w-full md:w-[450px] h-20 md:h-24 bg-[#55aa55]/90 backdrop-blur-2xl border-x-[4px] border-b-[8px] border-black shadow-[0_25px_60px_rgba(0,0,0,0.6)] group relative overflow-hidden transition-all active:translate-y-1 active:border-b-4"
             >
               <div className="relative z-10 flex items-center justify-center gap-8 text-black">

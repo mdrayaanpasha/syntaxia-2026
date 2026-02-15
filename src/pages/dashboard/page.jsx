@@ -121,7 +121,7 @@ const Dashboard = () => {
             ].map(sector => (
               <button 
                 key={sector.id} 
-                onClick={() => navigate(`/events?sector=${sector.id}`)} 
+                onClick={() => window.location.href=`/events?sector=${sector.id}`} 
                 className="group bg-[#0c0c0c] border border-[#1a1a1a] p-8 md:p-10 rounded-2xl hover:border-white transition-all flex flex-col items-center"
               >
                 <sector.icon className="mb-4 group-hover:scale-110 transition-transform" size={32} style={{ color: sector.color }} />
@@ -226,7 +226,7 @@ const Dashboard = () => {
 
             {data.participations.length === 0 && (
               <div 
-                onClick={() => navigate('/events')} 
+                onClick={() => window.location.href='/events'} 
                 className="col-span-full py-20 border-2 border-dashed border-[#1a1a1a] rounded-3xl flex flex-col items-center justify-center text-gray-600 hover:text-gray-400 hover:border-[#333] cursor-pointer transition-all group"
               >
                 <Compass size={32} className="mb-4 opacity-20 group-hover:rotate-45 transition-transform" />

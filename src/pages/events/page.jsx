@@ -76,7 +76,7 @@ const EventsSection = () => {
                   setFilter(cat);
                   // Sync URL when clicking filter buttons
                   const urlParam = cat === "All" ? "all" : cat.toLowerCase();
-                  navigate(`/events?sector=${urlParam}`);
+                  window.location.href=`/events?sector=${urlParam}`;
                 }}
                 className={`px-6 py-2 text-[10px] font-black tracking-widest transition-all uppercase italic ${
                   filter === cat ? 'bg-[#55aa55] text-black' : 'text-gray-500 hover:text-white hover:bg-white/5'
@@ -93,7 +93,7 @@ const EventsSection = () => {
           {filteredQuests.map((quest) => (
             <div 
               key={quest.id} 
-              onClick={() => navigate(`/event-details?id=${quest.dbId}`)}
+              onClick={() => window.location.href=`/event-details?id=${quest.dbId}`}
               className="group relative h-80 bg-[#050505] overflow-hidden cursor-pointer border border-transparent hover:border-[#55aa55]/50 transition-all"
             >
               {/* IMAGE */}
