@@ -192,7 +192,7 @@ const Dashboard = () => {
               <div key={event.participationId} className="bg-[#0c0c0c] border border-[#1a1a1a] p-5 rounded-2xl flex gap-5 group hover:border-[#55aa55]/50 transition-all cursor-default">
                 <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden shrink-0 border border-[#1a1a1a] bg-[#111]">
                   <img 
-                    src={IMAGE_MAP[event.eventId]}
+                    src={EVENT_IMAGE_MAP[event.eventId]}
                     alt="event"
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
                   />
