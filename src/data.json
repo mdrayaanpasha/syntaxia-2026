@@ -18,7 +18,7 @@
     {
       "id": 1,
       "dbId": "cmlgm1wy10001wpij8etyb11w",
-      "title": "BGMI",
+      "title": "BGMI WARS",
       "cat": "Gaming",
       "desc": "100-player Battle Royale showdown.",
       "day": "DAY 2",
@@ -74,7 +74,7 @@
     {
       "id": 3,
       "dbId": "cmlgm1wy10003wpijxnoslqtr",
-      "title": "CTF",
+      "title": "FLAG FEST",
       "cat": "Technical",
       "desc": "Beginner-friendly Capture The Flag.",
       "day": "DAY 1",
@@ -130,7 +130,7 @@
     {
       "id": 5,
       "dbId": "cmlgm1wy10006wpijo6lm39g3",
-      "title": "DATA DETECTIVE",
+      "title": "MINECRAFT MURDER FILES",
       "cat": "Technical",
       "desc": "Solve a mystery with SQL queries.",
       "day": "DAY 2",
@@ -156,7 +156,7 @@
     {
       "id": 6,
       "dbId": "cmlgm1wy10004wpij622cseeu",
-      "title": "IT QUIZ",
+      "title": "STEVE'S TRIAL",
       "cat": "Technical",
       "desc": "Minecraft-themed survival IT quiz.",
       "day": "DAY 2",
@@ -237,7 +237,7 @@
     {
       "id": 9,
       "dbId": "cmlgm1wy10009wpij3ufrl65m",
-      "title": "ESCAPE ROOM",
+      "title": "MINE YOUR WAY OUT",
       "cat": "Non-Technical",
       "desc": "Immersive Minecraft escape room.",
       "day": "28 February",
@@ -291,7 +291,7 @@
     {
       "id": 11,
       "dbId": "cmlgm1wy1000bwpij0508s1t8",
-      "title": "REEL MAKING",
+      "title": "CRAFT THE SCENE",
       "cat": "Non-Technical",
       "desc": "Storytelling via Minecraft reels.",
       "day": "DAY 1",
