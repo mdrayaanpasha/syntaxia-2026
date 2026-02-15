@@ -10,17 +10,19 @@ import EventDetailsPage from "./pages/events/details";
 import AdminPage from "./pages/admin/page";
 import SchedulePage from "./pages/schedule/main";
 
-// Global font + animation loader
 const GlobalStyles = () => (
   <style>{`
-    @import url('https://fonts.cdnfonts.com/css/minecraft-4');
-    @import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+    /* Importing Hyper-Modern Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;700&display=swap');
 
     /* Global Body Setup */
     body {
       margin: 0;
       background-color: #000000;
-      color: white;
+      color: #ffffff;
+      /* Using Space Grotesk as the primary modern font */
+      font-family: 'Space Grotesk', 'Inter', -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* Grid Overlay */
@@ -29,20 +31,21 @@ const GlobalStyles = () => (
       inset: 0;
       z-index: -1;
       background-image: 
-        linear-gradient(to right, #1a1a1a 1px, transparent 1px),
-        linear-gradient(to bottom, #1a1a1a 1px, transparent 1px);
-      background-size: 40px 40px;
+        linear-gradient(to right, #111111 1px, transparent 1px),
+        linear-gradient(to bottom, #111111 1px, transparent 1px);
+      background-size: 50px 50px; /* Slightly larger for a cleaner look */
     }
 
+    /* The "Glow" effect that follows the mouse */
+    .grid-limiter {
+      mask-image: radial-gradient(circle at var(--x) var(--y), black 25%, transparent 70%);
+      -webkit-mask-image: radial-gradient(circle at var(--x) var(--y), black 25%, transparent 70%);
+    }
 
-/* The "Glow" effect that follows the mouse */
-.grid-limiter {
-  mask-image: radial-gradient(circle at var(--x) var(--y), black 20%, transparent 80%);
-  -webkit-mask-image: radial-gradient(circle at var(--x) var(--y), black 20%, transparent 80%);
-}
-
-    .font-minecraft { 
-      font-family: 'Minecraft', 'Silkscreen', sans-serif; 
+    /* Renamed class to reflect modern vibe, kept alias for safety */
+    .font-modern, .font-minecraft { 
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: -0.02em; /* Tighter tracking for that premium feel */
     }
 
     @keyframes shimmer {
