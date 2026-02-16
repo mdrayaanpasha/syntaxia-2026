@@ -43,7 +43,7 @@ const ValorantRegister = () => {
       // 1. If No Token -> Redirect to Auth
       if (!token) {
         localStorage.setItem("redir", `${location.pathname}${location.search}`);
-        navigate('/login'); 
+        navigate('/auth'); 
         return;
       }
 
@@ -101,7 +101,7 @@ const ValorantRegister = () => {
     const token = localStorage.getItem('token');
     if (!token) {
       localStorage.setItem("redir", `${location.pathname}${location.search}`);
-      navigate('/login');
+      navigate('/auth');
       return;
     }
 

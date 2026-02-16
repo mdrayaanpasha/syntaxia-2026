@@ -71,7 +71,7 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     try {
       const token = localStorage.getItem('token');
-      if (!token) { navigate('/login'); return; }
+      if (!token) { navigate('/auth'); return; }
       
       // Update URL to your actual backend port
       const response = await axios.get('https://note-taking-server-kappa.vercel.app/api/user/', {
@@ -82,7 +82,7 @@ const Dashboard = () => {
     } catch (err) {
       console.error(err);
       toast.error("SYNC_FAILED");
-      if (err.response?.status === 401) navigate('/login');
+      if (err.response?.status === 401) navigate('/auth');
     } finally {
       setLoading(false);
     }

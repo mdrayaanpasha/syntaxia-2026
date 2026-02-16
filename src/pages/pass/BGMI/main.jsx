@@ -43,7 +43,7 @@ const BgmiRegister = () => {
       // 1. If No Token -> Redirect to Auth
       if (!token) {
         localStorage.setItem("redir", `${location.pathname}${location.search}`);
-        navigate('/login'); 
+        navigate('/auth'); 
         return;
       }
 
@@ -101,7 +101,7 @@ const BgmiRegister = () => {
     const token = localStorage.getItem('token');
     if (!token) {
       localStorage.setItem("redir", `${location.pathname}${location.search}`);
-      navigate('/login');
+      navigate('/auth');
       return;
     }
 

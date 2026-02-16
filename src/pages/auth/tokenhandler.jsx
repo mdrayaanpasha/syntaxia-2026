@@ -34,7 +34,7 @@ const TokenHandler = () => {
     } else {
       // Handle error case
       setStatus('ERROR: NO_TOKEN_FOUND');
-      setTimeout(() => navigate('/login'), 2000);
+      setTimeout(() => navigate('/auth'), 2000);
     }
   }, [searchParams, navigate]);
 

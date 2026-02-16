@@ -120,7 +120,7 @@ const StandardPassRegister = () => {
       if (!token) {
         // Save current page to redirect back after login
         localStorage.setItem("redir", `${location.pathname}${location.search}`);
-        navigate('/login'); 
+        navigate('/auth'); 
         return;
       }
 
@@ -187,7 +187,7 @@ const StandardPassRegister = () => {
     const token = localStorage.getItem('token');
     if (!token) {
       localStorage.setItem("redir", `${location.pathname}${location.search}`);
-      navigate('/login');
+      navigate('/auth');
       return;
     }
 
