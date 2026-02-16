@@ -9,6 +9,11 @@ import EventsSection from "./pages/events/page";
 import EventDetailsPage from "./pages/events/details";
 import AdminPage from "./pages/admin/page";
 import SchedulePage from "./pages/schedule/main";
+import PassSelection from "./pages/passSelection/main";
+import BgmiRegister from "./pages/pass/BGMI/main";
+import ValorantRegister from "./pages/pass/volo/main";
+import StandardPassRegister from "./pages/pass/STANDARD/main";
+
 
 const GlobalStyles = () => (
   <style>{`
@@ -76,6 +81,11 @@ export default function App() {
           <Route path="/event-details" element={<EventDetailsPage />} />
           <Route path="/ross-geller" element={<AdminPage />} />
           <Route path="/schedule" element={<SchedulePage/>} />
+          <Route path="/pass-selection" element={<PassSelection/>} />
+          <Route path="/pass/BGMI" element={<BgmiRegister/>} />
+          <Route path="/pass/VALO" element={<ValorantRegister/>} />
+
+          <Route path="/pass/STANDARD" element={<StandardPassRegister/>} /> 
         </Routes>
       </Router>
     </>

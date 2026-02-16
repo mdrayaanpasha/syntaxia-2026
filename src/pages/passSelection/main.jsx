@@ -4,28 +4,29 @@ import {
   Gamepad2, Ticket, ChevronRight, Zap, 
   Cpu, Crosshair, Sword, Box, Terminal
 } from 'lucide-react';
-
+import PremiumNavbar from '../home/components/nav';
 
 const PassSelection = () => {
   const navigate = useNavigate();
 
   const passes = [
-    {
+
+     {
       id: "nongaming-pass",
       name: "STANDARD",
       subtitle: "TECH & CREATIVE",
-      description: "Access to Hackathons, CTF, Coding, and Cultural events.",
+      description: "Access to CTF, Coding, and Cultural events.",
       bgImage: "https://miro.medium.com/v2/resize:fit:1400/1*yp9Lznm6zoEWpnQTluBjOw.jpeg",
       icon: <Terminal size={32} />,
-      color: "text-[#55aa55]", 
+      color: "text-[#55aa55]", // Tech Green
       borderColor: "border-[#55aa55]",
       bgColor: "bg-[#55aa55]",
       glow: "shadow-[0_0_30px_rgba(85,170,85,0.3)]",
-      route: "/pass/STANDARD",
+      route: "/register/nongaming",
     },
     {
       id: "bgmi-pass",
-      name: "BGMI PASS",
+      name: "BGMI WARS",
       subtitle: "BATTLE ROYALE",
       description: "Drop into the warzone. Squad up for the ultimate survival challenge.",
       bgImage: "https://resize.indiatv.in/resize/newbucket/1080_1920/2023/05/bgmi-3-1684576018.jpg",
@@ -34,49 +35,53 @@ const PassSelection = () => {
       borderColor: "border-orange-500",
       bgColor: "bg-orange-500",
       glow: "shadow-[0_0_30px_rgba(249,115,22,0.3)]",
-      route: "/pass/BGMI", 
+      route: "/register/bgmi", 
     },
     {
       id: "valo-pass",
-      name: "VALORANT PASS",
-      subtitle: "TACTICAL 5v5",
+      name: "Valorant Pass",
+      subtitle: "TACTICAL",
       description: "Plant the spike or defuse it. High-stakes tactical shooter gameplay.",
-      bgImage: "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/aefe3c7dbe39ef1da3f4241f4c6b771c535038fc-1920x1080.jpg?accountingTag=VAL", 
+      bgImage: "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/aefe3c7dbe39ef1da3f4241f4c6b771c535038fc-1920x1080.jpg?accountingTag=VAL", // Using the valorant/fortnite image you had
       icon: <Sword size={32} />,
-      color: "text-[#ff4655]", 
+      color: "text-[#ff4655]", // Valorant Red
       borderColor: "border-[#ff4655]",
       bgColor: "bg-[#ff4655]",
       glow: "shadow-[0_0_30px_rgba(255,70,85,0.3)]",
-      route: "/pass/VALO",
+      route: "/register/valorant",
     }
+   
   ];
 
   return (
     <div className="font-minecraft min-h-screen bg-[#050505] text-gray-300 selection:bg-[#55aa55] selection:text-black overflow-x-hidden flex flex-col">
-
+      <PremiumNavbar />
       
       {/* Background Grid/Scanline Effect */}
       <div className="fixed inset-0 pointer-events-none opacity-10 bg-[linear-gradient(rgba(18,18,18,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-0 bg-[length:100%_4px,6px_100%]"></div>
       
       <main className="flex-grow max-w-[1400px] mx-auto px-6 py-24 relative z-10 w-full flex flex-col justify-center">
         
-        {/* RESPONSIVE HEADER */}
-        <div className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8 md:pb-12">
-          <div>
-            <div className="flex items-center gap-3 text-[#55aa55] font-mono text-[9px] md:text-[10px] tracking-[0.4em] md:tracking-[0.5em] uppercase mb-4">
-              <div className="w-1.5 h-1.5 bg-[#55aa55] animate-ping" /> /initiate_sequence
+        {/* HEADER */}
+        <div className="mb-20 text-center relative">
+            {/* Glitchy Text Effect */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-8xl md:text-9xl font-black text-[#55aa55]/5 opacity-20 blur-sm uppercase tracking-tighter pointer-events-none whitespace-nowrap">
+                Select Class
             </div>
-            {/* Dynamic Sizing for perfect responsiveness */}
-            <h2 className="text-[12vw] md:text-8xl lg:text-9xl font-black text-white uppercase italic leading-[0.8] tracking-tighter [text-shadow:4px_4px_0px_#111]">
-              SELECT <span className="text-[#55aa55]"> <br/>PASS</span>
-            </h2>
-          </div>
-          <p className="text-gray-600 font-mono text-[9px] md:text-[10px] uppercase tracking-widest text-left md:text-right leading-relaxed">
-            System_Status: ONLINE <br className="hidden md:block" /> Secure_Uplink: ESTABLISHED
-          </p>
+
+            <div className="flex items-center justify-center gap-3 mb-6 text-[#55aa55] font-mono text-xs tracking-[0.6em] uppercase animate-pulse">
+                <Zap size={14} /> /initiate_sequence
+            </div>
+            
+            <h1 className="relative z-10 text-5xl md:text-7xl font-black text-white tracking-tighter uppercase italic leading-[0.9] [text-shadow:4px_4px_0px_#111]">
+                CHOOSE YOUR <br/> 
+                <span className="text-white">
+                    BATTLEFIELD
+                </span>
+            </h1>
         </div>
 
-        {/* PASS CARDS GRID - 3 Columns */}
+        {/* PASS CARDS GRID - Updated for 3 Columns */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 xl:gap-10 w-full">
           {passes.map((pass) => (
             <button 
