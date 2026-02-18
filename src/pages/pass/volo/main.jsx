@@ -4,7 +4,7 @@ import {
   Sword, Upload, User, Smartphone, 
   School, Book, Check, AlertCircle, 
   ChevronLeft, CreditCard, QrCode, Shield, Target,
-  Loader2, ShieldCheck
+  Loader2, ShieldCheck, Landmark, Copy, Info
 } from 'lucide-react';
 import PremiumNavbar from '../../home/components/nav';
 
@@ -12,77 +12,81 @@ const ValorantRegister = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // --- CONFIG ---
+  // --- OFFICIAL SJU CONFIG ---
   const VALO_EVENT_ID = "cmlgm1wy10002wpij5m9w4zjl"; 
-  const VALO_PRICE = "₹451 + ₹99(GST) = ₹550"; 
-  const UPI_ID = "syntaxia@sju"; 
+  const BASE_PRICE = 466;
+  const GST_AMOUNT = 84; // 18% GST
+  const TOTAL_PRICE = "₹550"; 
+
+  const BANK_DETAILS = {
+    name: "ST JOSEPHS UNIVERSITY COLLECTION ACCOUNT",
+    account: "0964073000000053",
+    ifsc: "SIBL0000964",
+    bank: "South Indian Bank",
+  };
 
   // --- STATE ---
-  const [formData, setFormData] = useState({
-    name: '',
-    college: '',
-    phoneno: '',
-    course: '',
-    txnId: ''
-  });
-  
+  const [formData, setFormData] = useState({ name: '', college: '', phoneno: '', course: '', txnId: '' });
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [status, setStatus] = useState('idle'); 
   const [errorMessage, setErrorMessage] = useState('');
-
-  // New States for Checks
   const [checkingPass, setCheckingPass] = useState(true);
   const [isAlreadyRegistered, setIsAlreadyRegistered] = useState(false);
+  const [countdown, setCountdown] = useState(5);
 
-  // --- AUTH & PASS CHECK LOGIC ---
+  // --- AUTH & PASS CHECK ---
   useEffect(() => {
     const checkAuthAndPass = async () => {
       const token = localStorage.getItem('token');
-      
-      // 1. If No Token -> Redirect to Auth
       if (!token) {
         localStorage.setItem("redir", `${location.pathname}${location.search}`);
         navigate('/auth'); 
         return;
       }
 
-      // 2. Check if user already has VALO pass
       try {
         const response = await fetch('https://note-taking-server-kappa.vercel.app/api/user/pass-check/VALO', {
           method: 'GET',
-          headers: {
-            "Authorization": `Bearer ${token}`
-          }
+          headers: { "Authorization": `Bearer ${token}` }
         });
 
         if (response.ok) {
           const data = await response.json();
           if (data.exists) {
-            // --- USER HAS PASS ---
             setIsAlreadyRegistered(true);
-            setCheckingPass(false); 
-            
-            // Wait 5 seconds, then redirect
-            setTimeout(() => {
-              navigate('/dashboard');
-            }, 5000);
+            startRedirectTimer('/dashboard');
             return;
           }
         }
       } catch (error) {
-        console.error("Failed to check pass status:", error);
+        console.error("Pass check failed:", error);
       } finally {
         setCheckingPass(false); 
       }
     };
-
     checkAuthAndPass();
-  }, [navigate, location]);
+  }, [navigate]);
+
+  // --- REDIRECT TIMER ---
+  const startRedirectTimer = (path) => {
+    let timer = 5;
+    const interval = setInterval(() => {
+      timer -= 1;
+      setCountdown(timer);
+      if (timer <= 0) {
+        clearInterval(interval);
+        navigate(path);
+      }
+    }, 1000);
+  };
 
   // --- HANDLERS ---
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleInputChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text);
+    alert('Copied to Clipboard');
   };
 
   const handleFileChange = (e) => {
@@ -95,21 +99,12 @@ const ValorantRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus('loading');
-    setErrorMessage('');
-
-    const token = localStorage.getItem('token');
-    if (!token) {
-      localStorage.setItem("redir", `${location.pathname}${location.search}`);
-      navigate('/auth');
-      return;
-    }
-
-    if (!file) {
+    if (!file || !formData.txnId) {
       setStatus('error');
-      setErrorMessage('Please upload the payment screenshot.');
+      setErrorMessage('Agent, we need the UTR and Proof to verify.');
       return;
     }
+    setStatus('loading');
 
     try {
       const payload = new FormData();
@@ -125,312 +120,160 @@ const ValorantRegister = () => {
 
       const response = await fetch('https://note-taking-server-kappa.vercel.app/api/user/v2/register', {
         method: 'POST',
-        headers: {
-          "Authorization": `Bearer ${token}` 
-        },
+        headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` },
         body: payload 
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
-      }
-
+      if (!response.ok) throw new Error('Uplink failed. Check your connection.');
+      
       setStatus('success');
-
+      startRedirectTimer('/dashboard');
     } catch (error) {
-      console.error(error);
       setStatus('error');
       setErrorMessage(error.message);
     }
   };
 
-  // --- VIEW 1: LOADING (Checking Pass) ---
-  if (checkingPass) {
-    return (
-      <div className="min-h-screen bg-[#0f1923] flex items-center justify-center font-sans text-[#ff4655]">
-        <div className="text-center">
-          <Loader2 size={48} className="animate-spin mx-auto mb-4" />
-          <p className="text-xl font-bold uppercase tracking-widest animate-pulse">CONNECTING TO SERVER...</p>
-        </div>
-      </div>
-    );
-  }
+  // --- VIEW: LOADING & REDIRECTS ---
+  if (checkingPass) return <div className="min-h-screen bg-[#0f1923] flex items-center justify-center text-[#ff4655]"><Loader2 size={48} className="animate-spin" /></div>;
 
-  // --- VIEW 2: ALREADY REGISTERED (5 Sec Delay) ---
-  if (isAlreadyRegistered) {
+  if (status === 'success' || isAlreadyRegistered) {
     return (
-      <div className="min-h-screen bg-[#0f1923] flex items-center justify-center p-4 font-sans text-white uppercase tracking-wider">
+      <div className="min-h-screen bg-[#0f1923] flex items-center justify-center p-4 text-white uppercase italic">
         <div className="bg-[#1f2b38] border-l-4 border-[#ff4655] p-12 max-w-lg w-full text-center shadow-[0_0_50px_rgba(255,70,85,0.2)]">
-          <div className="w-24 h-24 bg-[#ff4655]/10 rounded-full flex items-center justify-center mx-auto mb-6 skew-x-[-10deg] border border-[#ff4655]/50">
-            <ShieldCheck size={48} className="text-[#ff4655]" />
-          </div>
-          
-          <h2 className="text-3xl font-black mb-4 text-white italic">
-            PROTOCOL <span className="text-[#ff4655]">ACTIVE</span>
-          </h2>
-          
-          <p className="text-gray-400 mb-8 font-mono text-xs normal-case tracking-normal">
-            You have already secured a <span className="text-[#ff4655] font-bold">Protocol V Pass</span>.
-            <br/> Returning to command center...
-          </p>
-          
-          <div className="flex items-center justify-center gap-3 text-[#ff4655] text-xs font-bold animate-pulse">
-            <div className="w-2 h-2 bg-[#ff4655]"></div>
-            <span>REDIRECTING</span>
-            <div className="w-2 h-2 bg-[#ff4655]"></div>
-          </div>
+          <ShieldCheck size={64} className="text-[#ff4655] mx-auto mb-6 animate-pulse" />
+          <h2 className="text-4xl font-black mb-4 tracking-tighter">PROTOCOL <span className="text-[#ff4655]">LOCKED</span></h2>
+          <p className="text-gray-400 font-mono text-[10px] normal-case mb-8 tracking-widest">Warping to dashboard in {countdown}s...</p>
+          <div className="w-full h-1 bg-white/10 mt-4"><div className="h-full bg-[#ff4655] transition-all duration-1000" style={{ width: `${(countdown/5)*100}%` }}></div></div>
         </div>
       </div>
     );
   }
 
-  // --- VIEW 3: SUCCESS AFTER REGISTRATION ---
-  if (status === 'success') {
-    return (
-      <div className="min-h-screen bg-[#0f1923] flex items-center justify-center p-4 font-sans text-white uppercase tracking-wider">
-        <div className="bg-[#1f2b38] border-l-4 border-[#ff4655] p-10 max-w-md w-full text-center shadow-[0_0_50px_rgba(255,70,85,0.2)]">
-          <div className="w-20 h-20 bg-[#ff4655]/20 rounded-none flex items-center justify-center mx-auto mb-6 skew-x-[-10deg]">
-            <Check size={40} className="text-[#ff4655]" />
-          </div>
-          <h2 className="text-4xl font-black mb-2 text-white italic">MATCH FOUND</h2>
-          <p className="text-gray-400 mb-8 font-mono text-xs normal-case tracking-normal">
-            Your Protocol V Pass has been issued. <br/> 
-            Agent status: ACTIVE.
-          </p>
-          <button 
-            onClick={() => navigate('/')}
-            className="w-full py-4 bg-[#ff4655] hover:bg-[#d93442] text-white font-bold uppercase tracking-widest transition-colors skew-x-[-10deg]"
-          >
-            RETURN TO BASE
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // --- VIEW 4: MAIN FORM ---
   return (
-    <div className="min-h-screen bg-[#0f1923] text-gray-200 font-sans selection:bg-[#ff4655] selection:text-white">
+    <div className="min-h-screen bg-[#0f1923] text-gray-200 font-sans selection:bg-[#ff4655]">
       <PremiumNavbar />
       
-      {/* Background Geometric Shapes */}
-      <div className="fixed inset-0 pointer-events-none opacity-5">
-         <div className="absolute top-20 right-0 w-96 h-96 bg-[#ff4655] rounded-full blur-[100px]"></div>
-         <div className="absolute bottom-0 left-0 w-64 h-64 bg-white rounded-full blur-[80px]"></div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 py-12 pt-24 relative z-10">
-        
-        {/* HEADER */}
-        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-[#ff4655] mb-8 hover:-translate-x-1 transition-transform font-bold tracking-widest text-xs uppercase">
-          <ChevronLeft size={20} /> Abort
+      <div className="max-w-7xl mx-auto px-4 py-24 relative z-10">
+        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-[#ff4655] mb-8 font-bold tracking-widest text-xs uppercase hover:translate-x-1 transition-all">
+          <ChevronLeft size={20} /> ABORT_MISSION
         </button>
-
-        <div className="mb-12 border-b border-[#333] pb-8 flex flex-col md:flex-row items-end justify-between gap-6">
-          <div>
-            <h1 className="text-6xl md:text-8xl font-black text-white italic tracking-tighter uppercase leading-[0.85]">
-              PROTOCOL <span className="text-[#ff4655]">V</span>
-            </h1>
-            <p className="text-gray-400 font-mono mt-4 flex items-center gap-2 text-xs tracking-widest uppercase">
-              <span className="w-2 h-2 bg-[#ff4655]"></span>
-              Tactical 5v5 Entry Fee: <span className="text-white font-bold">{VALO_PRICE}</span>
-            </p>
-          </div>
-          <div className="hidden md:block">
-             <div className="text-[#ff4655] border border-[#ff4655] px-4 py-1 text-[10px] tracking-[0.3em] font-bold uppercase skew-x-[-10deg]">
-                System Ready
-             </div>
-          </div>
-        </div>
 
         <div className="grid lg:grid-cols-12 gap-12">
           
-          {/* LEFT COLUMN: PAYMENT (QR CODE) */}
-          <div className="lg:col-span-5 space-y-8 order-2 lg:order-1">
-            <div className="bg-[#1f2b38] border border-[#333] p-8 relative overflow-hidden group">
-              {/* Valorant Decor Lines */}
-              <div className="absolute top-0 left-0 w-16 h-1 bg-[#ff4655]"></div>
-              <div className="absolute bottom-0 right-0 w-16 h-1 bg-[#ff4655]"></div>
-
-              <h3 className="text-white font-bold text-sm tracking-[0.2em] mb-6 uppercase flex items-center gap-2 border-l-2 border-[#ff4655] pl-3">
-                <QrCode size={16} className="text-[#ff4655]" /> Secure Payment
-              </h3>
-
-              <div className="bg-white p-4 max-w-[250px] mx-auto mb-6 rounded-sm shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-                {/* QR Code */}
-                <img 
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=${UPI_ID}&pn=Syntaxia&am=200&cu=INR`}
-                  alt="Payment QR"
-                  className="w-full h-full object-contain"
-                />
+          {/* LEFT: FORM & IDENTITY */}
+          <div className="lg:col-span-7 space-y-10">
+            <div>
+              <h1 className="text-7xl md:text-8xl font-black text-white italic tracking-tighter uppercase leading-none">
+                PROTOCOL <span className="text-[#ff4655]">V</span>
+              </h1>
+              <div className="flex gap-4 mt-4 font-mono text-[10px] uppercase tracking-[0.2em]">
+                <span className="text-[#ff4655] flex items-center gap-1"><Info size={12}/> University Compliant</span>
+                <span className="text-gray-500">SOP: 02/01/2026</span>
               </div>
+            </div>
 
-              <div className="text-center space-y-3">
-                <p className="text-xs text-gray-500 font-mono uppercase tracking-widest">Target UPI ID</p>
-                <div className="bg-[#0f1923] p-4 border border-[#333] flex items-center justify-between group-hover:border-[#ff4655] transition-colors">
-                  <span className="font-mono text-white tracking-wider">{UPI_ID}</span>
-                  <button 
-                    onClick={() => navigator.clipboard.writeText(UPI_ID)}
-                    className="text-[10px] bg-[#ff4655] text-white px-3 py-1 font-bold hover:bg-white hover:text-black transition-colors uppercase"
-                  >
-                    Copy
-                  </button>
+            <section className="bg-[#1f2b38] p-8 border border-white/5 space-y-8">
+                <h3 className="text-white font-bold text-sm tracking-widest uppercase flex items-center gap-2 border-l-2 border-[#ff4655] pl-3">
+                  <User size={16} className="text-[#ff4655]" /> AGENT IDENTITY
+                </h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                    {['name', 'phoneno', 'college', 'course'].map((key) => (
+                        <div key={key} className="space-y-1">
+                            <label className="text-[10px] text-gray-500 uppercase font-bold">{key}</label>
+                            <input 
+                                name={key} value={formData[key]} onChange={handleInputChange}
+                                className="w-full bg-[#0f1923] border-b-2 border-white/10 p-3 text-xs font-bold text-white focus:border-[#ff4655] outline-none transition-all uppercase"
+                                placeholder={`ENTER ${key.toUpperCase()}`}
+                            />
+                        </div>
+                    ))}
                 </div>
-              </div>
-            </div>
-
-            {/* Rules Box */}
-            <div className="bg-[#ff4655]/5 border-l-2 border-[#ff4655] p-6 flex gap-4 items-start">
-              <Shield className="text-[#ff4655] shrink-0 mt-1" size={20} />
-              <div className="space-y-2">
-                <h4 className="text-white font-bold text-sm tracking-wider uppercase">Rules of Engagement</h4>
-                <ul className="text-xs text-gray-400 space-y-1 list-none font-mono">
-                  <li>[1] Payment is final. No refunds.</li>
-                  <li>[2] Verify Transaction ID carefully.</li>
-                  <li>[3] Forgery results in perma-ban.</li>
-                </ul>
-              </div>
-            </div>
+            </section>
           </div>
 
-          {/* RIGHT COLUMN: FORM */}
-          <div className="lg:col-span-7 space-y-8 order-1 lg:order-2">
-            <form onSubmit={handleSubmit} className="space-y-8">
+          {/* RIGHT: GIANT BANKING & 9:16 QR */}
+          <div className="lg:col-span-5">
+            <div className="sticky top-24 space-y-4">
               
-              {/* Section 1: Player Details */}
-              <section>
-                 <h3 className="text-white font-bold text-sm tracking-[0.2em] mb-6 uppercase flex items-center gap-2 border-l-2 border-[#ff4655] pl-3">
-                  <User size={16} className="text-[#ff4655]" /> Agent Identity
-                </h3>
-                <div className="grid md:grid-cols-2 gap-6 bg-[#1f2b38] p-6 border border-[#333]">
-                  
-                  {/* Name */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Full Name</label>
-                    <div className="flex items-center bg-[#0f1923] border-b-2 border-[#555] focus-within:border-[#ff4655] transition-colors px-3 py-3">
-                      <User size={16} className="text-gray-500 mr-3" />
-                      <input 
-                        type="text" name="name" required placeholder="JETT"
-                        value={formData.name} onChange={handleInputChange}
-                        className="bg-transparent w-full outline-none text-white text-sm font-bold uppercase placeholder-gray-700"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Phone */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Comms Link</label>
-                    <div className="flex items-center bg-[#0f1923] border-b-2 border-[#555] focus-within:border-[#ff4655] transition-colors px-3 py-3">
-                      <Smartphone size={16} className="text-gray-500 mr-3" />
-                      <input 
-                        type="tel" name="phoneno" required placeholder="9876543210"
-                        value={formData.phoneno} onChange={handleInputChange}
-                        className="bg-transparent w-full outline-none text-white text-sm font-bold placeholder-gray-700"
-                      />
-                    </div>
-                  </div>
-
-                  {/* College */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Origin Base</label>
-                    <div className="flex items-center bg-[#0f1923] border-b-2 border-[#555] focus-within:border-[#ff4655] transition-colors px-3 py-3">
-                      <School size={16} className="text-gray-500 mr-3" />
-                      <input 
-                        type="text" name="college" required placeholder="ACADEMY"
-                        value={formData.college} onChange={handleInputChange}
-                        className="bg-transparent w-full outline-none text-white text-sm font-bold uppercase placeholder-gray-700"
-                      />
-                    </div>
-                  </div>
-
-                   {/* Course */}
-                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Division</label>
-                    <div className="flex items-center bg-[#0f1923] border-b-2 border-[#555] focus-within:border-[#ff4655] transition-colors px-3 py-3">
-                      <Book size={16} className="text-gray-500 mr-3" />
-                      <input 
-                        type="text" name="course" required placeholder="B.TECH"
-                        value={formData.course} onChange={handleInputChange}
-                        className="bg-transparent w-full outline-none text-white text-sm font-bold uppercase placeholder-gray-700"
-                      />
-                    </div>
-                  </div>
+              {/* PRICE CARD */}
+              <div className="bg-[#ff4655] p-6 text-white skew-x-[-5deg]">
+                <p className="text-[10px] font-black uppercase tracking-widest opacity-70">Deployment Fee</p>
+                <div className="flex items-baseline gap-2">
+                    <span className="text-6xl font-black italic tracking-tighter">{TOTAL_PRICE}</span>
+                    <span className="text-[10px] font-bold">INCL. 18% GST</span>
                 </div>
-              </section>
+              </div>
 
-              {/* Section 2: Transaction Details */}
-              <section>
-                <h3 className="text-white font-bold text-sm tracking-[0.2em] mb-6 uppercase flex items-center gap-2 border-l-2 border-[#ff4655] pl-3">
-                  <CreditCard size={16} className="text-[#ff4655]" /> Transaction Data
-                </h3>
+              {/* GIANT BANK DETAILS */}
+              <div className="bg-white p-6 border-b-8 border-[#ff4655] text-black space-y-4">
+                <div className="flex items-center justify-between text-[10px] font-black uppercase border-b border-black pb-2">
+                    <span className="flex items-center gap-2"><Landmark size={14}/> SJU Collection Account</span>
+                    <span className="text-[#ff4655]">Verified</span>
+                </div>
                 
-                <div className="bg-[#1f2b38] p-6 border border-[#333] space-y-6">
-                  
-                  {/* Transaction ID Input */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Transaction ID / UTR</label>
-                    <div className="flex items-center bg-[#0f1923] border-b-2 border-[#555] focus-within:border-[#ff4655] transition-colors px-3 py-3">
-                      <span className="text-[#ff4655] font-bold mr-3 text-xs">TXN</span>
-                      <input 
-                        type="text" name="txnId" required placeholder="ENTER ID"
-                        value={formData.txnId} onChange={handleInputChange}
-                        className="bg-transparent w-full outline-none text-white text-sm font-bold uppercase placeholder-gray-700"
-                      />
+                <div className="space-y-4">
+                    <div className="bg-gray-100 p-4 border-l-4 border-black group cursor-pointer" onClick={() => handleCopy(BANK_DETAILS.account)}>
+                        <p className="text-[9px] font-bold text-gray-400 uppercase flex justify-between">Account Number <Copy size={12}/></p>
+                        <p className="text-2xl font-black font-mono tracking-tighter">{BANK_DETAILS.account}</p>
                     </div>
-                  </div>
 
-                  {/* Screenshot Upload */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Upload Proof</label>
-                    <div className="bg-[#0f1923] border-2 border-dashed border-[#444] p-6 text-center hover:border-[#ff4655] hover:bg-[#ff4655]/5 transition-all relative group cursor-pointer">
-                      <input 
-                        type="file" onChange={handleFileChange} accept="image/*"
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
-                      />
-                      
-                      {preview ? (
-                        <div className="relative z-10">
-                          <img src={preview} alt="Preview" className="h-32 mx-auto border border-[#ff4655]" />
-                          <p className="text-[10px] text-[#ff4655] mt-2 font-mono truncate">{file.name}</p>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-gray-100 p-3 border-l-4 border-black group cursor-pointer" onClick={() => handleCopy(BANK_DETAILS.ifsc)}>
+                            <p className="text-[9px] font-bold text-gray-400 uppercase">IFSC Code</p>
+                            <p className="text-lg font-black font-mono">{BANK_DETAILS.ifsc}</p>
                         </div>
-                      ) : (
-                        <div className="z-10 relative pointer-events-none">
-                          <Upload className="mx-auto text-gray-500 mb-3 group-hover:text-[#ff4655] transition-colors" size={24} />
-                          <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">Drop File or Click</p>
+                        <div className="bg-gray-100 p-3 border-l-4 border-black">
+                            <p className="text-[9px] font-bold text-gray-400 uppercase">Bank</p>
+                            <p className="text-xs font-black leading-tight uppercase">South Indian Bank</p>
                         </div>
-                      )}
                     </div>
-                  </div>
                 </div>
-              </section>
+              </div>
 
-              {/* ERROR DISPLAY */}
-              {errorMessage && (
-                <div className="bg-red-500/10 border-l-4 border-red-500 p-4 flex gap-3">
-                  <AlertCircle className="text-red-500 shrink-0" size={20} />
-                  <p className="text-red-200 text-xs font-mono">{errorMessage}</p>
+              {/* 9:16 QR PORTAL */}
+              <div className="bg-[#1f2b38] border border-white/5 p-8 space-y-6">
+                <div className="flex flex-col items-center">
+                    <div className="w-48 aspect-[1/1] bg-white p-2 rounded shadow-2xl relative">
+                        <img 
+                            src="https://ik.imagekit.io/yylpuqff5/QR.png?updatedAt=1771395151703" 
+                            alt="Protocol QR" className="w-full h-full object-cover" 
+                        />
+                        <div className="absolute inset-0 border-4 border-[#ff4655]/20 animate-pulse pointer-events-none"></div>
+                    </div>
+                    <p className="text-[10px] text-gray-500 font-mono mt-4 uppercase italic">Scan with Tactical UPI Apps</p>
                 </div>
-              )}
 
-              {/* SUBMIT BUTTON */}
-              <button
-                type="submit"
-                disabled={status === 'loading'}
-                className="w-full h-16 bg-[#ff4655] hover:bg-white hover:text-black text-white font-black text-xl italic tracking-tighter uppercase transition-all skew-x-[-10deg] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
-              >
-                {status === 'loading' ? (
-                  <span className="animate-pulse">PROCESSING...</span>
-                ) : (
-                  <>
-                    <Target size={24} /> LOCK IN
-                  </>
-                )}
-              </button>
+                <div className="space-y-4 pt-4 border-t border-white/10">
+                    <div className="space-y-1">
+                        <label className="text-[9px] text-gray-500 font-bold uppercase">Transaction ID / UTR</label>
+                        <input 
+                            name="txnId" value={formData.txnId} onChange={handleInputChange}
+                            className="w-full bg-[#0f1923] border border-white/10 p-4 text-xs font-mono focus:border-[#ff4655] outline-none text-white uppercase"
+                            placeholder="TXN_REQUIRED"
+                        />
+                    </div>
 
-            </form>
+                    <div className="relative bg-[#0f1923] border-2 border-dashed border-white/10 p-4 text-center hover:border-[#ff4655] transition-all">
+                        <input type="file" onChange={handleFileChange} className="absolute inset-0 opacity-0 cursor-pointer" />
+                        <Upload size={16} className="mx-auto text-gray-500 mb-1" />
+                        <p className="text-[9px] font-mono text-gray-500 uppercase">{file ? file.name : 'Upload Payment Proof'}</p>
+                    </div>
+
+                    {errorMessage && <p className="text-red-500 text-[10px] font-bold uppercase italic">{errorMessage}</p>}
+
+                    <button
+                        onClick={handleSubmit} disabled={status === 'loading'}
+                        className="w-full py-5 bg-[#ff4655] hover:bg-white hover:text-black text-white font-black uppercase italic tracking-widest transition-all skew-x-[-10deg] flex items-center justify-center gap-2"
+                    >
+                        {status === 'loading' ? <Loader2 className="animate-spin" size={20}/> : 'LOCK IN ENTRY'} <Target size={20} />
+                    </button>
+                </div>
+              </div>
+
+            </div>
           </div>
+
         </div>
       </div>
     </div>
