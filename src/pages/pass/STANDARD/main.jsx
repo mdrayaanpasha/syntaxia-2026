@@ -210,8 +210,9 @@ const StandardPassRegister = () => {
 
               <div className="bg-[#0a0a0a] border border-[#222] p-6 space-y-6">
                 <div className="flex flex-col items-center">
-                    <div className="w-32 aspect-[9/16] bg-white p-1 rounded-lg">
-                      <img src={`https://api.qrserver.com/v1/create-qr-code/?size=400x711&data=upi://pay?pa=syntaxia@sju&am=400`} alt="QR" className="w-full h-full object-cover" />
+                     <div className="w-48 aspect-[1/1] bg-white p-2 rounded shadow-2xl relative">
+                        <img 
+                            src="https://ik.imagekit.io/yylpuqff5/QR.png?updatedAt=1771395151703" alt="QR" className="w-full h-full object-cover" />
                     </div>
                     <p className="text-[9px] text-gray-500 font-mono mt-4 uppercase italic">Scan with any UPI App</p>
                 </div>

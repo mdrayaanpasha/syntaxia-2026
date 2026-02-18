@@ -258,7 +258,17 @@ const BgmiRegister = () => {
 
             </div>
           </div>
-
+          {/* add footer  */}
+          <footer>
+            <div className="col-span-full mt-20 pt-8 border-t border-[#222] text-center space-y-4">
+              <p className="text-[10px] font-mono text-gray-600 uppercase tracking-widest">
+                © 2026 ST JOSEPHS UNIVERSITY | BGMI WARS CHAMPIONSHIP
+              </p>
+              <p className="text-[9px] text-gray-700 font-mono uppercase">
+                QUESTIONS? CONTACT: <span className="text-orange-500">EVENTS@SJU.EDU</span>
+              </p>
+            </div>
+          </footer>
         </div>
       </div>
     </div>
