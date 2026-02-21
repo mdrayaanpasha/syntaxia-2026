@@ -1,23 +1,24 @@
 import React from 'react';
-import { Gamepad2, MoveDown, Zap, Globe } from 'lucide-react';
+import { Gamepad2, MoveDown, Zap, Globe, FileText } from 'lucide-react';
 
 const HeroSection = () => {
+  const BROCHURE_URL = "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/syntaxia%20brochure.pdf";
+
   return (
     <section className="relative min-h-screen w-full flex items-center overflow-hidden font-minecraft bg-[#030303]">
       
-      {/* 1. BACKGROUND LAYER: Left-to-Right Fade */}
+      {/* 1. BACKGROUND LAYER */}
       <div className="absolute inset-0 z-0">
         <img 
           src="https://ik.imagekit.io/yylpuqff5/Minecraft/cover.png" 
           alt="Minecraft Cover" 
           className="w-full h-full object-cover opacity-60"
         />
-        {/* Radical Gradient for HUD focus - Adjusted for mobile center-bottom fade */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#030303] via-[#030303]/90 md:via-[#030303]/80 to-transparent"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-transparent"></div>
       </div>
 
-      {/* 2. HUD CONTENT: Left Aligned */}
+      {/* 2. HUD CONTENT */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pt-20 md:pt-0">
         
         {/* Top Metadata */}
@@ -33,7 +34,6 @@ const HeroSection = () => {
 
         {/* MASSIVE TITLES */}
         <div className="max-w-4xl">
-          {/* Responsive Text Sizes: text-6xl on small, 8xl on medium, 12rem on large */}
           <h1 className="text-6xl sm:text-8xl lg:text-[12rem] font-black text-white uppercase italic leading-[0.8] tracking-tighter [text-shadow:6px_6px_0px_#111] md:[text-shadow:12px_12px_0px_#111]">
             SYNTA<span className="text-[#ffcc00]">XIA</span>
           </h1>
@@ -49,8 +49,9 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* ACTION HUD: Stacks on Mobile */}
-        <div className="mt-12 md:mt-20 flex flex-col sm:flex-row items-stretch sm:items-start gap-2 md:gap-1">
+        {/* ACTION HUD */}
+        <div className="mt-12 md:mt-20 flex flex-col sm:flex-row items-stretch sm:items-start gap-3 md:gap-4">
+          {/* Main Action */}
           <button 
             className="group relative px-8 md:px-12 py-5 md:py-6 bg-[#55aa55] border-b-[6px] md:border-b-[8px] border-black hover:bg-white transition-all active:translate-y-1 active:border-b-4"
             onClick={() => window.location.href="/events"}
@@ -59,18 +60,32 @@ const HeroSection = () => {
               <Gamepad2 size={24} /> ENTER_WORLD
             </span>
           </button>
+
+          {/* Brochure Action */}
+          <a 
+            href={BROCHURE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group px-8 md:px-10 py-5 md:py-6 bg-[#111] border-b-[6px] md:border-b-[8px] border-black hover:bg-[#222] transition-all flex items-center justify-center gap-4"
+          >
+            <FileText size={20} className="text-[#ffcc00]" />
+            <span className="text-white font-black uppercase tracking-[0.2em] text-sm md:text-base italic">
+              DOWNLOAD_BROCHURE
+            </span>
+          </a>
           
-          <div className="bg-[#111] border-x-[4px] border-b-[6px] md:border-b-[8px] border-black p-4 md:p-6 flex items-center justify-between sm:justify-start gap-4 md:gap-6">
+          {/* Server Status Decor */}
+          <div className="bg-[#0a0a0a] border-x-[4px] border-b-[6px] md:border-b-[8px] border-black p-4 md:p-6 flex items-center justify-between sm:justify-start gap-4 md:gap-6 opacity-60">
             <div className="text-left">
               <p className="text-[#ffcc00] text-[9px] md:text-[10px] font-black uppercase tracking-widest">Server_Status</p>
-              <p className="text-white text-[10px] md:text-xs font-mono uppercase">Online // Whitelist_Open</p>
+              <p className="text-white text-[10px] md:text-xs font-mono uppercase">Online // Public</p>
             </div>
             <Globe size={20} className="text-gray-700 animate-spin-slow shrink-0" />
           </div>
         </div>
       </div>
 
-      {/* 3. SIDE HUD DECOR: Hidden on Small Screens */}
+      {/* 3. SIDE HUD DECOR */}
       <div className="absolute right-6 md:right-12 bottom-12 hidden sm:flex flex-col items-end gap-4 opacity-20">
         <div className="flex gap-1 md:gap-2">
             {[...Array(5)].map((_, i) => (
@@ -82,7 +97,7 @@ const HeroSection = () => {
         </p>
       </div>
 
-      {/* 4. SCROLL INDICATOR: Stays Left Weighted */}
+      {/* 4. SCROLL INDICATOR */}
       <div className="absolute bottom-6 md:bottom-10 left-6 md:left-12 z-20 flex flex-col items-center gap-2 md:gap-4 opacity-40">
         <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.5em] [writing-mode:vertical-lr] mb-2">Scroll</span>
         <MoveDown className="text-white animate-bounce" size={18} md:size={20} />
