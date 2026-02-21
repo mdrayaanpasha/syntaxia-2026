@@ -43,11 +43,13 @@ const ContactSection = () => {
       <div>
         <p className="text-gray-500 font-minecraft text-[9px] uppercase tracking-widest mb-3">Helpline_Uplink</p>
         <div className="space-y-1">
-          <a href="tel:+919406026700" className="block text-xl md:text-3xl font-bold text-white hover:text-cyan-400 transition-colors font-sans tracking-tight">
-            +91 94060 26700
-          </a>
           <a href="tel:+919148266991" className="block text-xl md:text-3xl font-bold text-white hover:text-cyan-400 transition-colors font-sans tracking-tight">
             +91 91482 66991
+          </a>
+          <a href="tel:+917411437721" className="block text-xl md:text-3xl font-bold text-white hover:text-cyan-400 transition-colors font-sans tracking-tight">
+
+            +91 74114 37721
+
           </a>
         </div>
       </div>
