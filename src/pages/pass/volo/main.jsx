@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   Sword, Upload, User, Smartphone, 
-  School, Book, Check, AlertCircle, 
   ChevronLeft, CreditCard, QrCode, Shield, Target,
-  Loader2, ShieldCheck, Landmark, Copy, Info
+  Loader2, ShieldCheck, Landmark, Copy, Info,
+  MessageCircle, ExternalLink, Image as ImageIcon
 } from 'lucide-react';
 import PremiumNavbar from '../../home/components/nav';
 
@@ -15,8 +15,10 @@ const ValorantRegister = () => {
   // --- OFFICIAL SJU CONFIG ---
   const VALO_EVENT_ID = "cmlgm1wy10002wpij5m9w4zjl"; 
   const BASE_PRICE = 466;
-  const GST_AMOUNT = 84; // 18% GST
+  const GST_AMOUNT = 84; 
   const TOTAL_PRICE = "₹550"; 
+  const WHATSAPP_LINK = "https://chat.whatsapp.com/HWQRNPMYzYcAHcuWSX0ALW?mode=gi_t";
+  const QR_IMAGE_URL = "https://ik.imagekit.io/yylpuqff5/QR.png?updatedAt=1771395151703";
 
   const BANK_DETAILS = {
     name: "ST JOSEPHS UNIVERSITY COLLECTION ACCOUNT",
@@ -33,7 +35,6 @@ const ValorantRegister = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [checkingPass, setCheckingPass] = useState(true);
   const [isAlreadyRegistered, setIsAlreadyRegistered] = useState(false);
-  const [countdown, setCountdown] = useState(5);
 
   // --- AUTH & PASS CHECK ---
   useEffect(() => {
@@ -41,8 +42,7 @@ const ValorantRegister = () => {
       const token = localStorage.getItem('token');
       if (!token) {
         localStorage.setItem("redir", `${location.pathname}${location.search}`);
-        navigate('/auth'); 
-        return;
+        navigate('/auth'); return;
       }
 
       try {
@@ -53,11 +53,7 @@ const ValorantRegister = () => {
 
         if (response.ok) {
           const data = await response.json();
-          if (data.exists) {
-            setIsAlreadyRegistered(true);
-            startRedirectTimer('/dashboard');
-            return;
-          }
+          if (data.exists) setIsAlreadyRegistered(true);
         }
       } catch (error) {
         console.error("Pass check failed:", error);
@@ -66,20 +62,7 @@ const ValorantRegister = () => {
       }
     };
     checkAuthAndPass();
-  }, [navigate]);
-
-  // --- REDIRECT TIMER ---
-  const startRedirectTimer = (path) => {
-    let timer = 5;
-    const interval = setInterval(() => {
-      timer -= 1;
-      setCountdown(timer);
-      if (timer <= 0) {
-        clearInterval(interval);
-        navigate(path);
-      }
-    }, 1000);
-  };
+  }, [navigate, location.pathname, location.search]);
 
   // --- HANDLERS ---
   const handleInputChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -125,26 +108,30 @@ const ValorantRegister = () => {
       });
 
       if (!response.ok) throw new Error('Uplink failed. Check your connection.');
-      
       setStatus('success');
-      startRedirectTimer('/dashboard');
     } catch (error) {
       setStatus('error');
       setErrorMessage(error.message);
     }
   };
 
-  // --- VIEW: LOADING & REDIRECTS ---
   if (checkingPass) return <div className="min-h-screen bg-[#0f1923] flex items-center justify-center text-[#ff4655]"><Loader2 size={48} className="animate-spin" /></div>;
 
+  // SUCCESS VIEW (Permanent)
   if (status === 'success' || isAlreadyRegistered) {
     return (
       <div className="min-h-screen bg-[#0f1923] flex items-center justify-center p-4 text-white uppercase italic">
         <div className="bg-[#1f2b38] border-l-4 border-[#ff4655] p-12 max-w-lg w-full text-center shadow-[0_0_50px_rgba(255,70,85,0.2)]">
           <ShieldCheck size={64} className="text-[#ff4655] mx-auto mb-6 animate-pulse" />
-          <h2 className="text-4xl font-black mb-4 tracking-tighter">PROTOCOL <span className="text-[#ff4655]">LOCKED</span></h2>
-          <p className="text-gray-400 font-mono text-[10px] normal-case mb-8 tracking-widest">Warping to dashboard in {countdown}s...</p>
-          <div className="w-full h-1 bg-white/10 mt-4"><div className="h-full bg-[#ff4655] transition-all duration-1000" style={{ width: `${(countdown/5)*100}%` }}></div></div>
+          <h2 className="text-4xl font-black mb-4 tracking-tighter uppercase">PROTOCOL <span className="text-[#ff4655]">LOCKED</span></h2>
+          <p className="text-gray-400 font-mono text-[10px] normal-case mb-8 tracking-widest uppercase">Agent deployed. Join the community hub for brackets and schedules.</p>
+          
+          <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-3 bg-green-600 hover:bg-green-500 text-white py-4 px-6 mb-6 border-b-4 border-green-900 transition-all skew-x-[-10deg]">
+            <MessageCircle size={24} className="skew-x-[10deg]" /> 
+            <span className="font-black skew-x-[10deg] tracking-widest">JOIN WHATSAPP COMMUNITY</span>
+          </a>
+
+          <button onClick={() => navigate('/dashboard')} className="text-[10px] text-gray-500 hover:text-white transition-colors uppercase tracking-widest">GO TO DASHBOARD</button>
         </div>
       </div>
     );
@@ -161,7 +148,6 @@ const ValorantRegister = () => {
 
         <div className="grid lg:grid-cols-12 gap-12">
           
-          {/* LEFT: FORM & IDENTITY */}
           <div className="lg:col-span-7 space-y-10">
             <div>
               <h1 className="text-7xl md:text-8xl font-black text-white italic tracking-tighter uppercase leading-none">
@@ -190,90 +176,96 @@ const ValorantRegister = () => {
                     ))}
                 </div>
             </section>
-          </div>
 
-          {/* RIGHT: GIANT BANKING & 9:16 QR */}
-          <div className="lg:col-span-5">
-            <div className="sticky top-24 space-y-4">
-              
-              {/* PRICE CARD */}
-              <div className="bg-[#ff4655] p-6 text-white skew-x-[-5deg]">
-                <p className="text-[10px] font-black uppercase tracking-widest opacity-70">Deployment Fee</p>
-                <div className="flex items-baseline gap-2">
-                    <span className="text-6xl font-black italic tracking-tighter">{TOTAL_PRICE}</span>
-                    <span className="text-[10px] font-bold">INCL. 18% GST</span>
+            {/* COMMS BANNER */}
+            <div className="bg-green-950/20 border-l-4 border-green-500 p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex gap-4 items-center">
+                <MessageCircle className="text-green-500" size={32} />
+                <div>
+                  <p className="text-white font-bold text-sm uppercase tracking-tighter">COMMS HUB</p>
+                  <p className="text-[10px] text-gray-400 font-mono uppercase">JOIN COMMUNITY FOR TOURNAMENT INTEL</p>
                 </div>
               </div>
-
-              {/* GIANT BANK DETAILS */}
-              <div className="bg-white p-6 border-b-8 border-[#ff4655] text-black space-y-4">
-                <div className="flex items-center justify-between text-[10px] font-black uppercase border-b border-black pb-2">
-                    <span className="flex items-center gap-2"><Landmark size={14}/> SJU Collection Account</span>
-                    <span className="text-[#ff4655]">Verified</span>
-                </div>
-                
-                <div className="space-y-4">
-                    <div className="bg-gray-100 p-4 border-l-4 border-black group cursor-pointer" onClick={() => handleCopy(BANK_DETAILS.account)}>
-                        <p className="text-[9px] font-bold text-gray-400 uppercase flex justify-between">Account Number <Copy size={12}/></p>
-                        <p className="text-2xl font-black font-mono tracking-tighter">{BANK_DETAILS.account}</p>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-gray-100 p-3 border-l-4 border-black group cursor-pointer" onClick={() => handleCopy(BANK_DETAILS.ifsc)}>
-                            <p className="text-[9px] font-bold text-gray-400 uppercase">IFSC Code</p>
-                            <p className="text-lg font-black font-mono">{BANK_DETAILS.ifsc}</p>
-                        </div>
-                        <div className="bg-gray-100 p-3 border-l-4 border-black">
-                            <p className="text-[9px] font-bold text-gray-400 uppercase">Bank</p>
-                            <p className="text-xs font-black leading-tight uppercase">South Indian Bank</p>
-                        </div>
-                    </div>
-                </div>
-              </div>
-
-              {/* 9:16 QR PORTAL */}
-              <div className="bg-[#1f2b38] border border-white/5 p-8 space-y-6">
-                <div className="flex flex-col items-center">
-                    <div className="w-48 aspect-[1/1] bg-white p-2 rounded shadow-2xl relative">
-                        <img 
-                            src="https://ik.imagekit.io/yylpuqff5/QR.png?updatedAt=1771395151703" 
-                            alt="Protocol QR" className="w-full h-full object-cover" 
-                        />
-                        <div className="absolute inset-0 border-4 border-[#ff4655]/20 animate-pulse pointer-events-none"></div>
-                    </div>
-                    <p className="text-[10px] text-gray-500 font-mono mt-4 uppercase italic">Scan with Tactical UPI Apps</p>
-                </div>
-
-                <div className="space-y-4 pt-4 border-t border-white/10">
-                    <div className="space-y-1">
-                        <label className="text-[9px] text-gray-500 font-bold uppercase">Transaction ID / UTR</label>
-                        <input 
-                            name="txnId" value={formData.txnId} onChange={handleInputChange}
-                            className="w-full bg-[#0f1923] border border-white/10 p-4 text-xs font-mono focus:border-[#ff4655] outline-none text-white uppercase"
-                            placeholder="TXN_REQUIRED"
-                        />
-                    </div>
-
-                    <div className="relative bg-[#0f1923] border-2 border-dashed border-white/10 p-4 text-center hover:border-[#ff4655] transition-all">
-                        <input type="file" onChange={handleFileChange} className="absolute inset-0 opacity-0 cursor-pointer" />
-                        <Upload size={16} className="mx-auto text-gray-500 mb-1" />
-                        <p className="text-[9px] font-mono text-gray-500 uppercase">{file ? file.name : 'Upload Payment Proof'}</p>
-                    </div>
-
-                    {errorMessage && <p className="text-red-500 text-[10px] font-bold uppercase italic">{errorMessage}</p>}
-
-                    <button
-                        onClick={handleSubmit} disabled={status === 'loading'}
-                        className="w-full py-5 bg-[#ff4655] hover:bg-white hover:text-black text-white font-black uppercase italic tracking-widest transition-all skew-x-[-10deg] flex items-center justify-center gap-2"
-                    >
-                        {status === 'loading' ? <Loader2 className="animate-spin" size={20}/> : 'LOCK IN ENTRY'} <Target size={20} />
-                    </button>
-                </div>
-              </div>
-
+              <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="bg-green-600 px-6 py-2 text-xs font-black text-white flex items-center gap-2 hover:bg-green-500 transition-all uppercase italic skew-x-[-10deg]">JOIN NOW <ExternalLink size={14}/></a>
             </div>
           </div>
 
+          <div className="lg:col-span-5 space-y-6">
+            <div className="bg-[#ff4655] p-6 text-white skew-x-[-5deg]">
+              <p className="text-[10px] font-black uppercase tracking-widest opacity-70">Deployment Fee</p>
+              <div className="flex items-baseline gap-2">
+                <span className="text-6xl font-black italic tracking-tighter">{TOTAL_PRICE}</span>
+                <span className="text-[10px] font-bold">INCL. 18% GST</span>
+              </div>
+            </div>
+
+            {/* BANK DETAILS */}
+            <div className="bg-white p-6 border-b-8 border-[#ff4655] text-black space-y-4">
+              <p className="text-[10px] font-black uppercase border-b border-black pb-2 flex items-center gap-2">
+                <Landmark size={14}/> University Bank Details
+              </p>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-[9px] font-bold text-gray-400 uppercase">Beneficiary</p>
+                  <p className="text-xs font-black uppercase">{BANK_DETAILS.name}</p>
+                </div>
+                <div className="bg-gray-100 p-4 border-l-4 border-black cursor-pointer group" onClick={() => handleCopy(BANK_DETAILS.account)}>
+                  <p className="text-[9px] font-bold text-gray-400 uppercase flex justify-between">Account Number (Click to copy) <Copy size={12}/></p>
+                  <p className="text-2xl font-black font-mono tracking-tighter group-hover:text-[#ff4655] transition-colors">{BANK_DETAILS.account}</p>
+                </div>
+                <div className="bg-gray-100 p-3 border-l-4 border-black cursor-pointer group" onClick={() => handleCopy(BANK_DETAILS.ifsc)}>
+                  <p className="text-[9px] font-bold text-gray-400 uppercase flex justify-between">IFSC Code <Copy size={12}/></p>
+                  <p className="text-lg font-black font-mono group-hover:text-[#ff4655] transition-colors">{BANK_DETAILS.ifsc}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-[#1f2b38] border border-white/5 p-8 space-y-6">
+              <div className="flex flex-col items-center">
+                  <div className="w-48 aspect-square bg-white p-2 rounded relative group overflow-hidden">
+                    <img src={QR_IMAGE_URL} alt="QR" className="w-full h-full object-contain" />
+                    <div className="absolute inset-0 border-4 border-[#ff4655] opacity-10 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                  </div>
+                  <p className="text-[10px] text-gray-500 font-mono mt-4 uppercase italic">Scan to Pay via UPI</p>
+              </div>
+
+              <div className="space-y-4 pt-4 border-t border-white/10">
+                <div className="space-y-1">
+                  <label className="text-[9px] text-gray-500 font-bold uppercase italic tracking-widest">01. Transaction ID</label>
+                  <input name="txnId" value={formData.txnId} onChange={handleInputChange} placeholder="TXN_REQUIRED" className="w-full bg-[#0f1923] border border-white/10 p-4 text-xs font-mono focus:border-[#ff4655] outline-none text-white uppercase" />
+                </div>
+                
+                <div className="space-y-1">
+                  <label className="text-[9px] text-gray-500 font-bold uppercase italic tracking-widest">02. Proof of Payment</label>
+                  <div className={`relative border-2 border-dashed transition-all p-6 text-center ${preview ? 'border-[#ff4655] bg-[#ff4655]/5' : 'border-white/10 bg-[#0f1923] hover:border-[#ff4655]'}`}>
+                    <input type="file" onChange={handleFileChange} className="absolute inset-0 opacity-0 cursor-pointer z-20" />
+                    
+                    {preview ? (
+                      <div className="flex flex-col items-center gap-2">
+                        <img src={preview} alt="Preview" className="w-16 h-16 object-cover border border-[#ff4655] rounded" />
+                        <p className="text-[10px] text-[#ff4655] font-black uppercase tracking-widest">Screenshot Verified ✓</p>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center gap-2">
+                        <ImageIcon size={20} className="text-gray-500" />
+                        <p className="text-[10px] font-mono text-gray-500 uppercase">Drop Screenshot Here</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {errorMessage && <p className="text-red-500 text-[10px] font-bold uppercase italic text-center animate-pulse">{errorMessage}</p>}
+
+                <button onClick={handleSubmit} disabled={status === 'loading'} className="w-full py-5 bg-[#ff4655] hover:bg-white hover:text-black text-white font-black uppercase italic tracking-widest transition-all skew-x-[-10deg] flex items-center justify-center gap-2 group">
+                  {status === 'loading' ? (
+                    <Loader2 className="animate-spin" size={20} />
+                  ) : (
+                    <>LOCK IN ENTRY <Target size={20} className="group-hover:rotate-45 transition-transform" /></>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
