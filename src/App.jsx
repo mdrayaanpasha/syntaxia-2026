@@ -77,8 +77,18 @@ export default function App() {
           <div className="flex-grow">
             <Routes>
               <Route path="/" element={<HomePage />} />
-              {/* ... all your other routes */}
-              <Route path="/pass/STANDARD" element={<StandardPassRegister/>} /> 
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/token" element={<TokenHandler />} />
+          <Route path="/register" element={<EventRegistration />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/events" element={<EventsSection />} />
+          <Route path="/event-details" element={<EventDetailsPage />} />
+          <Route path="/ross-geller" element={<AdminPage />} />
+          <Route path="/schedule" element={<SchedulePage/>} />
+          <Route path="/pass-selection" element={<PassSelection/>} />
+          <Route path="/pass/BGMI" element={<BgmiRegister/>} />
+          <Route path="/pass/VALO" element={<ValorantRegister/>} />
+          <Route path="/pass/STANDARD" element={<StandardPassRegister/>} /> 
             </Routes>
           </div>
           {/* Footer sits at the bottom of the scroll */}
