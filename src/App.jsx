@@ -15,6 +15,7 @@ import ValorantRegister from "./pages/pass/volo/main";
 import StandardPassRegister from "./pages/pass/STANDARD/main";
 
 
+
 const GlobalStyles = () => (
   <style>{`
     /* Importing Hyper-Modern Fonts */
@@ -68,6 +69,7 @@ import Footer from "./components/footer";
 export default function App() {
   return (
     <>
+
       <GlobalStyles />
       <div className="bg-grid" />
 

@@ -126,7 +126,7 @@ const Dashboard = () => {
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="relative group">
               <img
-                src={AVATAR_MAP[data.userDetails.avatar] || AVATAR_MAP[1]}
+                src="https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/pfp.jpg"
                 alt="PFP"
                 className="w-24 h-24 rounded-full border-2 border-[#55aa55] p-1 bg-[#111] object-cover transition-transform group-hover:scale-105"
               />
