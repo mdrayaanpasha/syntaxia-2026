@@ -63,7 +63,6 @@ const GlobalStyles = () => (
   `}</style>
 );
 
-// ... other imports
 import Footer from "./components/footer";
 
 export default function App() {

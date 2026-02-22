@@ -107,7 +107,7 @@ const Dashboard = () => {
         <div className="text-center">
           <AlertTriangle size={48} className="mx-auto mb-4 text-yellow-500" />
           <h2 className="text-2xl text-white font-bold mb-2">NO USER DATA FOUND</h2>
-          <button onClick={() => navigate('/register')} className="text-[#55aa55] underline">Initialize Registration</button>
+          <button onClick={() => navigate('/auth')} className="text-[#55aa55] underline">Initialize Registration</button>
         </div>
       </div>
     );
