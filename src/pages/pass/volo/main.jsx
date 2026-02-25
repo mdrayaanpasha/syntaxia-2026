@@ -150,14 +150,32 @@ const ValorantRegister = () => {
           
           <div className="lg:col-span-7 space-y-10">
             <div>
-              <h1 className="text-7xl md:text-8xl font-black text-white italic tracking-tighter uppercase leading-none">
-                PROTOCOL <span className="text-[#ff4655]">V</span>
-              </h1>
-              <div className="flex gap-4 mt-4 font-mono text-[10px] uppercase tracking-[0.2em]">
-                <span className="text-[#ff4655] flex items-center gap-1"><Info size={12}/> University Compliant</span>
-                <span className="text-gray-500">SOP: 02/01/2026</span>
-              </div>
-            </div>
+  <h1 className="text-7xl md:text-8xl font-black text-white italic tracking-tighter uppercase leading-none">
+    PROTOCOL <span className="text-[#ff4655]">V</span>
+  </h1>
+  
+  <div className="flex flex-wrap gap-4 mt-4 font-mono text-[10px] uppercase tracking-[0.2em]">
+    <span className="text-[#ff4655] flex items-center gap-1"><Info size={12}/> OFFICIAL REGISTRATION</span>
+    <span className="text-gray-500">//</span>
+    <span 
+      onClick={() => navigate('/policy')} 
+      className="text-white hover:text-[#ff4655] underline cursor-pointer transition-colors"
+    >
+      VIEW RULES
+    </span>
+  </div>
+
+  {/* EASY TO UNDERSTAND ALERT */}
+  <div className="mt-8 bg-[#ff4655]/5 border-l-4 border-[#ff4655] p-4 max-w-2xl">
+    <p className="text-[10px] text-white font-bold uppercase tracking-wider">
+      ⚠️ Individual Entry Only
+    </p>
+    <p className="text-[9px] text-gray-400 uppercase mt-1 leading-relaxed">
+      Each player must have their own account and buy their own pass. 
+      You cannot use one payment to register for your whole team.
+    </p>
+  </div>
+</div>
 
             <section className="bg-[#1f2b38] p-8 border border-white/5 space-y-8">
                 <h3 className="text-white font-bold text-sm tracking-widest uppercase flex items-center gap-2 border-l-2 border-[#ff4655] pl-3">
@@ -177,17 +195,7 @@ const ValorantRegister = () => {
                 </div>
             </section>
 
-            {/* COMMS BANNER */}
-            <div className="bg-green-950/20 border-l-4 border-green-500 p-6 flex flex-col md:flex-row items-center justify-between gap-4">
-              <div className="flex gap-4 items-center">
-                <MessageCircle className="text-green-500" size={32} />
-                <div>
-                  <p className="text-white font-bold text-sm uppercase tracking-tighter">COMMS HUB</p>
-                  <p className="text-[10px] text-gray-400 font-mono uppercase">JOIN COMMUNITY FOR TOURNAMENT INTEL</p>
-                </div>
-              </div>
-              <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="bg-green-600 px-6 py-2 text-xs font-black text-white flex items-center gap-2 hover:bg-green-500 transition-all uppercase italic skew-x-[-10deg]">JOIN NOW <ExternalLink size={14}/></a>
-            </div>
+        
           </div>
 
           <div className="lg:col-span-5 space-y-6">
