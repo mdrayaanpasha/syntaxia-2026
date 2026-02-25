@@ -112,19 +112,33 @@ const BgmiRegister = () => {
         <div className="grid lg:grid-cols-12 gap-12">
           {/* LEFT: FORM */}
           <div className="lg:col-span-7 space-y-10">
-            <h1 className="text-6xl md:text-8xl font-black text-white italic tracking-tighter uppercase leading-[0.85] [text-shadow:4px_4px_0px_#f97316]">BGMI <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">WARS</span></h1>
-            
-            <section className="bg-[#0a0a0a] p-8 border border-[#222] space-y-8 relative">
-              <h3 className="text-orange-500 font-mono text-xs uppercase flex items-center gap-2 tracking-[0.3em]"><User size={16} /> 01. OPERATOR DATA</h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                {['name', 'phoneno', 'college', 'course'].map((key) => (
-                  <div key={key} className="space-y-1">
-                    <label className="text-[10px] text-gray-600 uppercase font-bold">{key}</label>
-                    <input name={key} value={formData[key]} onChange={handleInputChange} className="w-full bg-black border border-[#222] p-3 text-xs font-mono text-white focus:border-orange-500 outline-none" placeholder={`INPUT_${key.toUpperCase()}`} />
-                  </div>
-                ))}
-              </div>
-            </section>
+        <h1 className="text-6xl md:text-8xl font-black text-white italic tracking-tighter uppercase leading-[0.85] [text-shadow:4px_4px_0px_#f97316]">
+  BGMI <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">WARS</span>
+</h1>
+
+{/* CLEAR WARNING BOX */}
+<div className="mt-6 mb-10 bg-orange-500/10 border-l-4 border-orange-500 p-4 max-w-2xl">
+  <div className="flex items-center gap-2 mb-1">
+    <p className="text-[10px] text-white font-bold uppercase tracking-wider">⚠️ Important Rule</p>
+    <span onClick={() => navigate('/policy')} className="text-[9px] text-orange-500 underline cursor-pointer hover:text-white uppercase font-bold ml-auto">Read Rules</span>
+  </div>
+  <p className="text-[9px] text-gray-400 uppercase leading-relaxed">
+    Every player must register on their own phone/account. 
+    One payment covers only one person. Do not pay for your whole team here.
+  </p>
+</div>
+
+<section className="bg-[#0a0a0a] p-8 border border-[#222] space-y-8 relative">
+  <h3 className="text-orange-500 font-mono text-xs uppercase flex items-center gap-2 tracking-[0.3em]"><User size={16} /> 01. YOUR DETAILS</h3>
+  <div className="grid md:grid-cols-2 gap-6">
+    {['name', 'phoneno', 'college', 'course'].map((key) => (
+      <div key={key} className="space-y-1">
+        <label className="text-[10px] text-gray-600 uppercase font-bold">{key}</label>
+        <input name={key} value={formData[key]} onChange={handleInputChange} className="w-full bg-black border border-[#222] p-3 text-xs font-mono text-white focus:border-orange-500 outline-none" placeholder={`ENTER ${key.toUpperCase()}`} />
+      </div>
+    ))}
+  </div>
+</section>
 
             {/* ALWAYS VISIBLE WHATSAPP CTA */}
             <div className="bg-green-950/20 border border-green-500/50 p-6 flex flex-col md:flex-row items-center justify-between gap-4">
