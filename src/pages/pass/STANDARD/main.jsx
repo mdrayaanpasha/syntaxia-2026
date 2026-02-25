@@ -127,14 +127,36 @@ const StandardPassRegister = () => {
           
           {/* LEFT SIDE: SELECTION & DATA */}
           <div className="lg:col-span-7 space-y-12">
-            <div>
-              <h1 className="text-7xl font-black text-white italic tracking-tighter uppercase leading-[0.8] mb-4">STANDARD <span className="text-[#55aa55]">PASS</span></h1>
-              <div className="flex gap-4 font-mono text-[10px] uppercase tracking-widest text-gray-500">
-                <span className="flex items-center gap-1 text-[#55aa55]"><Info size={12}/> QUEST SELECTION REQUIRED</span>
-                <span>CYBERNETICS ASSOCIATION</span>
-              </div>
-            </div>
+          <div>
+  <h1 className="text-7xl font-black text-white italic tracking-tighter uppercase leading-[0.8] mb-4">
+    STANDARD <span className="text-[#55aa55]">PASS</span>
+  </h1>
+  
+  <div className="flex flex-wrap gap-4 font-mono text-[10px] uppercase tracking-widest text-gray-500 mb-6">
+    <span className="flex items-center gap-1 text-[#55aa55]">
+      <Info size={12}/> SELECT YOUR EVENTS
+    </span>
+    <span className="text-gray-800">//</span>
+    <span>SJU CYBERNETICS</span>
+    <span className="text-gray-800">//</span>
+    <span 
+      onClick={() => navigate('/policy')} 
+      className="text-white hover:text-[#55aa55] underline cursor-pointer transition-colors"
+    >
+      VIEW ENTRY RULES
+    </span>
+  </div>
 
+  {/* IMPORTANT NOTICE BOX */}
+  <div className="bg-[#111] border-l-4 border-[#55aa55] p-4 max-w-2xl">
+    <p className="text-[10px] text-white font-bold uppercase tracking-wider">
+      ⚠️ One Pass per Person
+    </p>
+    <p className="text-[9px] text-gray-500 uppercase mt-1">
+      You cannot register for a friend here. Each person must log in and buy their own pass to enter the event.
+    </p>
+  </div>
+</div>
             {/* EVENT GRID */}
             <section className="space-y-6">
               <h3 className="text-[#55aa55] font-mono text-xs uppercase flex items-center gap-2 tracking-[0.3em]"><Zap size={16} /> 01. SELECT YOUR QUESTS</h3>
@@ -165,13 +187,7 @@ const StandardPassRegister = () => {
               </div>
             </section>
 
-            <div className="bg-green-950/20 border-l-4 border-green-500 p-6 flex justify-between items-center gap-4">
-              <div className="flex gap-4 items-center">
-                <MessageCircle className="text-green-500" size={32} />
-                <div><p className="text-white font-bold text-sm">COMMUNICATIONS HUB</p><p className="text-[10px] text-gray-400 font-mono">JOIN THE SQUAD FOR LIVE UPDATES</p></div>
-              </div>
-              <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="bg-green-600 px-6 py-2 text-xs font-black text-white hover:bg-green-500 transition-all uppercase italic">JOIN NOW</a>
-            </div>
+      
           </div>
 
           {/* RIGHT SIDE: PAYMENT */}
