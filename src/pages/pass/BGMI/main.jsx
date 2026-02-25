@@ -176,21 +176,43 @@ const BgmiRegister = () => {
                 <p className="text-[9px] text-gray-600 font-mono mt-4 uppercase italic">SATELLITE SCAN REQUIRED</p>
               </div>
 
-              <div className="space-y-4 pt-4 border-t border-[#222]">
-                <div className="space-y-1">
-                  <label className="text-[9px] text-gray-600 font-mono uppercase">TRANSACTION ID / UTR</label>
-                  <input name="txnId" value={formData.txnId} onChange={handleInputChange} className="w-full bg-black border border-[#222] p-4 text-xs font-mono focus:border-orange-500 outline-none text-white" placeholder="REF_REQUIRED" />
-                </div>
-                <div className="relative bg-black border-2 border-dashed border-[#222] p-4 text-center">
-                  <input type="file" onChange={handleFileChange} className="absolute inset-0 opacity-0 cursor-pointer" />
-                  <Upload size={16} className="mx-auto text-gray-600 mb-1" />
-                  <p className="text-[9px] font-mono text-gray-600 uppercase">{file ? file.name : 'DROP_SCREENSHOT'}</p>
-                </div>
-                {errorMessage && <p className="text-red-500 text-[10px] font-mono uppercase text-center">{errorMessage}</p>}
-                <button onClick={handleSubmit} disabled={status === 'loading'} className="w-full py-5 bg-white hover:bg-orange-500 text-black font-black uppercase italic tracking-widest transition-all flex items-center justify-center gap-2">
-                  {status === 'loading' ? <Loader2 className="animate-spin" size={20}/> : 'DEPLOY OPERATOR'} <Crosshair size={20} />
-                </button>
-              </div>
+           {/* ... inside the RIGHT COLUMN, below the File Upload div ... */}
+
+<div className="space-y-4 pt-4 border-t border-[#222]">
+  <div className="space-y-1">
+    <label className="text-[9px] text-gray-600 font-mono uppercase">TRANSACTION ID / UTR</label>
+    <input name="txnId" value={formData.txnId} onChange={handleInputChange} className="w-full bg-black border border-[#222] p-4 text-xs font-mono focus:border-orange-500 outline-none text-white" placeholder="REF_REQUIRED" />
+  </div>
+
+  <div className="relative bg-black border-2 border-dashed border-[#222] p-4 text-center">
+    <input type="file" onChange={handleFileChange} className="absolute inset-0 opacity-0 cursor-pointer" />
+    <Upload size={16} className="mx-auto text-gray-600 mb-1" />
+    <p className="text-[9px] font-mono text-gray-600 uppercase">{file ? file.name : 'DROP_SCREENSHOT'}</p>
+  </div>
+
+  {/* TERMINAL PROTOCOL NOTICE */}
+  <div className="px-2 py-3 bg-orange-500/5 border-l-2 border-orange-500/40">
+    <p className="text-[8px] text-gray-500 font-mono uppercase leading-relaxed">
+      Deployment requires acceptance of the <span 
+        onClick={() => navigate('/policy')} 
+        className="text-orange-500 underline cursor-pointer hover:text-white transition-colors"
+      >
+        combat_protocols
+      </span>. <br/>
+      <span className="text-orange-500/80 italic">Single-Link Active: 1 registration per operator.</span>
+    </p>
+  </div>
+
+  {errorMessage && <p className="text-red-500 text-[10px] font-mono uppercase text-center animate-pulse">{errorMessage}</p>}
+  
+  <button 
+    onClick={handleSubmit} 
+    disabled={status === 'loading'} 
+    className="w-full py-5 bg-white hover:bg-orange-500 text-black font-black uppercase italic tracking-widest transition-all flex items-center justify-center gap-2"
+  >
+    {status === 'loading' ? <Loader2 className="animate-spin" size={20}/> : 'DEPLOY OPERATOR'} <Crosshair size={20} />
+  </button>
+</div>
             </div>
           </div>
         </div>

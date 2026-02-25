@@ -228,11 +228,43 @@ const StandardPassRegister = () => {
                   </div>
                 </div>
 
-                {errorMessage && <p className="text-red-500 text-[10px] font-mono uppercase italic text-center animate-pulse">{errorMessage}</p>}
                 
-                <button onClick={handleSubmit} disabled={status === 'loading'} className="w-full py-6 bg-white hover:bg-[#55aa55] text-black font-black uppercase italic tracking-tighter transition-all flex items-center justify-center gap-3">
-                  {status === 'loading' ? <Loader2 className="animate-spin" size={20} /> : <>DEPLOY PASS <Zap size={20} /></>}
-                </button>
+
+
+<div className="space-y-4 pt-4 border-t border-[#222]">
+  
+  {/* TERMINAL NOTICE (No Checkbox) */}
+  <div className="px-2 py-3 bg-[#55aa55]/5 border-l-2 border-[#55aa55]/30">
+    <p className="text-[8px] text-gray-500 font-mono uppercase leading-relaxed">
+      By clicking deploy, you acknowledge the <span 
+        onClick={() => navigate('/policy')} 
+        className="text-[#55aa55] underline cursor-pointer hover:text-white transition-colors"
+      >
+        mission_protocols
+      </span>. <br/>
+      <span className="text-[#55aa55]/80 italic">Note: Single-Link protocol active. 1 registration = 1 attendee.</span>
+    </p>
+  </div>
+
+  {errorMessage && (
+    <p className="text-red-500 text-[10px] font-mono uppercase italic text-center animate-pulse">
+      {errorMessage}
+    </p>
+  )}
+  
+  <button 
+    onClick={handleSubmit} 
+    disabled={status === 'loading'} 
+    className="w-full py-6 bg-white hover:bg-[#55aa55] text-black font-black uppercase italic tracking-tighter transition-all flex items-center justify-center gap-3"
+  >
+    {status === 'loading' ? (
+      <Loader2 className="animate-spin" size={20} />
+    ) : (
+      <>DEPLOY PASS <Zap size={20} /></>
+    )}
+  </button>
+</div>                
+                
               </div>
             </div>
           </div>
