@@ -229,41 +229,59 @@ const ValorantRegister = () => {
                   <p className="text-[10px] text-gray-500 font-mono mt-4 uppercase italic">Scan to Pay via UPI</p>
               </div>
 
-              <div className="space-y-4 pt-4 border-t border-white/10">
-                <div className="space-y-1">
-                  <label className="text-[9px] text-gray-500 font-bold uppercase italic tracking-widest">01. Transaction ID</label>
-                  <input name="txnId" value={formData.txnId} onChange={handleInputChange} placeholder="TXN_REQUIRED" className="w-full bg-[#0f1923] border border-white/10 p-4 text-xs font-mono focus:border-[#ff4655] outline-none text-white uppercase" />
-                </div>
-                
-                <div className="space-y-1">
-                  <label className="text-[9px] text-gray-500 font-bold uppercase italic tracking-widest">02. Proof of Payment</label>
-                  <div className={`relative border-2 border-dashed transition-all p-6 text-center ${preview ? 'border-[#ff4655] bg-[#ff4655]/5' : 'border-white/10 bg-[#0f1923] hover:border-[#ff4655]'}`}>
-                    <input type="file" onChange={handleFileChange} className="absolute inset-0 opacity-0 cursor-pointer z-20" />
-                    
-                    {preview ? (
-                      <div className="flex flex-col items-center gap-2">
-                        <img src={preview} alt="Preview" className="w-16 h-16 object-cover border border-[#ff4655] rounded" />
-                        <p className="text-[10px] text-[#ff4655] font-black uppercase tracking-widest">Screenshot Verified ✓</p>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col items-center gap-2">
-                        <ImageIcon size={20} className="text-gray-500" />
-                        <p className="text-[10px] font-mono text-gray-500 uppercase">Drop Screenshot Here</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
+              {/* ... inside the Right Column, below the Proof of Payment div ... */}
 
-                {errorMessage && <p className="text-red-500 text-[10px] font-bold uppercase italic text-center animate-pulse">{errorMessage}</p>}
+<div className="space-y-4 pt-4 border-t border-white/10">
+  <div className="space-y-1">
+    <label className="text-[9px] text-gray-500 font-bold uppercase italic tracking-widest">01. Transaction ID</label>
+    <input name="txnId" value={formData.txnId} onChange={handleInputChange} placeholder="TXN_REQUIRED" className="w-full bg-[#0f1923] border border-white/10 p-4 text-xs font-mono focus:border-[#ff4655] outline-none text-white uppercase" />
+  </div>
+  
+  <div className="space-y-1">
+    <label className="text-[9px] text-gray-500 font-bold uppercase italic tracking-widest">02. Proof of Payment</label>
+    <div className={`relative border-2 border-dashed transition-all p-6 text-center ${preview ? 'border-[#ff4655] bg-[#ff4655]/5' : 'border-white/10 bg-[#0f1923] hover:border-[#ff4655]'}`}>
+      <input type="file" onChange={handleFileChange} className="absolute inset-0 opacity-0 cursor-pointer z-20" />
+      {preview ? (
+        <div className="flex flex-col items-center gap-2">
+          <img src={preview} alt="Preview" className="w-16 h-16 object-cover border border-[#ff4655] rounded" />
+          <p className="text-[10px] text-[#ff4655] font-black uppercase tracking-widest">Screenshot Verified ✓</p>
+        </div>
+      ) : (
+        <div className="flex flex-col items-center gap-2">
+          <ImageIcon size={20} className="text-gray-500" />
+          <p className="text-[10px] font-mono text-gray-500 uppercase">Drop Screenshot Here</p>
+        </div>
+      )}
+    </div>
+  </div>
 
-                <button onClick={handleSubmit} disabled={status === 'loading'} className="w-full py-5 bg-[#ff4655] hover:bg-white hover:text-black text-white font-black uppercase italic tracking-widest transition-all skew-x-[-10deg] flex items-center justify-center gap-2 group">
-                  {status === 'loading' ? (
-                    <Loader2 className="animate-spin" size={20} />
-                  ) : (
-                    <>LOCK IN ENTRY <Target size={20} className="group-hover:rotate-45 transition-transform" /></>
-                  )}
-                </button>
-              </div>
+  {/* VALORANT THEMED PROTOCOL NOTICE */}
+  <div className="px-3 py-3 bg-[#ff4655]/5 border-l-2 border-[#ff4655]">
+    <p className="text-[8px] text-gray-500 font-mono uppercase leading-relaxed">
+      Deployment confirms agreement to the <span 
+        onClick={() => navigate('/policy')} 
+        className="text-[#ff4655] underline cursor-pointer hover:text-white transition-colors"
+      >
+        agent_directives
+      </span>. <br/>
+      <span className="text-[#ff4655]/80 italic font-bold">Protocol Alert: Each agent requires a unique pass.</span>
+    </p>
+  </div>
+
+  {errorMessage && <p className="text-red-500 text-[10px] font-bold uppercase italic text-center animate-pulse">{errorMessage}</p>}
+
+  <button 
+    onClick={handleSubmit} 
+    disabled={status === 'loading'} 
+    className="w-full py-5 bg-[#ff4655] hover:bg-white hover:text-black text-white font-black uppercase italic tracking-widest transition-all skew-x-[-10deg] flex items-center justify-center gap-2 group"
+  >
+    {status === 'loading' ? (
+      <Loader2 className="animate-spin" size={20} />
+    ) : (
+      <>LOCK IN ENTRY <Target size={20} className="group-hover:rotate-45 transition-transform" /></>
+    )}
+  </button>
+</div>
             </div>
           </div>
         </div>
