@@ -22,7 +22,7 @@ const PassSelection = () => {
       borderColor: "border-[#55aa55]",
       bgColor: "bg-[#55aa55]",
       glow: "shadow-[0_0_30px_rgba(85,170,85,0.3)]",
-      route: "/register/nongaming",
+      route: "/pass/standard",
     },
     {
       id: "bgmi-pass",
@@ -35,7 +35,7 @@ const PassSelection = () => {
       borderColor: "border-orange-500",
       bgColor: "bg-orange-500",
       glow: "shadow-[0_0_30px_rgba(249,115,22,0.3)]",
-      route: "/register/bgmi", 
+      route: "/pass/bgmi", 
     },
     {
       id: "valo-pass",
@@ -48,7 +48,7 @@ const PassSelection = () => {
       borderColor: "border-[#ff4655]",
       bgColor: "bg-[#ff4655]",
       glow: "shadow-[0_0_30px_rgba(255,70,85,0.3)]",
-      route: "/register/valorant",
+      route: "/pass/valo",
     }
    
   ];

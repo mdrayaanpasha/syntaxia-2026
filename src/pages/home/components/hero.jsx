@@ -1,5 +1,5 @@
 import React from 'react';
-import { Gamepad2, MoveDown, Zap, Globe, FileText } from 'lucide-react';
+import { Gamepad2, MoveDown, Zap, Globe, FileText, Megaphone, Ticket } from 'lucide-react';
 
 const HeroSection = () => {
   const BROCHURE_URL = "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/syntaxia%20brochure.pdf";
@@ -50,8 +50,7 @@ const HeroSection = () => {
         </div>
 
         {/* ACTION HUD */}
-        <div className="mt-12 md:mt-20 flex flex-col sm:flex-row items-stretch sm:items-start gap-3 md:gap-4">
-          {/* Main Action */}
+        <div className="mt-12 md:mt-20 flex flex-col sm:flex-row items-stretch sm:items-start gap-3 md:gap-4 pb-24 md:pb-0">
           <button 
             className="group relative px-8 md:px-12 py-5 md:py-6 bg-[#55aa55] border-b-[6px] md:border-b-[8px] border-black hover:bg-white transition-all active:translate-y-1 active:border-b-4"
             onClick={() => window.location.href="/events"}
@@ -61,7 +60,6 @@ const HeroSection = () => {
             </span>
           </button>
 
-          {/* Brochure Action */}
           <a 
             href={BROCHURE_URL}
             target="_blank"
@@ -74,7 +72,6 @@ const HeroSection = () => {
             </span>
           </a>
           
-          {/* Server Status Decor */}
           <div className="bg-[#0a0a0a] border-x-[4px] border-b-[6px] md:border-b-[8px] border-black p-4 md:p-6 flex items-center justify-between sm:justify-start gap-4 md:gap-6 opacity-60">
             <div className="text-left">
               <p className="text-[#ffcc00] text-[9px] md:text-[10px] font-black uppercase tracking-widest">Server_Status</p>
@@ -85,8 +82,19 @@ const HeroSection = () => {
         </div>
       </div>
 
+      {/* --- EXCLUSIVE STICKY BOTTOM OFFER --- */}
+      <div onClick={e=>window.location.href="/pass-selection"} className="fixed bottom-0 hover:cursor-pointer left-0 w-full z-[100] bg-[#ffcc00] py-3 border-t-4 border-black flex items-center justify-center shadow-[0_-10px_30px_rgba(255,204,0,0.2)]">
+        <div className="flex items-center gap-3 px-6 animate-pulse">
+          <Ticket size={20} className="text-black" />
+          <p className="text-black font-black uppercase tracking-widest text-xs md:text-base italic">
+            Exclusive Offer: ₹400 per team for all events! (Valorant: ₹500)
+          </p>
+          <Ticket size={20} className="text-black hidden sm:block" />
+        </div>
+      </div>
+
       {/* 3. SIDE HUD DECOR */}
-      <div className="absolute right-6 md:right-12 bottom-12 hidden sm:flex flex-col items-end gap-4 opacity-20">
+      <div className="absolute right-6 md:right-12 bottom-20 hidden sm:flex flex-col items-end gap-4 opacity-20">
         <div className="flex gap-1 md:gap-2">
             {[...Array(5)].map((_, i) => (
                 <div key={i} className="w-1 h-6 md:h-8 bg-white/20"></div>
@@ -98,9 +106,9 @@ const HeroSection = () => {
       </div>
 
       {/* 4. SCROLL INDICATOR */}
-      <div className="absolute bottom-6 md:bottom-10 left-6 md:left-12 z-20 flex flex-col items-center gap-2 md:gap-4 opacity-40">
+      <div className="absolute bottom-20 md:bottom-24 left-6 md:left-12 z-20 flex flex-col items-center gap-2 md:gap-4 opacity-40">
         <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.5em] [writing-mode:vertical-lr] mb-2">Scroll</span>
-        <MoveDown className="text-white animate-bounce" size={18} md:size={20} />
+        <MoveDown className="text-white animate-bounce" size={20} />
       </div>
       
     </section>
