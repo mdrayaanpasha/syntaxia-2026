@@ -87,7 +87,7 @@ const HeroSection = () => {
         <div className="flex items-center gap-3 px-6 animate-pulse">
           <Ticket size={20} className="text-black" />
           <p className="text-black font-black uppercase tracking-widest text-xs md:text-base italic">
-            Exclusive Offer: ₹400 per person for all events! (Valorant: ₹500)
+            Exclusive Offer: ₹400 per team for all events! (Valorant: ₹500)
           </p>
           <Ticket size={20} className="text-black hidden sm:block" />
         </div>
