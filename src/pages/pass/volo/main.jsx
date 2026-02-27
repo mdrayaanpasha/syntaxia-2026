@@ -166,15 +166,7 @@ const ValorantRegister = () => {
   </div>
 
   {/* EASY TO UNDERSTAND ALERT */}
-  <div className="mt-8 bg-[#ff4655]/5 border-l-4 border-[#ff4655] p-4 max-w-2xl">
-    <p className="text-[10px] text-white font-bold uppercase tracking-wider">
-      ⚠️ Individual Entry Only
-    </p>
-    <p className="text-[9px] text-gray-400 uppercase mt-1 leading-relaxed">
-      Each player must have their own account and buy their own pass. 
-      You cannot use one payment to register for your whole team.
-    </p>
-  </div>
+  
 </div>
 
             <section className="bg-[#1f2b38] p-8 border border-white/5 space-y-8">
@@ -182,7 +174,7 @@ const ValorantRegister = () => {
                   <User size={16} className="text-[#ff4655]" /> AGENT IDENTITY
                 </h3>
                 <div className="grid md:grid-cols-2 gap-6">
-                    {['name', 'phoneno', 'college', 'course'].map((key) => (
+                    {['names (comma seperated)', 'phoneno', 'college', 'course'].map((key) => (
                         <div key={key} className="space-y-1">
                             <label className="text-[10px] text-gray-500 uppercase font-bold">{key}</label>
                             <input 
@@ -263,18 +255,7 @@ const ValorantRegister = () => {
     </div>
   </div>
 
-  {/* VALORANT THEMED PROTOCOL NOTICE */}
-  <div className="px-3 py-3 bg-[#ff4655]/5 border-l-2 border-[#ff4655]">
-    <p className="text-[8px] text-gray-500 font-mono uppercase leading-relaxed">
-      Deployment confirms agreement to the <span 
-        onClick={() => navigate('/policy')} 
-        className="text-[#ff4655] underline cursor-pointer hover:text-white transition-colors"
-      >
-        agent_directives
-      </span>. <br/>
-      <span className="text-[#ff4655]/80 italic font-bold">Protocol Alert: Each agent requires a unique pass.</span>
-    </p>
-  </div>
+
 
   {errorMessage && <p className="text-red-500 text-[10px] font-bold uppercase italic text-center animate-pulse">{errorMessage}</p>}
 
