@@ -48,9 +48,9 @@
       "title": "LOCK // LOAD",
       "cat": "Gaming",
       "desc": "Tactical 5v5 Valorant combat.",
-      "day": "DAY 2",
+      "day": "1",
       "slot": "01:30PM - 04:00PM",
-      "venue": "Online",
+      "venue": "Online (day 1 & 2)",
       "img": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/fortnite.png",
       "accent": "#A335EE",
       "prize": { "first": 5000, "second": 3000 },
@@ -150,7 +150,8 @@
         "Submissions after deadline not considered"
       ],
       "eventHeads": [
-        { "name": "Chitraksh", "phone": "8618908678" }
+        { "name": "Chitraksh", "phone": "8618908678" },
+        {"name":"Aditya J V", "phone":"6361859811"}
       ]
     },
     {
