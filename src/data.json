@@ -48,7 +48,37 @@
       "title": "LOCK // LOAD",
       "cat": "Gaming",
       "desc": "Tactical 5v5 Valorant combat.",
-      "day": "1",
+      "day": "DAY 1",
+      "slot": "01:30PM - 04:00PM",
+      "venue": "Online (day 1 & 2)",
+      "img": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/fortnite.png",
+      "accent": "#A335EE",
+      "prize": { "first": 5000, "second": 3000 },
+      "eventDetails": [
+        "Team Composition: 5 Main Players + 1 Optional Substitute",
+        "Game Mode: Custom Competitive",
+        "Format: Group Stage followed by Knockout Rounds",
+        "Platform: PC"
+      ],
+      "rules": [
+        "Valid college ID required for verification",
+        "Report 30 mins before match; late arrival leads to disqualification",
+        "Toxic behavior or harassment will not be tolerated",
+        "Referees' decision is final"
+      ],
+      "eventHeads": [
+        { "name": "Sapnil Roy", "phone": "8972097048" },
+        { "name": "Likhith Noel Roy", "phone": "7892667608" }
+      ]
+    },
+
+    {
+      "id": 2,
+      "dbId": "cmlgm1wy10002wpij5m9w4zjl",
+      "title": "LOCK // LOAD",
+      "cat": "Gaming",
+      "desc": "Tactical 5v5 Valorant combat.",
+      "day": "DAY 2",
       "slot": "01:30PM - 04:00PM",
       "venue": "Online (day 1 & 2)",
       "img": "https://ik.imagekit.io/yylpuqff5/Minecraft/HOMEPAGE/fortnite.png",

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { 
@@ -13,7 +12,11 @@ const EventsSection = () => {
   const [filter, setFilter] = useState('All');
   const navigate = useNavigate();
 
-  // Helper to map UI icons to Titles
+  // 1. UNIQUE DATA LOGIC: Filter duplicates by 'title' immediately
+  const uniqueQuests = data.quests.filter((quest, index, self) =>
+    index === self.findIndex((q) => q.title === quest.title)
+  );
+
   const getIcon = (title) => {
     const icons = {
       "BGMI": <Gamepad2 size={20} />,
@@ -34,7 +37,6 @@ const EventsSection = () => {
   useEffect(() => {
     const sector = searchParams.get('sector');
     if (sector) {
-      // Map URL params to Category names in JSON
       const sectorMap = {
         "technical": "Technical",
         "gaming": "Gaming",
@@ -46,10 +48,10 @@ const EventsSection = () => {
 
   const categories = ["All", "Technical", "Non-Technical", "Gaming"];
   
-  // Filter logic using "cat" key from your JSON
+  // 2. FILTER LOGIC: Apply category filter to the unique list
   const filteredQuests = filter === "All" 
-    ? data.quests 
-    : data.quests.filter(q => q.cat === filter);
+    ? uniqueQuests 
+    : uniqueQuests.filter(q => q.cat === filter);
 
   return (
     <div className="min-h-screen bg-[#030303] font-minecraft selection:bg-[#55aa55] selection:text-black">
@@ -74,9 +76,9 @@ const EventsSection = () => {
                 key={cat}
                 onClick={() => {
                   setFilter(cat);
-                  // Sync URL when clicking filter buttons
                   const urlParam = cat === "All" ? "all" : cat.toLowerCase();
-                  window.location.href=`/events?sector=${urlParam}`;
+                  // Using navigate instead of window.location to prevent full page reload
+                  navigate(`/events?sector=${urlParam}`);
                 }}
                 className={`px-6 py-2 text-[10px] font-black tracking-widest transition-all uppercase italic ${
                   filter === cat ? 'bg-[#55aa55] text-black' : 'text-gray-500 hover:text-white hover:bg-white/5'
@@ -92,8 +94,8 @@ const EventsSection = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-1 bg-white/5 border border-white/5 p-1">
           {filteredQuests.map((quest) => (
             <div 
-              key={quest.id} 
-              onClick={() => window.location.href=`/event-details?id=${quest.dbId}`}
+              key={quest.id || quest.dbId} 
+              onClick={() => navigate(`/event-details?id=${quest.dbId}`)}
               className="group relative h-80 bg-[#050505] overflow-hidden cursor-pointer border border-transparent hover:border-[#55aa55]/50 transition-all"
             >
               {/* IMAGE */}
