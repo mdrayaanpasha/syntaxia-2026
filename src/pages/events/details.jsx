@@ -40,9 +40,7 @@ const EventDetailsPage = () => {
   // --- 2. ACTIONS ---
   const handleRegister = () => {
     if (!quest) return;
-    if (quest.title === "BGMI WARS") navigate('/pass/BGMI');
-    else if (quest.title === "LOCK // LOAD") navigate('/pass/VALO');
-    else navigate('/pass/STANDARD');
+   window.location.href="https://forms.gle/hb2kkhPbHJkCuq5S7"
   };
 
   const handleShare = async () => {

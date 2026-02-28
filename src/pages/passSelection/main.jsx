@@ -22,7 +22,7 @@ const PassSelection = () => {
       borderColor: "border-[#55aa55]",
       bgColor: "bg-[#55aa55]",
       glow: "shadow-[0_0_30px_rgba(85,170,85,0.3)]",
-      route: "/pass/standard",
+      route: "https://forms.gle/hb2kkhPbHJkCuq5S7",
     },
     {
       id: "bgmi-pass",
@@ -35,7 +35,7 @@ const PassSelection = () => {
       borderColor: "border-orange-500",
       bgColor: "bg-orange-500",
       glow: "shadow-[0_0_30px_rgba(249,115,22,0.3)]",
-      route: "/pass/bgmi", 
+      route: "https://forms.gle/hb2kkhPbHJkCuq5S7",
     },
     {
       id: "valo-pass",
@@ -48,7 +48,7 @@ const PassSelection = () => {
       borderColor: "border-[#ff4655]",
       bgColor: "bg-[#ff4655]",
       glow: "shadow-[0_0_30px_rgba(255,70,85,0.3)]",
-      route: "/pass/valo",
+      route: "https://forms.gle/hb2kkhPbHJkCuq5S7",
     }
    
   ];
@@ -86,7 +86,7 @@ const PassSelection = () => {
           {passes.map((pass) => (
             <button 
               key={pass.id}
-              onClick={() => navigate(pass.route)}
+              onClick={() => window.open(pass.route, '_blank')}
               className={`group relative h-[520px] bg-[#0a0a0a] border-x-[4px] border-b-[12px] border-black transition-all duration-500 hover:-translate-y-4 hover:border-b-[20px] overflow-hidden ${pass.glow} flex flex-col`}
             >
               {/* Background Image with Overlay */}

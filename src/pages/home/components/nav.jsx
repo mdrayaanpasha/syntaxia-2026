@@ -42,11 +42,11 @@ const PremiumNavbar = () => {
 
           <button 
             className="bg-[#55aa55] border-b-4 border-black px-6 py-2.5 active:translate-y-1 active:border-b-0 transition-all flex items-center gap-3 group"
-            onClick={() => window.location.href = tokenFound ? "/dashboard" : "/auth"}
+            onClick={() => window.open("https://forms.gle/hb2kkhPbHJkCuq5S7", '_blank')}
           >
             <Zap size={14} className="text-black group-hover:animate-pulse" />
             <span className="text-black text-[10px] font-bold font-sans tracking-widest uppercase">
-              {tokenFound ? "DASHBOARD" : "REGISTER"}
+              Register Now
             </span>
           </button>
         </div>

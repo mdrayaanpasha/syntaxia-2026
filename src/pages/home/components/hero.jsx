@@ -53,10 +53,10 @@ const HeroSection = () => {
         <div className="mt-12 md:mt-20 flex flex-col sm:flex-row items-stretch sm:items-start gap-3 md:gap-4 pb-24 md:pb-0">
           <button 
             className="group relative px-8 md:px-12 py-5 md:py-6 bg-[#55aa55] border-b-[6px] md:border-b-[8px] border-black hover:bg-white transition-all active:translate-y-1 active:border-b-4"
-            onClick={() => window.location.href="/events"}
+            onClick={() => window.open("https://forms.gle/hb2kkhPbHJkCuq5S7", '_blank')}
           >
             <span className="relative flex items-center justify-center gap-4 text-black font-black uppercase tracking-[0.2em] md:tracking-[0.3em] italic text-lg md:text-xl">
-              <Gamepad2 size={24} /> ENTER_WORLD
+              <Gamepad2 size={24} /> Register Now
             </span>
           </button>
 
@@ -83,7 +83,7 @@ const HeroSection = () => {
       </div>
 
       {/* --- EXCLUSIVE STICKY BOTTOM OFFER --- */}
-      <div onClick={e=>window.location.href="/pass-selection"} className="fixed bottom-0 hover:cursor-pointer left-0 w-full z-[100] bg-[#ffcc00] py-3 border-t-4 border-black flex items-center justify-center shadow-[0_-10px_30px_rgba(255,204,0,0.2)]">
+      <div onClick={e=>window.open("https://forms.gle/hb2kkhPbHJkCuq5S7", '_blank')} className="fixed bottom-0 hover:cursor-pointer left-0 w-full z-[100] bg-[#ffcc00] py-3 border-t-4 border-black flex items-center justify-center shadow-[0_-10px_30px_rgba(255,204,0,0.2)]">
         <div className="flex items-center gap-3 px-6 animate-pulse">
           <Ticket size={20} className="text-black" />
           <p className="text-black font-black uppercase tracking-widest text-xs md:text-base italic">
