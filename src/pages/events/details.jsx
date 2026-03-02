@@ -146,7 +146,7 @@ const EventDetailsPage = () => {
                     <p className="text-[10px] text-gray-500 uppercase font-mono tracking-wider">Time Window</p>
 <p className="text-sm font-bold text-white">
   {quest.day === "DAY 1" && quest.slot === "01:30PM - 04:00PM"
-    ? "DAY 1 & 2"
+    ? "DAY 1 & 2 // 01:30PM - 04:00PM"
     : `${quest.day} // ${quest.slot}`}
 </p>                  </div>
                </div>
