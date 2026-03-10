@@ -14,6 +14,7 @@ import BgmiRegister from "./pages/pass/BGMI/main";
 import ValorantRegister from "./pages/pass/volo/main";
 import StandardPassRegister from "./pages/pass/STANDARD/main";
 import PolicyPage from "./pages/policy/main";
+import CertificateGenerator from "./pages/certificates/main";
 
 
 
@@ -92,6 +93,7 @@ export default function App() {
           <Route path="/pass/VALO" element={<ValorantRegister/>} />
           <Route path="/pass/STANDARD" element={<StandardPassRegister/>} /> 
           <Route path="/policy" element={<PolicyPage />} />
+          <Route path="/certificates" element={<CertificateGenerator />} />
             </Routes>
           </div>
           {/* Footer sits at the bottom of the scroll */}
