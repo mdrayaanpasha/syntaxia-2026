@@ -108,7 +108,7 @@ const AdminPage = () => {
         <header className="flex justify-between items-end mb-8 border-b border-white/5 pb-6">
           <div className="flex items-center gap-3">
              <Terminal size={20} className="text-white/20" />
-             <h1 className="text-2xl font-bold tracking-tighter">PASS_VERIFICATION (AI SLOP)</h1>
+             <h1 className="text-2xl font-bold tracking-tighter">PASS_VERIFICATION (AI SLOP  SLOP)</h1>
           </div>
         </header>
 
